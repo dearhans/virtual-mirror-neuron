@@ -104,4 +104,4 @@ virtual_twin 的 s≈19（ID 灾难性过度自信，ECE=0.71），单 ID 标量
 - `experiments/20260807-W32-recalibration-REAL.md` — 单种子实测更正
 - `experiments/20260807-RETRACTION-w32-multiseed-recalibration.md` — 工件缺失撤回（已补实测更新段）
 
-未 commit / push。
+已 commit（initial commit 6410c8c），未 push（按用户「到时候一起 push」暂留本地）。
