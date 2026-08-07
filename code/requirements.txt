@@ -1,0 +1,9 @@
+# 运行 code/benchmark_ood.py 所需的依赖（已预装在托管 Python 环境）
+numpy>=1.24
+scikit-learn>=1.3
+pyyaml>=6.0
+
+# 可选（接真实数据时按需安装，loaders.py 懒加载，缺失时给清晰提示，不阻塞骨架运行）：
+# pandas        # load_perturb_seq / load_calcium_imaging
+# anndata       # .h5ad 读取
+

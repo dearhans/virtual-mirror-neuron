@@ -1,0 +1,60 @@
+# benchmark_ood_norman_compositional.yaml — 真实数据（Norman 2019）+ 组合性先验孪生（P1 修正版）
+# 目标：在「训练含部分双扰动 + φ 剥离动作轴」的 P1 修正下，重验组合先验能否攻克 ood_action
+#       （held-out 基因对组合）的机制泛化。
+#
+# 与 benchmark_ood_norman.yaml 的实质差异：
+#   model.compositional: true → 触发 CompositionalTwinPredictor，并把 Norman 多热 P 重排为
+#                           [p_a, p_b, A, g]（双扰动拆两分量，加法组合先验生效）；
+#                           φ 仅吃基因掩码 p（已剥动作轴，修复 act=double 外推失真 + pa/pb 对称）。
+#   curriculum/conformal → 课程学习 + per-subset 分裂共形校准。
+#   data.norman.double_train_frac=0.50 → 双扰动按 held-out 基因对拆 train/test（P1 基准重设计）。
+
+data:
+  source: norman
+  path: null
+  synthetic: {n_train: 2400, n_test: 900, seed: 7, noise_std: 0.15}
+  norman:
+    raw_dir: data/raw/norman2019
+    cache_path: data/processed/norman_cache.npz
+    panel_k: 256
+    seed: 0
+    heldout_gene_frac: 0.20
+    heldout_gemgroup: 8
+    train_frac: 0.70
+    double_train_frac: 0.50   # P1 重设计：双扰动中 50% 基因对进训练（可学 epistasis），其余作 held-out 对
+
+model:
+  checkpoint: null
+  hidden: [64, 32]
+  n_ensemble: 3
+  novelty_k: 0.8
+  random_state: 0
+  # —— 组合性孪生开关（本项目攻克 ood_action 的核心）——
+  compositional: true        # 启用组合性孪生 + Norman→组合性布局重排
+  curriculum: true           # 课程学习：stage1 单扰动 → stage2 双扰动（warm_start）
+  conformal: true            # per-subset 分裂共形校准（修复 OOD 欠覆盖）
+  conformal_calib_frac: 0.2
+  conformal_alpha: 0.9
+
+baselines:
+  knn_k: 5
+
+eval:
+  bootstrap_samples: 100
+  ci_alpha: 0.95
+  calibration_levels: [0.5, 0.8, 0.9, 0.95]
+  memorization_flag_delta: 0.0
+  subsets: ["id", "ood_agent", "ood_action", "ood_neuro"]
+  should_generalize:
+    ood_agent: false
+    ood_action: true         # 组合双扰动：真正的机制泛化检验（组合先验应补上）
+    ood_neuro: false
+  subset_labels:
+    id: "ID(已见基因)"
+    ood_agent: "OOD-未见基因"
+    ood_action: "OOD-组合双扰动(held-out对)"
+    ood_neuro: "OOD-未见批次"
+
+output:
+  dir: experiments
+  prefix: benchmark_norman_comp

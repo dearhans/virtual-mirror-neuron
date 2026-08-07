@@ -1,0 +1,31 @@
+{
+  "anchors": {
+    "matched_control_abs_r2": 0.9793774419904657,
+    "protein_mean_abs_r2": 0.9578545951374329,
+    "evaluator_calibrated": true
+  },
+  "baselines_fc_pcc_per_sample": {
+    "protein_mean": {
+      "id": 0.1418404355780037,
+      "ood_action": 0.09623856107898658,
+      "ood_agent": 0.15438978057523634,
+      "ood_s3": 0.11287530109997822,
+      "ood_time": 0.13064035858913234
+    },
+    "matched_control": {
+      "id": 0.0,
+      "ood_action": 0.0,
+      "ood_agent": 0.0,
+      "ood_s3": 0.0,
+      "ood_time": 0.0
+    }
+  },
+  "n_per_subset": {
+    "id": 5169,
+    "ood_action": 1065,
+    "ood_agent": 1357,
+    "ood_s3": 269,
+    "ood_time": 142
+  },
+  "Kp": 5243
+}

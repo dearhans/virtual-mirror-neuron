@@ -1,0 +1,6 @@
+{
+  "seed": 0,
+  "p31_applied": true,
+  "verdict": "fail",
+  "note": "σ 解耦后 compositional/virtual 在 ood_agent/ood_action 的 calibration 对比基线"
+}

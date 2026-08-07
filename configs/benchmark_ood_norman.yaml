@@ -1,0 +1,47 @@
+# benchmark_ood_norman.yaml — 真实数据（Norman 2019 perturb-seq）OOD 评测配置
+# 与合成基准共享代码路径，仅切换数据源与 OOD 语义。
+
+data:
+  source: norman
+  path: null
+  synthetic: {n_train: 2400, n_test: 900, seed: 7, noise_std: 0.15}
+  norman:
+    raw_dir: data/raw/norman2019
+    cache_path: data/processed/norman_cache.npz
+    panel_k: 256          # 高变异基因面板维度（响应 y 的维度）
+    seed: 0
+    heldout_gene_frac: 0.20   # 20% 单扰动基因作 ood_agent 锚点
+    heldout_gemgroup: 8       # gemgroup=8 作 ood_neuro（未见批次）锚点
+    train_frac: 0.70
+    double_train_frac: 0.50   # P1 重设计：双扰动中 50% 基因对进训练（可学 epistasis），其余作 held-out 对
+
+model:
+  checkpoint: null
+  hidden: [64, 32]
+  n_ensemble: 3          # 真实数据量大，适度减小集成以控时
+  novelty_k: 0.8
+  random_state: 0
+
+baselines:
+  knn_k: 5
+
+eval:
+  bootstrap_samples: 100
+  ci_alpha: 0.95
+  calibration_levels: [0.5, 0.8, 0.9, 0.95]
+  memorization_flag_delta: 0.0
+  # Norman 专属 OOD 语义（覆盖默认）
+  subsets: ["id", "ood_agent", "ood_action", "ood_neuro"]
+  should_generalize:
+    ood_agent: false     # 未见基因身份：不强制外推（如实报告）
+    ood_action: true     # 组合双扰动：真正的机制泛化检验
+    ood_neuro: false     # 未见批次（混杂）：不强制外推
+  subset_labels:
+    id: "ID(已见基因)"
+    ood_agent: "OOD-未见基因"
+    ood_action: "OOD-组合双扰动(held-out对)"
+    ood_neuro: "OOD-未见批次"
+
+output:
+  dir: experiments
+  prefix: benchmark_norman

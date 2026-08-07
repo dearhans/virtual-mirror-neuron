@@ -1,0 +1,663 @@
+{
+  "seeds": [
+    1
+  ],
+  "source": "norman",
+  "generated_at": "2026-08-07T12:56:29.692968+00:00",
+  "rmse": {
+    "id": {
+      "compositional_twin": {
+        "mean": 0.5752700862421346,
+        "std": 0.0,
+        "per_seed": [
+          0.5753
+        ]
+      },
+      "virtual_twin": {
+        "mean": 0.5750958405381542,
+        "std": 0.0,
+        "per_seed": [
+          0.5751
+        ]
+      },
+      "mlp": {
+        "mean": 0.5749995167636084,
+        "std": 0.0,
+        "per_seed": [
+          0.575
+        ]
+      },
+      "linear": {
+        "mean": 0.5748820813099546,
+        "std": 0.0,
+        "per_seed": [
+          0.5749
+        ]
+      },
+      "knn": {
+        "mean": 0.6375510579347611,
+        "std": 0.0,
+        "per_seed": [
+          0.6376
+        ]
+      },
+      "mean": {
+        "mean": 0.604476158618927,
+        "std": 0.0,
+        "per_seed": [
+          0.6045
+        ]
+      },
+      "compositional_interaction_twin": {
+        "mean": 0.5752700862421346,
+        "std": 0.0,
+        "per_seed": [
+          0.5753
+        ]
+      }
+    },
+    "ood_agent": {
+      "compositional_twin": {
+        "mean": 0.5877578093521051,
+        "std": 0.0,
+        "per_seed": [
+          0.5878
+        ]
+      },
+      "virtual_twin": {
+        "mean": 0.6485980236458992,
+        "std": 0.0,
+        "per_seed": [
+          0.6486
+        ]
+      },
+      "mlp": {
+        "mean": 0.6035131756896529,
+        "std": 0.0,
+        "per_seed": [
+          0.6035
+        ]
+      },
+      "linear": {
+        "mean": 0.5839187519964092,
+        "std": 0.0,
+        "per_seed": [
+          0.5839
+        ]
+      },
+      "knn": {
+        "mean": 0.6682791388034821,
+        "std": 0.0,
+        "per_seed": [
+          0.6683
+        ]
+      },
+      "mean": {
+        "mean": 0.5877186608314514,
+        "std": 0.0,
+        "per_seed": [
+          0.5877
+        ]
+      },
+      "compositional_interaction_twin": {
+        "mean": 0.5877578093521051,
+        "std": 0.0,
+        "per_seed": [
+          0.5878
+        ]
+      }
+    },
+    "ood_action": {
+      "compositional_twin": {
+        "mean": 0.6348141948234511,
+        "std": 0.0,
+        "per_seed": [
+          0.6348
+        ]
+      },
+      "virtual_twin": {
+        "mean": 0.6530084922979593,
+        "std": 0.0,
+        "per_seed": [
+          0.653
+        ]
+      },
+      "mlp": {
+        "mean": 0.6392882624705477,
+        "std": 0.0,
+        "per_seed": [
+          0.6393
+        ]
+      },
+      "linear": {
+        "mean": 0.632571191033219,
+        "std": 0.0,
+        "per_seed": [
+          0.6326
+        ]
+      },
+      "knn": {
+        "mean": 0.7311709576845169,
+        "std": 0.0,
+        "per_seed": [
+          0.7312
+        ]
+      },
+      "mean": {
+        "mean": 0.6613640087842941,
+        "std": 0.0,
+        "per_seed": [
+          0.6614
+        ]
+      },
+      "compositional_interaction_twin": {
+        "mean": 0.6296490051276934,
+        "std": 0.0,
+        "per_seed": [
+          0.6296
+        ]
+      }
+    },
+    "ood_neuro": {
+      "compositional_twin": {
+        "mean": 0.6050069530634999,
+        "std": 0.0,
+        "per_seed": [
+          0.605
+        ]
+      },
+      "virtual_twin": {
+        "mean": 0.6020446332069007,
+        "std": 0.0,
+        "per_seed": [
+          0.602
+        ]
+      },
+      "mlp": {
+        "mean": 0.6056414463080151,
+        "std": 0.0,
+        "per_seed": [
+          0.6056
+        ]
+      },
+      "linear": {
+        "mean": 0.6043110369257386,
+        "std": 0.0,
+        "per_seed": [
+          0.6043
+        ]
+      },
+      "knn": {
+        "mean": 0.6638562822341919,
+        "std": 0.0,
+        "per_seed": [
+          0.6639
+        ]
+      },
+      "mean": {
+        "mean": 0.6269638168811799,
+        "std": 0.0,
+        "per_seed": [
+          0.627
+        ]
+      },
+      "compositional_interaction_twin": {
+        "mean": 0.6050069530634999,
+        "std": 0.0,
+        "per_seed": [
+          0.605
+        ]
+      }
+    }
+  },
+  "models": [
+    "compositional_twin",
+    "virtual_twin",
+    "mlp",
+    "linear",
+    "knn",
+    "mean",
+    "compositional_interaction_twin"
+  ],
+  "subsets": [
+    "id",
+    "ood_agent",
+    "ood_action",
+    "ood_neuro"
+  ],
+  "flags": {
+    "ood_action_mem_seeds": 1,
+    "ood_action_mem_count": "1/1",
+    "per_seed_detail": [
+      {
+        "seed": 1,
+        "flags": [
+          {
+            "subset": "ood_action",
+            "twin": "compositional_twin",
+            "verdict": "疑似仅记忆（模型未在应外推子集上显著优于简单基线）"
+          },
+          {
+            "subset": "ood_action",
+            "twin": "compositional_interaction_twin",
+            "verdict": "疑似仅记忆（模型未在应外推子集上显著优于简单基线）"
+          }
+        ]
+      }
+    ]
+  },
+  "recalibration": {
+    "compositional_twin": {
+      "s": {
+        "mean": 0.6423056564940793,
+        "std": 0.0,
+        "per_seed": [
+          0.6423
+        ]
+      },
+      "subsets": {
+        "id": {
+          "ece_before": {
+            "mean": 0.13978983807506054,
+            "std": 0.0,
+            "per_seed": [
+              0.1398
+            ]
+          },
+          "ece_after": {
+            "mean": 0.05517452015234056,
+            "std": 0.0,
+            "per_seed": [
+              0.0552
+            ]
+          },
+          "cov95_after": {
+            "mean": 0.9456498436238903,
+            "std": 0.0,
+            "per_seed": [
+              0.9456
+            ]
+          }
+        },
+        "ood_agent": {
+          "ece_before": {
+            "mean": 0.2125,
+            "std": 0.0,
+            "per_seed": [
+              0.2125
+            ]
+          },
+          "ece_after": {
+            "mean": 0.2125,
+            "std": 0.0,
+            "per_seed": [
+              0.2125
+            ]
+          },
+          "cov95_after": {
+            "mean": 1.0,
+            "std": 0.0,
+            "per_seed": [
+              1.0
+            ]
+          }
+        },
+        "ood_action": {
+          "ece_before": {
+            "mean": 0.2125,
+            "std": 0.0,
+            "per_seed": [
+              0.2125
+            ]
+          },
+          "ece_after": {
+            "mean": 0.2125,
+            "std": 0.0,
+            "per_seed": [
+              0.2125
+            ]
+          },
+          "cov95_after": {
+            "mean": 1.0,
+            "std": 0.0,
+            "per_seed": [
+              1.0
+            ]
+          }
+        },
+        "ood_neuro": {
+          "ece_before": {
+            "mean": 0.1326712745288022,
+            "std": 0.0,
+            "per_seed": [
+              0.1327
+            ]
+          },
+          "ece_after": {
+            "mean": 0.045653818792836115,
+            "std": 0.0,
+            "per_seed": [
+              0.0457
+            ]
+          },
+          "cov95_after": {
+            "mean": 0.9391637259301566,
+            "std": 0.0,
+            "per_seed": [
+              0.9392
+            ]
+          }
+        }
+      }
+    },
+    "compositional_interaction_twin": {
+      "s": {
+        "mean": 0.9348820674305618,
+        "std": 0.0,
+        "per_seed": [
+          0.9349
+        ]
+      },
+      "subsets": {
+        "id": {
+          "ece_before": {
+            "mean": 0.06919934485976592,
+            "std": 0.0,
+            "per_seed": [
+              0.0692
+            ]
+          },
+          "ece_after": {
+            "mean": 0.05517452015234056,
+            "std": 0.0,
+            "per_seed": [
+              0.0552
+            ]
+          },
+          "cov95_after": {
+            "mean": 0.9456498436238903,
+            "std": 0.0,
+            "per_seed": [
+              0.9456
+            ]
+          }
+        },
+        "ood_agent": {
+          "ece_before": {
+            "mean": 0.2125,
+            "std": 0.0,
+            "per_seed": [
+              0.2125
+            ]
+          },
+          "ece_after": {
+            "mean": 0.2125,
+            "std": 0.0,
+            "per_seed": [
+              0.2125
+            ]
+          },
+          "cov95_after": {
+            "mean": 1.0,
+            "std": 0.0,
+            "per_seed": [
+              1.0
+            ]
+          }
+        },
+        "ood_action": {
+          "ece_before": {
+            "mean": 0.2125,
+            "std": 0.0,
+            "per_seed": [
+              0.2125
+            ]
+          },
+          "ece_after": {
+            "mean": 0.2125,
+            "std": 0.0,
+            "per_seed": [
+              0.2125
+            ]
+          },
+          "cov95_after": {
+            "mean": 1.0,
+            "std": 0.0,
+            "per_seed": [
+              1.0
+            ]
+          }
+        },
+        "ood_neuro": {
+          "ece_before": {
+            "mean": 0.05779917744370103,
+            "std": 0.0,
+            "per_seed": [
+              0.0578
+            ]
+          },
+          "ece_after": {
+            "mean": 0.045653818792836115,
+            "std": 0.0,
+            "per_seed": [
+              0.0457
+            ]
+          },
+          "cov95_after": {
+            "mean": 0.9391637259301566,
+            "std": 0.0,
+            "per_seed": [
+              0.9392
+            ]
+          }
+        }
+      }
+    },
+    "virtual_twin": {
+      "s": {
+        "mean": 15.202570545582368,
+        "std": 0.0,
+        "per_seed": [
+          15.2026
+        ]
+      },
+      "subsets": {
+        "id": {
+          "ece_before": {
+            "mean": 0.6928385416666667,
+            "std": 0.0,
+            "per_seed": [
+              0.6928
+            ]
+          },
+          "ece_after": {
+            "mean": 0.03439005435330908,
+            "std": 0.0,
+            "per_seed": [
+              0.0344
+            ]
+          },
+          "cov95_after": {
+            "mean": 0.9436204222154964,
+            "std": 0.0,
+            "per_seed": [
+              0.9436
+            ]
+          }
+        },
+        "ood_agent": {
+          "ece_before": {
+            "mean": 0.2125,
+            "std": 0.0,
+            "per_seed": [
+              0.2125
+            ]
+          },
+          "ece_after": {
+            "mean": 0.2125,
+            "std": 0.0,
+            "per_seed": [
+              0.2125
+            ]
+          },
+          "cov95_after": {
+            "mean": 1.0,
+            "std": 0.0,
+            "per_seed": [
+              1.0
+            ]
+          }
+        },
+        "ood_action": {
+          "ece_before": {
+            "mean": 0.2125,
+            "std": 0.0,
+            "per_seed": [
+              0.2125
+            ]
+          },
+          "ece_after": {
+            "mean": 0.2125,
+            "std": 0.0,
+            "per_seed": [
+              0.2125
+            ]
+          },
+          "cov95_after": {
+            "mean": 1.0,
+            "std": 0.0,
+            "per_seed": [
+              1.0
+            ]
+          }
+        },
+        "ood_neuro": {
+          "ece_before": {
+            "mean": 0.6965486929871084,
+            "std": 0.0,
+            "per_seed": [
+              0.6965
+            ]
+          },
+          "ece_after": {
+            "mean": 0.02611657682971602,
+            "std": 0.0,
+            "per_seed": [
+              0.0261
+            ]
+          },
+          "cov95_after": {
+            "mean": 0.9332724787859008,
+            "std": 0.0,
+            "per_seed": [
+              0.9333
+            ]
+          }
+        }
+      }
+    },
+    "mlp": {
+      "s": {
+        "mean": 0.9899275359091161,
+        "std": 0.0,
+        "per_seed": [
+          0.9899
+        ]
+      },
+      "subsets": {
+        "id": {
+          "ece_before": {
+            "mean": 0.028695410235068552,
+            "std": 0.0,
+            "per_seed": [
+              0.0287
+            ]
+          },
+          "ece_after": {
+            "mean": 0.026555248688458433,
+            "std": 0.0,
+            "per_seed": [
+              0.0266
+            ]
+          },
+          "cov95_after": {
+            "mean": 0.9438912429378531,
+            "std": 0.0,
+            "per_seed": [
+              0.9439
+            ]
+          }
+        },
+        "ood_agent": {
+          "ece_before": {
+            "mean": 0.003789240814478484,
+            "std": 0.0,
+            "per_seed": [
+              0.0038
+            ]
+          },
+          "ece_after": {
+            "mean": 0.004633152848069894,
+            "std": 0.0,
+            "per_seed": [
+              0.0046
+            ]
+          },
+          "cov95_after": {
+            "mean": 0.9411554468095663,
+            "std": 0.0,
+            "per_seed": [
+              0.9412
+            ]
+          }
+        },
+        "ood_action": {
+          "ece_before": {
+            "mean": 0.01879569157080968,
+            "std": 0.0,
+            "per_seed": [
+              0.0188
+            ]
+          },
+          "ece_after": {
+            "mean": 0.02236214333731698,
+            "std": 0.0,
+            "per_seed": [
+              0.0224
+            ]
+          },
+          "cov95_after": {
+            "mean": 0.923480215491485,
+            "std": 0.0,
+            "per_seed": [
+              0.9235
+            ]
+          }
+        },
+        "ood_neuro": {
+          "ece_before": {
+            "mean": 0.019897684042509772,
+            "std": 0.0,
+            "per_seed": [
+              0.0199
+            ]
+          },
+          "ece_after": {
+            "mean": 0.019105342536308745,
+            "std": 0.0,
+            "per_seed": [
+              0.0191
+            ]
+          },
+          "cov95_after": {
+            "mean": 0.9329033993554178,
+            "std": 0.0,
+            "per_seed": [
+              0.9329
+            ]
+          }
+        }
+      }
+    }
+  }
+}

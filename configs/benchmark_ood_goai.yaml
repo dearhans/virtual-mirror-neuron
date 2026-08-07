@@ -1,0 +1,51 @@
+# benchmark_ood_goai.yaml — GOAI 赛道三·虚拟细胞 OOD 基准配置（草稿）
+#
+# 数据未到，raw_dir / 文件名按赛题约定占位；数据到手后改 path 即可。
+# 核心：把赛题 S1/S2/S3 三类泛化场景映射为项目 OOD 三轴子集。
+
+data:
+  source: goai
+  path: null
+  synthetic: {n_train: 2400, n_test: 900, seed: 7, noise_std: 0.15}
+  goai:
+    raw_dir: data/raw/goai_virtualcell      # train_val / test 落盘目录（待组委会下发）
+    train_val_file: train_val.csv           # 或 .tsv / .parquet
+    test_file: test.csv
+    target: delta                           # delta(默认,匹配25%权重FC) | absolute(20%绝对保真度)
+    heldout_compound_frac: 0.20             # 未见化合物比例 → ood_action(S1)
+    heldout_strain_frac: 0.20               # 未见菌株比例   → ood_agent(S2)
+    train_frac: 0.70
+    seed: 0
+    cache_path: data/processed/goai_cache.npz
+
+model:
+  checkpoint: null
+  hidden: [32, 32]
+  n_ensemble: 5
+  novelty_k: 0.8
+  random_state: 0
+
+baselines:
+  knn_k: 5
+
+eval:
+  bootstrap_samples: 200
+  ci_alpha: 0.95
+  calibration_levels: [0.5, 0.8, 0.9, 0.95]
+  memorization_flag_delta: 0.0
+  # —— 覆盖默认 4 子集，加入 S3 双重未知 ——
+  subsets: [id, ood_action, ood_agent, ood_s3]
+  should_generalize:
+    id: false
+    ood_action: true        # S1 应外推（匹配对照FC核心）
+    ood_agent: true         # S2 应外推
+    ood_s3: true            # S3 应外推（最难）
+  subset_labels:
+    id: ID
+    ood_action: OOD-未见化合物(S1)
+    ood_agent: OOD-未见菌株(S2)
+    ood_s3: OOD-双重未知(S3)
+
+output:
+  dir: experiments
+  prefix: benchmark_goai

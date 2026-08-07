@@ -1,0 +1,39 @@
+# —— 大体积数据 / 产物（保留目录结构，忽略内容）——
+data/
+experiments/checkpoints/
+experiments/**/*.pt
+experiments/**/*.ckpt
+experiments/**/*.h5
+experiments/**/*.npy
+experiments/**/*.npz
+
+# —— Python ——
+**/__pycache__/
+*.pyc
+.venv/
+.pylibs/
+*.egg-info/
+
+# —— 环境与日志 ——
+.env
+*.log
+.DS_Store
+
+# —— 编辑器 ——
+.idea/
+.vscode/
+
+# —— 工具 / 环境内部目录 ——
+.workbuddy/
+.codebuddy/
+automations/
+
+# —— 提交包构建产物（源码 md/json 已入库，zip/csv 可重建）——
+submissions/**/*.zip
+submissions/**/*.csv
+
+# —— 根目录临时 / 下载草稿（_ 前缀）——
+/_*
+
+# —— 生成物 ——
+experiments/figures/

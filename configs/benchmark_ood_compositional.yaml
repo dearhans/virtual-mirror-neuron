@@ -1,0 +1,49 @@
+# benchmark_ood_compositional.yaml — 组合性先验 + 共形校准（攻克 ood_action 组合泛化）
+# 与基准 config 结构一致；data.synthetic.compositional=组合双扰动生成器，
+# model.compositional=组合性孪生，model.conformal=per-subset 分裂共形校准。
+
+data:
+  path: null
+  synthetic:
+    n_train: 2400
+    n_test: 900
+    seed: 7
+    noise_std: 0.15
+    compositional: true        # 用 generate_compositional_dataset
+    mag_train: 0.6             # 训练双扰动分量幅度
+    mag_ood: 1.4               # OOD 双扰动分量幅度（大幅外推）
+
+model:
+  checkpoint: null
+  hidden: [32, 32]
+  n_ensemble: 5
+  novelty_k: 1.5
+  random_state: 0
+  compositional: true          # 启用组合性孪生
+  curriculum: true             # 课程学习：stage1 单扰动 → stage2 双扰动
+  conformal: true              # per-subset 分裂共形校准
+  conformal_calib_frac: 0.2
+  conformal_alpha: 0.9
+
+baselines:
+  knn_k: 5
+
+eval:
+  bootstrap_samples: 200
+  ci_alpha: 0.95
+  calibration_levels: [0.5, 0.8, 0.9, 0.95]
+  memorization_flag_delta: 0.0
+  # ood_action 在本配置里 = 组合双扰动（机制应外推）
+  should_generalize:
+    ood_agent: true
+    ood_neuro: true
+    ood_action: true
+  subset_labels:
+    id: "ID"
+    ood_agent: "OOD-未见主体"
+    ood_action: "OOD-组合双扰动"
+    ood_neuro: "OOD-新调质"
+
+output:
+  dir: experiments
+  prefix: benchmark_comp

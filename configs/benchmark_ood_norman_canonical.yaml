@@ -1,0 +1,61 @@
+# benchmark_ood_norman_canonical.yaml — 每周 OOD 外推基准评测（自动化·真实数据）
+# 由自动化「虚拟镜像神经元-OOD基准评测」每周调用；产物 experiments/<YYYYMMDD>-benchmark.md / .json
+#
+# 语义：数据源切到真实 Norman 2019 perturb-seq（自动化记录 2026-07-31 既定下一步）；
+#       同一 run 内对比 虚拟孪生 / MLP黑箱 / 线性 / KNN / 均值 / 组合性孪生(P1) / 组合性孪生(P2·交互项)，
+#       公平同输入同切分。OOD 子集：未见基因(ood_agent) / 组合双扰动(ood_action·应外推) / 未见批次(ood_neuro)。
+# 指标：RMSE(含 bootstrap 95%CI) + 区间覆盖度 + ECE（校准后先比较，参考 Shift Bioscience metric calibration）。
+
+data:
+  source: norman
+  path: null
+  synthetic: {n_train: 2400, n_test: 900, seed: 7, noise_std: 0.15}
+  norman:
+    raw_dir: data/raw/norman2019
+    cache_path: data/processed/norman_cache.npz
+    panel_k: 256
+    seed: 0
+    heldout_gene_frac: 0.20
+    heldout_gemgroup: 8
+    train_frac: 0.70
+    double_train_frac: 0.50   # P1 公平基准：双扰动按 held-out 基因对拆 train/test
+
+model:
+  checkpoint: null
+  hidden: [64, 32]
+  n_ensemble: 3
+  novelty_k: 0.8
+  random_state: 0
+  # 组合性孪生开关（P1 基础）
+  compositional: true
+  curriculum: true
+  conformal: true
+  conformal_calib_frac: 0.2
+  conformal_alpha: 0.9
+  # P2 升级：可学习基因对交互项（拟合 epistasis）
+  compositional_interaction: true
+  interaction_hidden: [64]
+  interaction_reg: 0.1
+
+baselines:
+  knn_k: 5
+
+eval:
+  bootstrap_samples: 100
+  ci_alpha: 0.95
+  calibration_levels: [0.5, 0.8, 0.9, 0.95]
+  memorization_flag_delta: 0.0
+  subsets: ["id", "ood_agent", "ood_action", "ood_neuro"]
+  should_generalize:
+    ood_agent: false     # 未见基因身份：不强制外推（如实报告）
+    ood_action: true     # 组合双扰动：真正的机制泛化检验（须组合两条已见单扰动效应）
+    ood_neuro: false     # 未见批次（混杂）：不强制外推
+  subset_labels:
+    id: "ID(已见基因)"
+    ood_agent: "OOD-未见基因"
+    ood_action: "OOD-组合双扰动(held-out对)"
+    ood_neuro: "OOD-未见批次"
+
+output:
+  dir: experiments
+  prefix: benchmark

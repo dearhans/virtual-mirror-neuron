@@ -1,0 +1,4 @@
+# 真实数据入口验证用配置：仅覆盖输出前缀，避免覆盖 20260731 复现报告。
+# data.path 保持 None，由 CLI --data 传入真实文件路径。
+output:
+  prefix: benchmark_real

@@ -1,0 +1,25 @@
+{
+ "generated_at": "2026-08-07T07:38:18+08:00",
+ "root": "C:\\Users\\cc\\WorkBuddy\\2026-07-31-18-03-27",
+ "sources": [
+  "experiments/20260806-benchmark.md",
+  "experiments/20260806-benchmark.json"
+ ],
+ "n_claimed": 2,
+ "n_missing": 0,
+ "verdict": "PASS",
+ "artifacts": [
+  {
+   "path": "configs/benchmark_ood_norman_canonical.yaml",
+   "status": "PASS",
+   "bytes": 2241,
+   "sha256_16": "a85badf6fa43a1d3"
+  },
+  {
+   "path": "data/processed/norman_cache.npz",
+   "status": "PASS",
+   "bytes": 191629995,
+   "sha256_16": "496fc5b9cacef907"
+  }
+ ]
+}

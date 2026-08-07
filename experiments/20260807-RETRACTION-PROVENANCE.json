@@ -1,0 +1,54 @@
+{
+ "generated_at": "2026-08-07T07:42:27+08:00",
+ "root": "C:\\Users\\cc\\WorkBuddy\\2026-07-31-18-03-27",
+ "sources": [
+  "experiments/20260807-RETRACTION-w32-multiseed-recalibration.md"
+ ],
+ "n_claimed": 6,
+ "n_missing": 0,
+ "verdict": "PASS",
+ "artifacts": [
+  {
+   "path": "experiments/w32_benchmark_run.log",
+   "status": "PASS",
+   "resolved_as": null,
+   "bytes": 1047,
+   "sha256_16": "d53adb9e945aa05f"
+  },
+  {
+   "path": "experiments/w32_benchmark_run_0806.log",
+   "status": "PASS",
+   "resolved_as": null,
+   "bytes": 1047,
+   "sha256_16": "7f7fbc691f915b81"
+  },
+  {
+   "path": "w32_benchmark_run_0806.log",
+   "status": "PASS*",
+   "resolved_as": "experiments/w32_benchmark_run_0806.log",
+   "bytes": 1047,
+   "sha256_16": "7f7fbc691f915b81"
+  },
+  {
+   "path": "20260806-benchmark.json",
+   "status": "PASS*",
+   "resolved_as": "experiments/20260806-benchmark.json",
+   "bytes": 31875,
+   "sha256_16": "087b7cfff42c61fc"
+  },
+  {
+   "path": "code/verify_artifacts.py",
+   "status": "PASS",
+   "resolved_as": null,
+   "bytes": 11025,
+   "sha256_16": "6cfbef45fd0151ab"
+  },
+  {
+   "path": "verify_artifacts.py",
+   "status": "PASS*",
+   "resolved_as": "code/verify_artifacts.py",
+   "bytes": 11025,
+   "sha256_16": "6cfbef45fd0151ab"
+  }
+ ]
+}

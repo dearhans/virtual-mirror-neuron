@@ -1,0 +1,177 @@
+{
+  "results": [
+    {
+      "model": "baseline_matched_control",
+      "weighted_score": 0.223832913716565,
+      "modules": {
+        "abs_fidelity_r2": 0.8328249752521515,
+        "fc_delta_pcc": 0.0,
+        "ctx_residual_pcc": 0.12424581388327499,
+        "drug_residual_pcc": 0.16209377944739833,
+        "double_unk_fc_pcc": 0.0,
+        "dep_top_pcc": 0.0
+      },
+      "per_subset_fc_pcc": {
+        "id": 0.0,
+        "ood_action": 0.0,
+        "ood_agent": 0.0,
+        "ood_s3": 0.0,
+        "ood_time": 0.0
+      },
+      "per_subset_abs_r2": {
+        "id": 0.8160597681999207,
+        "ood_action": 0.843504935503006,
+        "ood_agent": 0.7657838463783264,
+        "ood_s3": -0.4211326837539673,
+        "ood_time": -3.1056857109069824
+      },
+      "n_per_subset": {
+        "id": 5169,
+        "ood_action": 1065,
+        "ood_agent": 1357,
+        "ood_s3": 269,
+        "ood_time": 142
+      }
+    },
+    {
+      "model": "baseline_protein_mean",
+      "weighted_score": 0.264177788388703,
+      "modules": {
+        "abs_fidelity_r2": 0.8382991392947775,
+        "fc_delta_pcc": 0.12749030114244314,
+        "ctx_residual_pcc": 0.08449020714179302,
+        "drug_residual_pcc": 0.1615510640279787,
+        "double_unk_fc_pcc": 0.10632500203201785,
+        "dep_top_pcc": 0.09609261613961148
+      },
+      "per_subset_fc_pcc": {
+        "id": 0.1385963683897695,
+        "ood_action": 0.08354853524395883,
+        "ood_agent": 0.1260825318092352,
+        "ood_s3": 0.09444154328534217,
+        "ood_time": 0.12883662458733966
+      },
+      "per_subset_abs_r2": {
+        "id": 0.8347195699954331,
+        "ood_action": 0.8291473007769814,
+        "ood_agent": 0.7548165959521606,
+        "ood_s3": -1.1022559016461313,
+        "ood_time": -0.934436840059163
+      },
+      "n_per_subset": {
+        "id": 5169,
+        "ood_action": 1065,
+        "ood_agent": 1357,
+        "ood_s3": 269,
+        "ood_time": 142
+      }
+    },
+    {
+      "model": "linear_ridge",
+      "weighted_score": 0.4236544555198017,
+      "modules": {
+        "abs_fidelity_r2": 0.8670922633252298,
+        "fc_delta_pcc": 0.41602106408796014,
+        "ctx_residual_pcc": 0.31537188491989443,
+        "drug_residual_pcc": 0.1875616788731207,
+        "double_unk_fc_pcc": 0.2324104519311992,
+        "dep_top_pcc": 0.44805957762085513
+      },
+      "per_subset_fc_pcc": {
+        "id": 0.503865460077365,
+        "ood_action": 0.2919504427659722,
+        "ood_agent": 0.23439356993550683,
+        "ood_s3": 0.1200118363617303,
+        "ood_time": 0.4453345898761796
+      },
+      "per_subset_abs_r2": {
+        "id": 0.8773505450880529,
+        "ood_action": 0.840326727103979,
+        "ood_agent": 0.749390025485722,
+        "ood_s3": -0.742197272692553,
+        "ood_time": -1.1917619465575666
+      },
+      "n_per_subset": {
+        "id": 5169,
+        "ood_action": 1065,
+        "ood_agent": 1357,
+        "ood_s3": 269,
+        "ood_time": 142
+      }
+    },
+    {
+      "model": "mlp_256_128",
+      "weighted_score": 0.4222861885350116,
+      "modules": {
+        "abs_fidelity_r2": 0.875002131889631,
+        "fc_delta_pcc": 0.42621617222776237,
+        "ctx_residual_pcc": 0.2126210574133855,
+        "drug_residual_pcc": 0.26235827758071495,
+        "double_unk_fc_pcc": 0.1968554737051445,
+        "dep_top_pcc": 0.5210060946162047
+      },
+      "per_subset_fc_pcc": {
+        "id": 0.5443974019227213,
+        "ood_action": 0.18865360215395588,
+        "ood_agent": 0.2319586983354686,
+        "ood_s3": 0.0773608894825192,
+        "ood_time": 0.4232219748029349
+      },
+      "per_subset_abs_r2": {
+        "id": 0.8960586824513459,
+        "ood_action": 0.8210329828447811,
+        "ood_agent": 0.7454645748967756,
+        "ood_s3": -1.0940445730008923,
+        "ood_time": -0.9252102508328864
+      },
+      "n_per_subset": {
+        "id": 5169,
+        "ood_action": 1065,
+        "ood_agent": 1357,
+        "ood_s3": 269,
+        "ood_time": 142
+      }
+    },
+    {
+      "model": "compositional_twin",
+      "weighted_score": 0.4270720272158863,
+      "modules": {
+        "abs_fidelity_r2": 0.881215871094795,
+        "fc_delta_pcc": 0.44621548599332583,
+        "ctx_residual_pcc": 0.29856443034736246,
+        "drug_residual_pcc": 0.14859945745577302,
+        "double_unk_fc_pcc": 0.2410692377405872,
+        "dep_top_pcc": 0.5147056032781994
+      },
+      "per_subset_fc_pcc": {
+        "id": 0.548918373443784,
+        "ood_action": 0.2828569959694798,
+        "ood_agent": 0.2453464179578444,
+        "ood_s3": 0.12044306808971103,
+        "ood_time": 0.46957937602288
+      },
+      "per_subset_abs_r2": {
+        "id": 0.9001892563235641,
+        "ood_action": 0.8460339757383248,
+        "ood_agent": 0.7337850672579476,
+        "ood_s3": -1.1341301892508344,
+        "ood_time": -0.6468459292804617
+      },
+      "n_per_subset": {
+        "id": 5169,
+        "ood_action": 1065,
+        "ood_agent": 1357,
+        "ood_s3": 269,
+        "ood_time": 142
+      }
+    }
+  ],
+  "weights": [
+    "abs_fidelity_r2",
+    "fc_delta_pcc",
+    "ctx_residual_pcc",
+    "drug_residual_pcc",
+    "double_unk_fc_pcc",
+    "dep_top_pcc"
+  ]
+}

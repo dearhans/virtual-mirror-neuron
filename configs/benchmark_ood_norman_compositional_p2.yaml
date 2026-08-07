@@ -1,0 +1,63 @@
+# benchmark_ood_norman_compositional_p2.yaml — 真实数据（Norman 2019）+ P2 基因对交互头
+# 目标：在 P1（φ 剥离动作轴 + 训练含双扰动）公平基准之上，验证「可学习基因对交互项」
+#       能否拟合真实 epistasis 并泛化到 held-out 基因对(ood_action)，从而击败灵活基线。
+#
+# 与 benchmark_ood_norman_compositional.yaml 的差异：
+#   model.compositional_interaction: true → 在 CompositionalTwin(P1) 之上加 CompositionalInteractionTwin(P2)，
+#       同一个 run 内同时评测 P1(组合先验) / P2(交互项) / VirtualTwin / MLP / 基线，同输入同切分公平对比。
+#   model.interaction_hidden / interaction_reg → P2 交互头 ψ 的容量与正则（默认 (64,) / 1e-1）。
+#   其余 data / model / eval 与 P1 comp 配置完全一致 → 同一 split（train 48 对 / ood_action 48 对）。
+
+data:
+  source: norman
+  path: null
+  synthetic: {n_train: 2400, n_test: 900, seed: 7, noise_std: 0.15}
+  norman:
+    raw_dir: data/raw/norman2019
+    cache_path: data/processed/norman_cache.npz
+    panel_k: 256
+    seed: 0
+    heldout_gene_frac: 0.20
+    heldout_gemgroup: 8
+    train_frac: 0.70
+    double_train_frac: 0.50   # 与 P1 一致：双扰动按 held-out 基因对拆 train/test
+
+model:
+  checkpoint: null
+  hidden: [64, 32]
+  n_ensemble: 3
+  novelty_k: 0.8
+  random_state: 0
+  # —— 组合性孪生开关（P1 基础）——
+  compositional: true
+  curriculum: true
+  conformal: true
+  conformal_calib_frac: 0.2
+  conformal_alpha: 0.9
+  # —— P2 升级：可学习基因对交互项（拟合 epistasis）——
+  compositional_interaction: true
+  interaction_hidden: [64]
+  interaction_reg: 0.1
+
+baselines:
+  knn_k: 5
+
+eval:
+  bootstrap_samples: 100
+  ci_alpha: 0.95
+  calibration_levels: [0.5, 0.8, 0.9, 0.95]
+  memorization_flag_delta: 0.0
+  subsets: ["id", "ood_agent", "ood_action", "ood_neuro"]
+  should_generalize:
+    ood_agent: false
+    ood_action: true         # 组合双扰动：P2 应在此显著优于基线
+    ood_neuro: false
+  subset_labels:
+    id: "ID(已见基因)"
+    ood_agent: "OOD-未见基因"
+    ood_action: "OOD-组合双扰动(held-out对)"
+    ood_neuro: "OOD-未见批次"
+
+output:
+  dir: experiments
+  prefix: benchmark_norman_p2
