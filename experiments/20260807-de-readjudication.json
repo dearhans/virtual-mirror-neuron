@@ -1,0 +1,684 @@
+{
+  "topk": 20,
+  "seed": 0,
+  "bootstrap": 200,
+  "config": "configs/benchmark_ood_norman_canonical.yaml",
+  "subsets": {
+    "id": {
+      "n_cells": 11953,
+      "n_pert_groups": 84,
+      "de_variance_share": 0.23871541023254395,
+      "models": {
+        "compositional_twin": {
+          "cell_rmse_all": 0.5673511583055874,
+          "cell_rmse_de": 0.7841745186962658,
+          "pseudobulk_rmse": 0.07970462303368488,
+          "pseudobulk_rmse_de": 0.12011355076532755,
+          "delta_pcc": 0.8035329131088266,
+          "macro_gene_pcc": 0.9064720084340934,
+          "e_distance": 2.4541885899029054,
+          "pseudobulk_rmse_lo": 0.07393430568525657,
+          "pseudobulk_rmse_hi": 0.08510186642752952,
+          "pseudobulk_rmse_de_lo": 0.10978958687147203,
+          "pseudobulk_rmse_de_hi": 0.12939422081292543,
+          "delta_pcc_lo": 0.7740731853916741,
+          "delta_pcc_hi": 0.8321312777869416
+        },
+        "compositional_interaction_twin": {
+          "cell_rmse_all": 0.5673511583055874,
+          "cell_rmse_de": 0.7841745186962658,
+          "pseudobulk_rmse": 0.07970462303368488,
+          "pseudobulk_rmse_de": 0.12011355076532755,
+          "delta_pcc": 0.8035329131088266,
+          "macro_gene_pcc": 0.9064720084340934,
+          "e_distance": 2.2457231060895033,
+          "pseudobulk_rmse_lo": 0.07318999848961974,
+          "pseudobulk_rmse_hi": 0.08563083158428635,
+          "pseudobulk_rmse_de_lo": 0.10919407798347064,
+          "pseudobulk_rmse_de_hi": 0.13029967893854336,
+          "delta_pcc_lo": 0.773842592038095,
+          "delta_pcc_hi": 0.8310530854123488
+        },
+        "virtual_twin": {
+          "cell_rmse_all": 0.5671957499741846,
+          "cell_rmse_de": 0.7830076580191291,
+          "pseudobulk_rmse": 0.07717506022536805,
+          "pseudobulk_rmse_de": 0.10885077272187073,
+          "delta_pcc": 0.8409236219960947,
+          "macro_gene_pcc": 0.9231609049428116,
+          "e_distance": 2.478000909598258,
+          "pseudobulk_rmse_lo": 0.07095620920299107,
+          "pseudobulk_rmse_hi": 0.08330767124857029,
+          "pseudobulk_rmse_de_lo": 0.10017130787064774,
+          "pseudobulk_rmse_de_hi": 0.11740649612901534,
+          "delta_pcc_lo": 0.8111957363371067,
+          "delta_pcc_hi": 0.8693306688822885
+        },
+        "mlp": {
+          "cell_rmse_all": 0.5685946462161129,
+          "cell_rmse_de": 0.7825981266862349,
+          "pseudobulk_rmse": 0.08707108092064517,
+          "pseudobulk_rmse_de": 0.10397949113941161,
+          "delta_pcc": 0.8210459383441436,
+          "macro_gene_pcc": 0.9219036435226502,
+          "e_distance": 2.379229898495508,
+          "pseudobulk_rmse_lo": 0.0809342284356235,
+          "pseudobulk_rmse_hi": 0.09270879736466452,
+          "pseudobulk_rmse_de_lo": 0.09589423118913726,
+          "pseudobulk_rmse_de_hi": 0.11032764631661908,
+          "delta_pcc_lo": 0.7905611487546108,
+          "delta_pcc_hi": 0.8461302657875808
+        },
+        "linear": {
+          "cell_rmse_all": 0.5665177537401772,
+          "cell_rmse_de": 0.7823092238031867,
+          "pseudobulk_rmse": 0.06960224244028264,
+          "pseudobulk_rmse_de": 0.09789452080407703,
+          "delta_pcc": 0.8858855447149703,
+          "macro_gene_pcc": 0.9267472270968371,
+          "e_distance": 2.2437886017723905,
+          "pseudobulk_rmse_lo": 0.06339204270555748,
+          "pseudobulk_rmse_hi": 0.07616535358638592,
+          "pseudobulk_rmse_de_lo": 0.0882660089886939,
+          "pseudobulk_rmse_de_hi": 0.1068463172577979,
+          "delta_pcc_lo": 0.8663035051414922,
+          "delta_pcc_hi": 0.9055277883162927
+        },
+        "knn": {
+          "cell_rmse_all": 0.6285075545310974,
+          "cell_rmse_de": 0.8631545901298523,
+          "pseudobulk_rmse": 0.28184202313423157,
+          "pseudobulk_rmse_de": 0.3749890923500061,
+          "delta_pcc": 0.4514399257773306,
+          "macro_gene_pcc": 0.49643020291631834,
+          "e_distance": 1.1713762283325195,
+          "pseudobulk_rmse_lo": 0.26103814169764517,
+          "pseudobulk_rmse_hi": 0.30593260154128077,
+          "pseudobulk_rmse_de_lo": 0.346855253726244,
+          "pseudobulk_rmse_de_hi": 0.40511273443698886,
+          "delta_pcc_lo": 0.4027041336681468,
+          "delta_pcc_hi": 0.4964400803695514
+        },
+        "mean": {
+          "cell_rmse_all": 0.599877119064331,
+          "cell_rmse_de": 0.8624554872512817,
+          "pseudobulk_rmse": 0.20279698073863983,
+          "pseudobulk_rmse_de": 0.3547613322734833,
+          "delta_pcc": 0.014362865463324933,
+          "macro_gene_pcc": -0.02557533849585854,
+          "e_distance": 5.4261474609375,
+          "pseudobulk_rmse_lo": 0.17708921246230602,
+          "pseudobulk_rmse_hi": 0.23112128339707852,
+          "pseudobulk_rmse_de_lo": 0.3118821047246456,
+          "pseudobulk_rmse_de_hi": 0.4012930437922478,
+          "delta_pcc_lo": 0.005104608251357998,
+          "delta_pcc_hi": 0.025414997587975437
+        }
+      }
+    },
+    "ood_agent": {
+      "n_cells": 11748,
+      "n_pert_groups": 20,
+      "de_variance_share": 0.25908514857292175,
+      "models": {
+        "compositional_twin": {
+          "cell_rmse_all": 0.5854099255897849,
+          "cell_rmse_de": 0.8162400011491109,
+          "pseudobulk_rmse": 0.1926678393729837,
+          "pseudobulk_rmse_de": 0.3515067167291131,
+          "delta_pcc": 0.13452289036711443,
+          "macro_gene_pcc": NaN,
+          "e_distance": 4.921808592086446,
+          "pseudobulk_rmse_lo": 0.1278500295396575,
+          "pseudobulk_rmse_hi": 0.2702721939349412,
+          "pseudobulk_rmse_de_lo": 0.27627425202317635,
+          "pseudobulk_rmse_de_hi": 0.4354374144180629,
+          "delta_pcc_lo": -0.07669554176431173,
+          "delta_pcc_hi": 0.32443356887671504
+        },
+        "compositional_interaction_twin": {
+          "cell_rmse_all": 0.5854099255897849,
+          "cell_rmse_de": 0.8162400011491109,
+          "pseudobulk_rmse": 0.1926678393729837,
+          "pseudobulk_rmse_de": 0.3515067167291131,
+          "delta_pcc": 0.13452289036711443,
+          "macro_gene_pcc": NaN,
+          "e_distance": 5.035988678391675,
+          "pseudobulk_rmse_lo": 0.13122071022837642,
+          "pseudobulk_rmse_hi": 0.2674506386532652,
+          "pseudobulk_rmse_de_lo": 0.2862928943354708,
+          "pseudobulk_rmse_de_hi": 0.41887993507303334,
+          "delta_pcc_lo": -0.0894138349362199,
+          "delta_pcc_hi": 0.3270869248071046
+        },
+        "virtual_twin": {
+          "cell_rmse_all": 0.6751772477749607,
+          "cell_rmse_de": 0.852218254602629,
+          "pseudobulk_rmse": 0.379341479636372,
+          "pseudobulk_rmse_de": 0.43205064792250997,
+          "delta_pcc": 0.3263648663391706,
+          "macro_gene_pcc": 0.21989508946335426,
+          "e_distance": 4.110637820113979,
+          "pseudobulk_rmse_lo": 0.29343853758684113,
+          "pseudobulk_rmse_hi": 0.44743584336121356,
+          "pseudobulk_rmse_de_lo": 0.33825352733894304,
+          "pseudobulk_rmse_de_hi": 0.5064181420300616,
+          "delta_pcc_lo": 0.1480094815004252,
+          "delta_pcc_hi": 0.4858811795537307
+        },
+        "mlp": {
+          "cell_rmse_all": 0.637676696007759,
+          "cell_rmse_de": 0.8333816369852572,
+          "pseudobulk_rmse": 0.30420251325898345,
+          "pseudobulk_rmse_de": 0.38955778587593837,
+          "delta_pcc": 0.30969188242484724,
+          "macro_gene_pcc": 0.24960240003621484,
+          "e_distance": 4.2091272308974155,
+          "pseudobulk_rmse_lo": 0.25256809874900626,
+          "pseudobulk_rmse_hi": 0.36400291470763024,
+          "pseudobulk_rmse_de_lo": 0.33224050091269325,
+          "pseudobulk_rmse_de_hi": 0.4441528804810264,
+          "delta_pcc_lo": 0.17223599173073184,
+          "delta_pcc_hi": 0.4487309131318027
+        },
+        "linear": {
+          "cell_rmse_all": 0.5817372471731482,
+          "cell_rmse_de": 0.7914746898873364,
+          "pseudobulk_rmse": 0.17699479030982831,
+          "pseudobulk_rmse_de": 0.29377785082066676,
+          "delta_pcc": 0.4235088921507019,
+          "macro_gene_pcc": 0.35026215380121595,
+          "e_distance": 3.7814951801890437,
+          "pseudobulk_rmse_lo": 0.10544412459720341,
+          "pseudobulk_rmse_hi": 0.25516995015458355,
+          "pseudobulk_rmse_de_lo": 0.19950696059961492,
+          "pseudobulk_rmse_de_hi": 0.37107206293761946,
+          "delta_pcc_lo": 0.2419529758348823,
+          "delta_pcc_hi": 0.6120311104678435
+        },
+        "knn": {
+          "cell_rmse_all": 0.6485183238983154,
+          "cell_rmse_de": 0.93136066198349,
+          "pseudobulk_rmse": 0.3249715566635132,
+          "pseudobulk_rmse_de": 0.5604190826416016,
+          "delta_pcc": -0.04852044862799031,
+          "macro_gene_pcc": -0.003923145293715047,
+          "e_distance": 7.492003440856934,
+          "pseudobulk_rmse_lo": 0.29790166169404986,
+          "pseudobulk_rmse_hi": 0.3540757976472378,
+          "pseudobulk_rmse_de_lo": 0.5314989611506462,
+          "pseudobulk_rmse_de_hi": 0.5928196892142296,
+          "delta_pcc_lo": -0.11096442730495533,
+          "delta_pcc_hi": 0.018245483771302445
+        },
+        "mean": {
+          "cell_rmse_all": 0.5874870419502258,
+          "cell_rmse_de": 0.8179638981819153,
+          "pseudobulk_rmse": 0.19323037564754486,
+          "pseudobulk_rmse_de": 0.3512207865715027,
+          "delta_pcc": -0.009539936104179183,
+          "macro_gene_pcc": -0.01850769062754569,
+          "e_distance": 5.139651298522949,
+          "pseudobulk_rmse_lo": 0.13327914141118527,
+          "pseudobulk_rmse_hi": 0.2544281639158726,
+          "pseudobulk_rmse_de_lo": 0.28094685822725296,
+          "pseudobulk_rmse_de_hi": 0.4204833395779133,
+          "delta_pcc_lo": -0.03605391533505934,
+          "delta_pcc_hi": 0.013443097081795896
+        }
+      }
+    },
+    "ood_action": {
+      "n_cells": 14212,
+      "n_pert_groups": 48,
+      "de_variance_share": 0.2348032295703888,
+      "models": {
+        "compositional_twin": {
+          "cell_rmse_all": 0.6351351979651583,
+          "cell_rmse_de": 0.8294240574898643,
+          "pseudobulk_rmse": 0.24558677379846816,
+          "pseudobulk_rmse_de": 0.34593608306700524,
+          "delta_pcc": 0.654713244046539,
+          "macro_gene_pcc": 0.7514517930997988,
+          "e_distance": 1.870771586707571,
+          "pseudobulk_rmse_lo": 0.19670981939400917,
+          "pseudobulk_rmse_hi": 0.29101469465854984,
+          "pseudobulk_rmse_de_lo": 0.2895301124965767,
+          "pseudobulk_rmse_de_hi": 0.3984804349203403,
+          "delta_pcc_lo": 0.5762002059693456,
+          "delta_pcc_hi": 0.7323883747941726
+        },
+        "compositional_interaction_twin": {
+          "cell_rmse_all": 0.63173915525315,
+          "cell_rmse_de": 0.8287273244169281,
+          "pseudobulk_rmse": 0.21910210167783523,
+          "pseudobulk_rmse_de": 0.32116675471588074,
+          "delta_pcc": 0.6911585855350126,
+          "macro_gene_pcc": 0.7123691193247519,
+          "e_distance": 1.871366965766061,
+          "pseudobulk_rmse_lo": 0.18318886726992178,
+          "pseudobulk_rmse_hi": 0.2560186067304979,
+          "pseudobulk_rmse_de_lo": 0.27515439594668417,
+          "pseudobulk_rmse_de_hi": 0.36919168520998985,
+          "delta_pcc_lo": 0.6083771239546224,
+          "delta_pcc_hi": 0.7630843576017482
+        },
+        "virtual_twin": {
+          "cell_rmse_all": 0.6515507495488619,
+          "cell_rmse_de": 0.8454985486003781,
+          "pseudobulk_rmse": 0.23838790995309192,
+          "pseudobulk_rmse_de": 0.329615119272125,
+          "delta_pcc": 0.7081268694163022,
+          "macro_gene_pcc": 0.725400947004935,
+          "e_distance": 2.3161550622390514,
+          "pseudobulk_rmse_lo": 0.20553882401542836,
+          "pseudobulk_rmse_hi": 0.2746479719986913,
+          "pseudobulk_rmse_de_lo": 0.2569450470692663,
+          "pseudobulk_rmse_de_hi": 0.415187338516788,
+          "delta_pcc_lo": 0.617370846918057,
+          "delta_pcc_hi": 0.7839708241012239
+        },
+        "mlp": {
+          "cell_rmse_all": 0.6361647970785186,
+          "cell_rmse_de": 0.8380880566608084,
+          "pseudobulk_rmse": 0.20704732507246507,
+          "pseudobulk_rmse_de": 0.316449568260091,
+          "delta_pcc": 0.7071901263989212,
+          "macro_gene_pcc": 0.7621716058954562,
+          "e_distance": 2.335744524018139,
+          "pseudobulk_rmse_lo": 0.18071184770481247,
+          "pseudobulk_rmse_hi": 0.23609833977891806,
+          "pseudobulk_rmse_de_lo": 0.2501811784432672,
+          "pseudobulk_rmse_de_hi": 0.3931892490972258,
+          "delta_pcc_lo": 0.6263706363156061,
+          "delta_pcc_hi": 0.7856369705565099
+        },
+        "linear": {
+          "cell_rmse_all": 0.626501527444317,
+          "cell_rmse_de": 0.8378977533565614,
+          "pseudobulk_rmse": 0.19053159415603338,
+          "pseudobulk_rmse_de": 0.32545396063839255,
+          "delta_pcc": 0.7528846342640999,
+          "macro_gene_pcc": 0.7857333027273875,
+          "e_distance": 2.0055733566838096,
+          "pseudobulk_rmse_lo": 0.16704896862148122,
+          "pseudobulk_rmse_hi": 0.21960392220731895,
+          "pseudobulk_rmse_de_lo": 0.2653013047531835,
+          "pseudobulk_rmse_de_hi": 0.3928858701238496,
+          "delta_pcc_lo": 0.6726110316388414,
+          "delta_pcc_hi": 0.8342906743346721
+        },
+        "knn": {
+          "cell_rmse_all": 0.6969651579856873,
+          "cell_rmse_de": 0.9415314793586731,
+          "pseudobulk_rmse": 0.35399118065834045,
+          "pseudobulk_rmse_de": 0.534394383430481,
+          "delta_pcc": 0.3294449972159374,
+          "macro_gene_pcc": 0.4504514973187155,
+          "e_distance": 1.5966739654541016,
+          "pseudobulk_rmse_lo": 0.3185629926621914,
+          "pseudobulk_rmse_hi": 0.39784728214144705,
+          "pseudobulk_rmse_de_lo": 0.4773565597832203,
+          "pseudobulk_rmse_de_hi": 0.5965301558375359,
+          "delta_pcc_lo": 0.25588210412372014,
+          "delta_pcc_hi": 0.3972351567133975
+        },
+        "mean": {
+          "cell_rmse_all": 0.6574283242225647,
+          "cell_rmse_de": 0.9057329893112183,
+          "pseudobulk_rmse": 0.3267713487148285,
+          "pseudobulk_rmse_de": 0.5417875051498413,
+          "delta_pcc": 0.008304448789126648,
+          "macro_gene_pcc": -0.03813272857921545,
+          "e_distance": 5.732017517089844,
+          "pseudobulk_rmse_lo": 0.27039400339126585,
+          "pseudobulk_rmse_hi": 0.37084868475794797,
+          "pseudobulk_rmse_de_lo": 0.4790201157331467,
+          "pseudobulk_rmse_de_hi": 0.6003196433186531,
+          "delta_pcc_lo": -0.007088600246773105,
+          "delta_pcc_hi": 0.02747204107529929
+        }
+      }
+    },
+    "ood_neuro": {
+      "n_cells": 5912,
+      "n_pert_groups": 84,
+      "de_variance_share": 0.2572835087776184,
+      "models": {
+        "compositional_twin": {
+          "cell_rmse_all": 0.6030817454042998,
+          "cell_rmse_de": 0.8113852659995465,
+          "pseudobulk_rmse": 0.13026859899638918,
+          "pseudobulk_rmse_de": 0.17609479191439245,
+          "delta_pcc": 0.6654459865951565,
+          "macro_gene_pcc": 0.8057477153254347,
+          "e_distance": 2.466081571478865,
+          "pseudobulk_rmse_lo": 0.12132089562042758,
+          "pseudobulk_rmse_hi": 0.13993911311255963,
+          "pseudobulk_rmse_de_lo": 0.1629633047883703,
+          "pseudobulk_rmse_de_hi": 0.19210873339090642,
+          "delta_pcc_lo": 0.6241112821502081,
+          "delta_pcc_hi": 0.7068164921744677
+        },
+        "compositional_interaction_twin": {
+          "cell_rmse_all": 0.6030817454042998,
+          "cell_rmse_de": 0.8113852659995465,
+          "pseudobulk_rmse": 0.13026859899638918,
+          "pseudobulk_rmse_de": 0.17609479191439245,
+          "delta_pcc": 0.6654459865951565,
+          "macro_gene_pcc": 0.8057477153254347,
+          "e_distance": 2.707955786599083,
+          "pseudobulk_rmse_lo": 0.12098605319772969,
+          "pseudobulk_rmse_hi": 0.1385891596007638,
+          "pseudobulk_rmse_de_lo": 0.1630919214741216,
+          "pseudobulk_rmse_de_hi": 0.18986922510324866,
+          "delta_pcc_lo": 0.6293473838961455,
+          "delta_pcc_hi": 0.7013403094023192
+        },
+        "virtual_twin": {
+          "cell_rmse_all": 0.6007277305457199,
+          "cell_rmse_de": 0.8077040919010516,
+          "pseudobulk_rmse": 0.1200863422732666,
+          "pseudobulk_rmse_de": 0.1574256265426947,
+          "delta_pcc": 0.7079766117286895,
+          "macro_gene_pcc": 0.8224776662982334,
+          "e_distance": 2.5140153124056255,
+          "pseudobulk_rmse_lo": 0.10978622302515875,
+          "pseudobulk_rmse_hi": 0.12991126025388497,
+          "pseudobulk_rmse_de_lo": 0.14567723603716695,
+          "pseudobulk_rmse_de_hi": 0.16964744418644062,
+          "delta_pcc_lo": 0.6736311882813618,
+          "delta_pcc_hi": 0.741242799712499
+        },
+        "mlp": {
+          "cell_rmse_all": 0.599717367357945,
+          "cell_rmse_de": 0.8062996921223216,
+          "pseudobulk_rmse": 0.11570031260339372,
+          "pseudobulk_rmse_de": 0.1471114598876161,
+          "delta_pcc": 0.7205165686781173,
+          "macro_gene_pcc": 0.8242470582287273,
+          "e_distance": 2.499842168517546,
+          "pseudobulk_rmse_lo": 0.10658129041021021,
+          "pseudobulk_rmse_hi": 0.12598164546197432,
+          "pseudobulk_rmse_de_lo": 0.13476434140724383,
+          "pseudobulk_rmse_de_hi": 0.15831420575779506,
+          "delta_pcc_lo": 0.6884630508906158,
+          "delta_pcc_hi": 0.749288827648005
+        },
+        "linear": {
+          "cell_rmse_all": 0.6033497665995696,
+          "cell_rmse_de": 0.8093711864512615,
+          "pseudobulk_rmse": 0.12910293978539628,
+          "pseudobulk_rmse_de": 0.1573356370150893,
+          "delta_pcc": 0.7433154964694231,
+          "macro_gene_pcc": 0.8196755926267585,
+          "e_distance": 2.3872890706133063,
+          "pseudobulk_rmse_lo": 0.11891125995908328,
+          "pseudobulk_rmse_hi": 0.13879433163348492,
+          "pseudobulk_rmse_de_lo": 0.146603474155699,
+          "pseudobulk_rmse_de_hi": 0.16888844781551082,
+          "delta_pcc_lo": 0.711563977408132,
+          "delta_pcc_hi": 0.7782116457974328
+        },
+        "knn": {
+          "cell_rmse_all": 0.6552013754844666,
+          "cell_rmse_de": 0.8848239183425903,
+          "pseudobulk_rmse": 0.2955852448940277,
+          "pseudobulk_rmse_de": 0.39833611249923706,
+          "delta_pcc": 0.37946399990027624,
+          "macro_gene_pcc": 0.4031624455466192,
+          "e_distance": 1.3143444061279297,
+          "pseudobulk_rmse_lo": 0.2745511673390865,
+          "pseudobulk_rmse_hi": 0.32146583795547484,
+          "pseudobulk_rmse_de_lo": 0.3662791572511196,
+          "pseudobulk_rmse_de_hi": 0.4325404927134514,
+          "delta_pcc_lo": 0.33183106965193715,
+          "delta_pcc_hi": 0.42032748182390217
+        },
+        "mean": {
+          "cell_rmse_all": 0.6247231960296631,
+          "cell_rmse_de": 0.880748987197876,
+          "pseudobulk_rmse": 0.20532141625881195,
+          "pseudobulk_rmse_de": 0.36752215027809143,
+          "delta_pcc": 0.042095364057485256,
+          "macro_gene_pcc": -0.010034966586054796,
+          "e_distance": 5.486906051635742,
+          "pseudobulk_rmse_lo": 0.17811046801507474,
+          "pseudobulk_rmse_hi": 0.23383727930486203,
+          "pseudobulk_rmse_de_lo": 0.3228613391518593,
+          "pseudobulk_rmse_de_hi": 0.411250688880682,
+          "delta_pcc_lo": 0.03210073839560979,
+          "delta_pcc_hi": 0.05255913212360187
+        }
+      }
+    }
+  },
+  "readjudication": {
+    "id": {
+      "cell_rmse_all": {
+        "best_twin": "virtual_twin",
+        "twin_value": 0.5671957499741846,
+        "best_baseline_value": 0.5665177537401772,
+        "twin_wins": false,
+        "ci_disjoint": null,
+        "rel_gain_pct": -0.11967784408013256
+      },
+      "pseudobulk_rmse": {
+        "best_twin": "virtual_twin",
+        "twin_value": 0.07717506022536805,
+        "best_baseline_value": 0.06960224244028264,
+        "twin_wins": false,
+        "ci_disjoint": false,
+        "rel_gain_pct": -10.8801347766672
+      },
+      "pseudobulk_rmse_de": {
+        "best_twin": "virtual_twin",
+        "twin_value": 0.10885077272187073,
+        "best_baseline_value": 0.09789452080407703,
+        "twin_wins": false,
+        "ci_disjoint": false,
+        "rel_gain_pct": -11.191894937328716
+      },
+      "delta_pcc": {
+        "best_twin": "virtual_twin",
+        "twin_value": 0.8409236219960947,
+        "best_baseline_value": 0.8858855447149703,
+        "twin_wins": false,
+        "ci_disjoint": false,
+        "rel_gain_pct": -5.0753647507126
+      },
+      "macro_gene_pcc": {
+        "best_twin": "virtual_twin",
+        "twin_value": 0.9231609049428116,
+        "best_baseline_value": 0.9267472270968371,
+        "twin_wins": false,
+        "ci_disjoint": null,
+        "rel_gain_pct": -0.3869795393281506
+      },
+      "e_distance": {
+        "best_twin": "compositional_interaction_twin",
+        "twin_value": 2.2457231060895033,
+        "best_baseline_value": 1.1713762283325195,
+        "twin_wins": false,
+        "ci_disjoint": null,
+        "rel_gain_pct": -91.71663653157285
+      }
+    },
+    "ood_agent": {
+      "cell_rmse_all": {
+        "best_twin": "compositional_twin",
+        "twin_value": 0.5854099255897849,
+        "best_baseline_value": 0.5817372471731482,
+        "twin_wins": false,
+        "ci_disjoint": null,
+        "rel_gain_pct": -0.6313294248362815
+      },
+      "pseudobulk_rmse": {
+        "best_twin": "compositional_twin",
+        "twin_value": 0.1926678393729837,
+        "best_baseline_value": 0.17699479030982831,
+        "twin_wins": false,
+        "ci_disjoint": false,
+        "rel_gain_pct": -8.855090613525864
+      },
+      "pseudobulk_rmse_de": {
+        "best_twin": "compositional_twin",
+        "twin_value": 0.3515067167291131,
+        "best_baseline_value": 0.29377785082066676,
+        "twin_wins": false,
+        "ci_disjoint": false,
+        "rel_gain_pct": -19.65051679259722
+      },
+      "delta_pcc": {
+        "best_twin": "virtual_twin",
+        "twin_value": 0.3263648663391706,
+        "best_baseline_value": 0.4235088921507019,
+        "twin_wins": false,
+        "ci_disjoint": false,
+        "rel_gain_pct": -22.937895138122506
+      },
+      "macro_gene_pcc": {
+        "best_twin": "compositional_twin",
+        "twin_value": NaN,
+        "best_baseline_value": 0.35026215380121595,
+        "twin_wins": false,
+        "ci_disjoint": null,
+        "rel_gain_pct": NaN
+      },
+      "e_distance": {
+        "best_twin": "virtual_twin",
+        "twin_value": 4.110637820113979,
+        "best_baseline_value": 3.7814951801890437,
+        "twin_wins": false,
+        "ci_disjoint": null,
+        "rel_gain_pct": -8.704034363161105
+      }
+    },
+    "ood_action": {
+      "cell_rmse_all": {
+        "best_twin": "compositional_interaction_twin",
+        "twin_value": 0.63173915525315,
+        "best_baseline_value": 0.626501527444317,
+        "twin_wins": false,
+        "ci_disjoint": null,
+        "rel_gain_pct": -0.8360119775284339
+      },
+      "pseudobulk_rmse": {
+        "best_twin": "compositional_interaction_twin",
+        "twin_value": 0.21910210167783523,
+        "best_baseline_value": 0.19053159415603338,
+        "twin_wins": false,
+        "ci_disjoint": false,
+        "rel_gain_pct": -14.995154818472994
+      },
+      "pseudobulk_rmse_de": {
+        "best_twin": "compositional_interaction_twin",
+        "twin_value": 0.32116675471588074,
+        "best_baseline_value": 0.32545396063839255,
+        "twin_wins": true,
+        "ci_disjoint": false,
+        "rel_gain_pct": 1.3173002762363863
+      },
+      "delta_pcc": {
+        "best_twin": "virtual_twin",
+        "twin_value": 0.7081268694163022,
+        "best_baseline_value": 0.7528846342640999,
+        "twin_wins": false,
+        "ci_disjoint": false,
+        "rel_gain_pct": -5.944837064193426
+      },
+      "macro_gene_pcc": {
+        "best_twin": "compositional_twin",
+        "twin_value": 0.7514517930997988,
+        "best_baseline_value": 0.7857333027273875,
+        "twin_wins": false,
+        "ci_disjoint": null,
+        "rel_gain_pct": -4.36299562013764
+      },
+      "e_distance": {
+        "best_twin": "compositional_twin",
+        "twin_value": 1.870771586707571,
+        "best_baseline_value": 1.5966739654541016,
+        "twin_wins": false,
+        "ci_disjoint": null,
+        "rel_gain_pct": -17.166787157797412
+      }
+    },
+    "ood_neuro": {
+      "cell_rmse_all": {
+        "best_twin": "virtual_twin",
+        "twin_value": 0.6007277305457199,
+        "best_baseline_value": 0.6033497665995696,
+        "twin_wins": true,
+        "ci_disjoint": null,
+        "rel_gain_pct": 0.43457977428702416
+      },
+      "pseudobulk_rmse": {
+        "best_twin": "virtual_twin",
+        "twin_value": 0.1200863422732666,
+        "best_baseline_value": 0.12910293978539628,
+        "twin_wins": true,
+        "ci_disjoint": false,
+        "rel_gain_pct": 6.984037332625948
+      },
+      "pseudobulk_rmse_de": {
+        "best_twin": "virtual_twin",
+        "twin_value": 0.1574256265426947,
+        "best_baseline_value": 0.1573356370150893,
+        "twin_wins": false,
+        "ci_disjoint": false,
+        "rel_gain_pct": -0.05719589618262129
+      },
+      "delta_pcc": {
+        "best_twin": "virtual_twin",
+        "twin_value": 0.7079766117286895,
+        "best_baseline_value": 0.7433154964694231,
+        "twin_wins": false,
+        "ci_disjoint": false,
+        "rel_gain_pct": -4.754224129732643
+      },
+      "macro_gene_pcc": {
+        "best_twin": "virtual_twin",
+        "twin_value": 0.8224776662982334,
+        "best_baseline_value": 0.8196755926267585,
+        "twin_wins": true,
+        "ci_disjoint": null,
+        "rel_gain_pct": 0.34185154386222016
+      },
+      "e_distance": {
+        "best_twin": "compositional_twin",
+        "twin_value": 2.466081571478865,
+        "best_baseline_value": 1.3143444061279297,
+        "twin_wins": false,
+        "ci_disjoint": null,
+        "rel_gain_pct": -87.62826242354265
+      }
+    }
+  },
+  "metric_compression": {
+    "id": {
+      "old_cell_rmse_gain_pct": 5.561033128949259,
+      "new_pb_gain_pct": 65.6788566640524,
+      "new_pb_de_gain_pct": 72.40552678705954,
+      "compression_factor": 11.810549432289074
+    },
+    "ood_agent": {
+      "old_cell_rmse_gain_pct": 0.9787100593726362,
+      "new_pb_gain_pct": 8.40219105474933,
+      "new_pb_de_gain_pct": 16.35522097412691,
+      "compression_factor": 8.584964437920691
+    },
+    "ood_action": {
+      "old_cell_rmse_gain_pct": 4.704208145400473,
+      "new_pb_gain_pct": 41.6926866736076,
+      "new_pb_de_gain_pct": 39.92959277486802,
+      "compression_factor": 8.862849045991409
+    },
+    "ood_neuro": {
+      "old_cell_rmse_gain_pct": 3.421263939922379,
+      "new_pb_gain_pct": 37.121542341857165,
+      "new_pb_de_gain_pct": 57.19016203620958,
+      "compression_factor": 10.850242189352794
+    }
+  }
+}

@@ -1,0 +1,247 @@
+{
+  "prev": "experiments/20260806-benchmark.json",
+  "curr": "experiments/20260807-benchmark.json",
+  "hashes": {
+    "prev_file_sha256": "087b7cfff42c61fc65354255b919ed14a87cb1de80ef203e1fb2c2edefa6d182",
+    "curr_file_sha256": "095a18dfcae6f17694a0390c18af704bdae5006fa737cbb0b1d3e26d83f339ef",
+    "prev_results_sha256": "47f8fcd920133840eaa5c1595a11989c73ce463ef2fdfdad42f2501c3def663d",
+    "curr_results_sha256": "47f8fcd920133840eaa5c1595a11989c73ce463ef2fdfdad42f2501c3def663d",
+    "prev_calibration_sha256": "6e2b2425602b35a7047a9f35811fefa682ef278e38c6b802d1fbc9d449a1621e",
+    "curr_calibration_sha256": "938d23a4ebbbf9bc04a46ccd2ec67553c1be1c0eb84af1adb47b0676b53e127e",
+    "prev_flags_sha256": "3d1a747db6b4dd9ecd781f78e39f19166d71fa8a5071fbc1cca81ff5b783a3f1",
+    "curr_flags_sha256": "3d1a747db6b4dd9ecd781f78e39f19166d71fa8a5071fbc1cca81ff5b783a3f1"
+  },
+  "n_results_diff": 0,
+  "n_calibration_diff": 25,
+  "results_frozen": true,
+  "calibration_frozen": false,
+  "flags_frozen": true,
+  "results_diff": [],
+  "calibration_diff": [
+    {
+      "subset": "ood_action",
+      "model": "compositional_twin",
+      "metric": "ece",
+      "prev": 0.2125,
+      "curr": 0.19652270363513227,
+      "delta": -0.01597729636486772,
+      "tag": "CHANGED"
+    },
+    {
+      "subset": "ood_action",
+      "model": "compositional_twin",
+      "metric": "cov@0.5",
+      "prev": 1.0,
+      "curr": 0.948821033721503,
+      "delta": -0.05117896627849705,
+      "tag": "CHANGED"
+    },
+    {
+      "subset": "ood_action",
+      "model": "compositional_twin",
+      "metric": "cov@0.8",
+      "prev": 1.0,
+      "curr": 0.9922979920137912,
+      "delta": -0.007702007986208792,
+      "tag": "CHANGED"
+    },
+    {
+      "subset": "ood_action",
+      "model": "compositional_twin",
+      "metric": "cov@0.9",
+      "prev": 1.0,
+      "curr": 0.9967470821312975,
+      "delta": -0.0032529178687025206,
+      "tag": "CHANGED"
+    },
+    {
+      "subset": "ood_action",
+      "model": "compositional_twin",
+      "metric": "cov@0.95",
+      "prev": 1.0,
+      "curr": 0.9982247066739375,
+      "delta": -0.0017752933260625214,
+      "tag": "CHANGED"
+    },
+    {
+      "subset": "ood_action",
+      "model": "virtual_twin",
+      "metric": "ece",
+      "prev": 0.2125,
+      "curr": 0.7055417929170771,
+      "delta": 0.49304179291707706,
+      "tag": "CHANGED"
+    },
+    {
+      "subset": "ood_action",
+      "model": "virtual_twin",
+      "metric": "cov@0.5",
+      "prev": 1.0,
+      "curr": 0.040115747255840134,
+      "delta": -0.9598842527441599,
+      "tag": "CHANGED"
+    },
+    {
+      "subset": "ood_action",
+      "model": "virtual_twin",
+      "metric": "cov@0.8",
+      "prev": 1.0,
+      "curr": 0.07573952689628483,
+      "delta": -0.9242604731037152,
+      "tag": "CHANGED"
+    },
+    {
+      "subset": "ood_action",
+      "model": "virtual_twin",
+      "metric": "cov@0.9",
+      "prev": 1.0,
+      "curr": 0.0968146416760484,
+      "delta": -0.9031853583239516,
+      "tag": "CHANGED"
+    },
+    {
+      "subset": "ood_action",
+      "model": "virtual_twin",
+      "metric": "cov@0.95",
+      "prev": 1.0,
+      "curr": 0.11516291250351815,
+      "delta": -0.8848370874964818,
+      "tag": "CHANGED"
+    },
+    {
+      "subset": "ood_agent",
+      "model": "compositional_interaction_twin",
+      "metric": "ece",
+      "prev": 0.2125,
+      "curr": 0.04791817955715863,
+      "delta": -0.16458182044284136,
+      "tag": "CHANGED"
+    },
+    {
+      "subset": "ood_agent",
+      "model": "compositional_interaction_twin",
+      "metric": "cov@0.5",
+      "prev": 1.0,
+      "curr": 0.5965656388321416,
+      "delta": -0.40343436116785836,
+      "tag": "CHANGED"
+    },
+    {
+      "subset": "ood_agent",
+      "model": "compositional_interaction_twin",
+      "metric": "cov@0.8",
+      "prev": 1.0,
+      "curr": 0.8071832705566905,
+      "delta": -0.19281672944330952,
+      "tag": "CHANGED"
+    },
+    {
+      "subset": "ood_agent",
+      "model": "compositional_interaction_twin",
+      "metric": "cov@0.9",
+      "prev": 1.0,
+      "curr": 0.8654505022131427,
+      "delta": -0.13454949778685732,
+      "tag": "CHANGED"
+    },
+    {
+      "subset": "ood_agent",
+      "model": "compositional_interaction_twin",
+      "metric": "cov@0.95",
+      "prev": 1.0,
+      "curr": 0.8966256889470549,
+      "delta": -0.10337431105294514,
+      "tag": "CHANGED"
+    },
+    {
+      "subset": "ood_agent",
+      "model": "compositional_twin",
+      "metric": "ece",
+      "prev": 0.2125,
+      "curr": 0.0886690985965696,
+      "delta": -0.1238309014034304,
+      "tag": "CHANGED"
+    },
+    {
+      "subset": "ood_agent",
+      "model": "compositional_twin",
+      "metric": "cov@0.5",
+      "prev": 1.0,
+      "curr": 0.7314203747446374,
+      "delta": -0.2685796252553626,
+      "tag": "CHANGED"
+    },
+    {
+      "subset": "ood_agent",
+      "model": "compositional_twin",
+      "metric": "cov@0.8",
+      "prev": 1.0,
+      "curr": 0.8922087137172284,
+      "delta": -0.10779128628277157,
+      "tag": "CHANGED"
+    },
+    {
+      "subset": "ood_agent",
+      "model": "compositional_twin",
+      "metric": "cov@0.9",
+      "prev": 1.0,
+      "curr": 0.9293919044731018,
+      "delta": -0.07060809552689817,
+      "tag": "CHANGED"
+    },
+    {
+      "subset": "ood_agent",
+      "model": "compositional_twin",
+      "metric": "cov@0.95",
+      "prev": 1.0,
+      "curr": 0.9483445985486891,
+      "delta": -0.05165540145131087,
+      "tag": "CHANGED"
+    },
+    {
+      "subset": "ood_agent",
+      "model": "virtual_twin",
+      "metric": "ece",
+      "prev": 0.2125,
+      "curr": 0.733176923731699,
+      "delta": 0.5206769237316989,
+      "tag": "CHANGED"
+    },
+    {
+      "subset": "ood_agent",
+      "model": "virtual_twin",
+      "metric": "cov@0.5",
+      "prev": 1.0,
+      "curr": 0.026238508682328906,
+      "delta": -0.9737614913176711,
+      "tag": "CHANGED"
+    },
+    {
+      "subset": "ood_agent",
+      "model": "virtual_twin",
+      "metric": "cov@0.8",
+      "prev": 1.0,
+      "curr": 0.04949878436755192,
+      "delta": -0.950501215632448,
+      "tag": "CHANGED"
+    },
+    {
+      "subset": "ood_agent",
+      "model": "virtual_twin",
+      "metric": "cov@0.9",
+      "prev": 1.0,
+      "curr": 0.06477365828226081,
+      "delta": -0.9352263417177392,
+      "tag": "CHANGED"
+    },
+    {
+      "subset": "ood_agent",
+      "model": "virtual_twin",
+      "metric": "cov@0.95",
+      "prev": 1.0,
+      "curr": 0.0767813537410623,
+      "delta": -0.9232186462589377,
+      "tag": "CHANGED"
+    }
+  ]
+}

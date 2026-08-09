@@ -20,7 +20,7 @@
 | 5 | **GOAI bootstrap 95% CI 落盘（8/6 23:32）** | `experiments/goai_bootstrap_ci.json`（N=200，seed=42） | ✅ |
 | 6 | 官方赛题 PDF 核对 → 评测口径重写 | `code/goai_metrics.py` 4 处修正；全量数字重算 | ✅（含自我纠错，见 §3.3） |
 | 7 | RDKit Morgan 特征线（需 SMILES 映射） | `data/processed/misato_ligand_smiles.json` = `{}` **空** | 🔴 仍阻塞（需本机联网） |
-| 8 | GOAI bootstrap CI 覆盖 **MLP** | `goai_bootstrap.py` 模型列表仅 3 项，遗漏 `mlp_256_128` | 🔴 **新发现缺口** |
+| 8 | GOAI bootstrap CI 覆盖 **MLP** | `goai_bootstrap.py` 模型列表仅 3 项，遗漏 `mlp_256_128` | ✅ **已闭合**（08-08 补全 `mlp_256_128` 重跑，JSON 已含 CI） |
 
 ---
 
@@ -125,7 +125,7 @@
 
 ### 3.5 CI 缺口（诚实标注，不掩盖）
 
-- 🔴 **MLP 无 CI**：`goai_bootstrap.py` 第 90 行模型列表仅 `[compositional_twin, linear_ridge, baseline_protein_mean]`，遗漏 `mlp_256_128`。因此「Twin FC 全场最高」目前**只对 Ridge 有统计支撑，对 MLP（0.426）未验证**。修复成本 = 加一个字符串，属提交前 P0。
+- ✅ **MLP 已有 CI**（08-08 闭合）：`goai_bootstrap.py` 已补 `mlp_256_128`，重跑写回 `goai_bootstrap_ci.json`。MLP FC ΔPCC = 0.426 [0.421,0.432]；ID FC 0.544 [0.540,0.550]（追平 Twin 0.549），但 ood_action 仅 0.188 [0.179,0.199]（保持率 34.7%，全场最低）。→ 「Twin FC 全场最高」现在**对 Ridge 与 MLP 均有统计支撑**（Twin 0.446 vs MLP 0.426 区间不重叠）。
 - 🔴 **加权分无 CI**：CI 只覆盖 FC 类指标，`weighted_score` 的「三者打平」目前是点估计判断，无区间支撑。
 - 提交文档 `02_阶段性实验结果报告.md` / `04_README` 的「CI 生成中」**已于 08-06 夜间回填**（02 末行自述「CI 已跑完并回填 §3.1 与 §5」，`04_README` 经核无残留）。仅 `02` §5 末句原有「FC 维度 Twin **稳定**领先（0.446）」——**本次已按 §3.4 收窄为「ID 显著领先、OOD 不显著」**。提交文档表述现已诚实并列，不阻塞复赛答辩。
 
@@ -222,7 +222,7 @@
 
 ## 7. 下一步（按信息增益排序）
 
-1. **【P0·今晚级·5 分钟】补跑 MLP 的 bootstrap CI**：`goai_bootstrap.py` 模型列表加 `mlp_256_128` 与 `baseline_matched_control`，重跑写回 `goai_bootstrap_ci.json`。这直接决定「Twin FC 全场最高」能否成立。
+1. ~~【P0·当晚级·5 分钟】补跑 MLP 的 bootstrap CI~~ ✅ **已完成（08-08）**：`goai_bootstrap.py` 补 `mlp_256_128` 重跑，JSON 已含 MLP 全子集 95% CI，「Twin FC 全场最高」获完整统计支撑。`baseline_matched_control` 因 matched_control 实测为空（FC=0）未纳入，不阻塞初赛。
 2. **【P0·提交完整性】按 §3.4 收窄提交文档表述**：把「Twin FC 稳定领先」改为「ID 显著领先（CI 不重叠）、OOD 与线性基线不显著」，并把 §5 的「CI 生成中」替换为真值。诚实收窄不减分——被审出夸大才减分。
 3. **【最高科学价值】实现 regime / 距离检测器**：输入数据集 → 输出（非加性残差量级 ± CI，与训练分布距离）→ 自动选型并声明先验适用性。四组标定点已就位，这是把 TRIZ「条件分离」从纸面变代码的时机，也是把本周「先验只买到拟合红利」的发现变成方法的唯一路径。
 4. **酵母域补共形预测层**（硬约束③缺口）：移植 Norman 侧归一化共形，产出逐样本区间 + 覆盖率 + ECE。
@@ -242,7 +242,7 @@
 - [x] **GOAI 真实数据到手 + loader + 评测器校准（0.979 vs 锚点 0.98）+ 五模型基准**
 - [x] **GOAI bootstrap CI 落盘（FC 类，N=200）**
 - [x] **评测口径按官方 PDF 重写并全量重算（自我纠错留痕）**
-- [ ] 🔴 **MLP / matched-control 缺 CI** → 「全场最高」暂无完整统计支撑（P0，成本极低）
+- [x] ✅ **MLP CI 已补**（08-08，成本极低）。⚠️ **matched-control 仍缺 CI**：bootstrap 中 matched_control 实测 FC=0（无匹配对照样本），CI 退化为 [0,0]，属数据缺口非代码缺口，暂不阻塞初赛；复赛前补 matched-control 采样逻辑。
 - [ ] 🔴 **加权分无 CI** → 「三者打平」目前是点估计判断
 - [ ] 🔴 **GOAI 侧无预测区间 / 覆盖率 / ECE** → 硬约束③在酵母域未达标
 - [ ] 🔴 提交文档表述需按 CI 结果收窄（「稳定领先」→「ID 显著、OOD 不显著」）
@@ -264,7 +264,7 @@
 | GOAI 状态 | 🔴 数据未下发 | 🔴 数据未下发 | ✅ **数据到手 + 全链路跑通 + CI 落盘** |
 | 矛盾定性 | regime 依赖（单域推测） | regime 依赖（双域证实） | **「先验买到的是拟合红利、不是外推红利」（三域量化）** |
 | 破法进度 | 条件分离「已识别未自动化」 | 条件分离「判据可标定」 | 条件分离「**4 组标定点齐备，只差实现**」；系统级分离新增「**线性件 = 远端外推件**」 |
-| 不确定度 | 神经域 CI/ECE | 同左 | + **GOAI FC 全子集 95% CI**；同时暴露 **MLP 缺 CI、酵母域缺预测区间** 两个新缺口 |
+| 不确定度 | 神经域 CI/ECE | 同左 | + **GOAI FC 全子集 95% CI（含 MLP）**；剩余缺口：**酵母域缺预测区间**（共形层待移植） |
 | 新归纳偏置线索 | 无 | 近邻件（KNN 在 MISATO 最优） | 近邻件待在 GOAI 验证（已列 P7） |
 
 ---

@@ -1,0 +1,78 @@
+{
+  "id": {
+    "n_groups": 84,
+    "true_across_group_var": 0.04019904509186745,
+    "compositional_twin": {
+      "pred_across_group_var": 0.03468587615517114,
+      "var_ratio_vs_true": 0.8628532363369084,
+      "n_distinct_pred_rows": 84
+    },
+    "linear": {
+      "pred_across_group_var": 0.03717904627852717,
+      "var_ratio_vs_true": 0.9248738668682643,
+      "n_distinct_pred_rows": 84
+    },
+    "mean": {
+      "pred_across_group_var": 1.0234988204183004e-11,
+      "var_ratio_vs_true": 2.546077445569376e-10,
+      "n_distinct_pred_rows": 72
+    }
+  },
+  "ood_agent": {
+    "n_groups": 20,
+    "true_across_group_var": 0.03623804450035095,
+    "compositional_twin": {
+      "pred_across_group_var": 3.881521667030367e-28,
+      "var_ratio_vs_true": 1.0711178598483084e-26,
+      "n_distinct_pred_rows": 1
+    },
+    "linear": {
+      "pred_across_group_var": 0.00779331003805302,
+      "var_ratio_vs_true": 0.2150587909890542,
+      "n_distinct_pred_rows": 9
+    },
+    "mean": {
+      "pred_across_group_var": 1.0793867188940709e-10,
+      "var_ratio_vs_true": 2.9786008979695838e-09,
+      "n_distinct_pred_rows": 20
+    }
+  },
+  "ood_action": {
+    "n_groups": 48,
+    "true_across_group_var": 0.0883931964635849,
+    "compositional_twin": {
+      "pred_across_group_var": 0.08862943169722286,
+      "var_ratio_vs_true": 1.0026725499596032,
+      "n_distinct_pred_rows": 48
+    },
+    "linear": {
+      "pred_across_group_var": 0.07975489623566065,
+      "var_ratio_vs_true": 0.9022741503472731,
+      "n_distinct_pred_rows": 47
+    },
+    "mean": {
+      "pred_across_group_var": 4.4858766007349615e-11,
+      "var_ratio_vs_true": 5.074911622392789e-10,
+      "n_distinct_pred_rows": 44
+    }
+  },
+  "ood_neuro": {
+    "n_groups": 84,
+    "true_across_group_var": 0.037616461515426636,
+    "compositional_twin": {
+      "pred_across_group_var": 0.03468587615517112,
+      "var_ratio_vs_true": 0.9220930081620338,
+      "n_distinct_pred_rows": 84
+    },
+    "linear": {
+      "pred_across_group_var": 0.03717904627852718,
+      "var_ratio_vs_true": 0.9883717069794014,
+      "n_distinct_pred_rows": 84
+    },
+    "mean": {
+      "pred_across_group_var": 4.470364182995734e-12,
+      "var_ratio_vs_true": 1.1884063526715353e-10,
+      "n_distinct_pred_rows": 58
+    }
+  }
+}

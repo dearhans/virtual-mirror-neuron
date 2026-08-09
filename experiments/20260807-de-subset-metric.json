@@ -1,0 +1,276 @@
+{
+  "topk": 20,
+  "seed": 0,
+  "subsets": {
+    "id": {
+      "n_cells": 11953,
+      "n_pert_groups": 84,
+      "de_gene_idx": [
+        13,
+        58,
+        106,
+        180,
+        190,
+        67,
+        68,
+        107,
+        109,
+        167,
+        222,
+        104,
+        145,
+        112,
+        114,
+        20,
+        122,
+        119,
+        141,
+        115
+      ],
+      "de_variance_share": 0.23871543587169156,
+      "models": {
+        "mean": {
+          "cell_rmse_all": 0.599877119064331,
+          "cell_rmse_de": 0.8624554872512817,
+          "pseudobulk_rmse": 0.20279696976997627,
+          "pseudobulk_rmse_de": 0.3547613194428131,
+          "delta_pcc": 0.014362865467775801,
+          "macro_gene_pcc": -0.025575338495858545,
+          "e_distance": 5.295519828796387,
+          "pseudobulk_rmse_lo": 0.1763951249803334,
+          "pseudobulk_rmse_hi": 0.23582838585336413,
+          "pseudobulk_rmse_de_lo": 0.31004713623879826,
+          "pseudobulk_rmse_de_hi": 0.4091834998184353,
+          "delta_pcc_lo": 0.004753713264750379,
+          "delta_pcc_hi": 0.023954758868686556
+        },
+        "linear": {
+          "cell_rmse_all": 0.5673377483191911,
+          "cell_rmse_de": 0.7842054880252017,
+          "pseudobulk_rmse": 0.07450890109362313,
+          "pseudobulk_rmse_de": 0.10698520103912149,
+          "delta_pcc": 0.8800086568540508,
+          "macro_gene_pcc": 0.9173255468837321,
+          "e_distance": 2.31690425376423,
+          "pseudobulk_rmse_lo": 0.066877438053598,
+          "pseudobulk_rmse_hi": 0.08217695210255074,
+          "pseudobulk_rmse_de_lo": 0.0965582317582407,
+          "pseudobulk_rmse_de_hi": 0.11690078191801925,
+          "delta_pcc_lo": 0.8557818969227066,
+          "delta_pcc_hi": 0.9017921430647768
+        }
+      }
+    },
+    "ood_agent": {
+      "n_cells": 11748,
+      "n_pert_groups": 20,
+      "de_gene_idx": [
+        13,
+        58,
+        35,
+        180,
+        190,
+        107,
+        104,
+        177,
+        67,
+        48,
+        123,
+        116,
+        161,
+        114,
+        119,
+        109,
+        68,
+        10,
+        20,
+        163
+      ],
+      "de_variance_share": 0.25908516031115497,
+      "models": {
+        "mean": {
+          "cell_rmse_all": 0.5874870419502258,
+          "cell_rmse_de": 0.8179638981819153,
+          "pseudobulk_rmse": 0.19323036388426365,
+          "pseudobulk_rmse_de": 0.3512207988519288,
+          "delta_pcc": -0.009539936101486757,
+          "macro_gene_pcc": -0.018507690627545693,
+          "e_distance": 5.1158246994018555,
+          "pseudobulk_rmse_lo": 0.133241138921726,
+          "pseudobulk_rmse_hi": 0.2765471192345042,
+          "pseudobulk_rmse_de_lo": 0.27851352333342333,
+          "pseudobulk_rmse_de_hi": 0.42405027065846407,
+          "delta_pcc_lo": -0.03507290320044508,
+          "delta_pcc_hi": 0.019735873126277854
+        },
+        "linear": {
+          "cell_rmse_all": 0.578436379798599,
+          "cell_rmse_de": 0.7794805503891561,
+          "pseudobulk_rmse": 0.16850105294239257,
+          "pseudobulk_rmse_de": 0.26452796118429417,
+          "delta_pcc": 0.5638576136335428,
+          "macro_gene_pcc": 0.43615772507016215,
+          "e_distance": 3.0605663007931216,
+          "pseudobulk_rmse_lo": 0.09338205242260911,
+          "pseudobulk_rmse_hi": 0.2657647756678573,
+          "pseudobulk_rmse_de_lo": 0.1840532477291595,
+          "pseudobulk_rmse_de_hi": 0.3589222772222804,
+          "delta_pcc_lo": 0.376413999368995,
+          "delta_pcc_hi": 0.742836636086782
+        }
+      }
+    },
+    "ood_action": {
+      "n_cells": 14212,
+      "n_pert_groups": 48,
+      "de_gene_idx": [
+        13,
+        58,
+        180,
+        190,
+        107,
+        109,
+        68,
+        67,
+        167,
+        222,
+        145,
+        115,
+        163,
+        119,
+        112,
+        114,
+        104,
+        48,
+        161,
+        123
+      ],
+      "de_variance_share": 0.2348032200918587,
+      "models": {
+        "mean": {
+          "cell_rmse_all": 0.6574283242225647,
+          "cell_rmse_de": 0.9057329893112183,
+          "pseudobulk_rmse": 0.3267713397940914,
+          "pseudobulk_rmse_de": 0.5417875144140397,
+          "delta_pcc": 0.008304448798153724,
+          "macro_gene_pcc": -0.03813272857921545,
+          "e_distance": 5.529303550720215,
+          "pseudobulk_rmse_lo": 0.27229113745367794,
+          "pseudobulk_rmse_hi": 0.37925668695072645,
+          "pseudobulk_rmse_de_lo": 0.4756436579989382,
+          "pseudobulk_rmse_de_hi": 0.6148986513134643,
+          "delta_pcc_lo": -0.007449203137753201,
+          "delta_pcc_hi": 0.024203561781064222
+        },
+        "linear": {
+          "cell_rmse_all": 0.6175728640740252,
+          "cell_rmse_de": 0.7974123066669211,
+          "pseudobulk_rmse": 0.16104891975752644,
+          "pseudobulk_rmse_de": 0.21985694417060256,
+          "delta_pcc": 0.8653247651325492,
+          "macro_gene_pcc": 0.8298367463037433,
+          "e_distance": 2.223466100370146,
+          "pseudobulk_rmse_lo": 0.13573213108534202,
+          "pseudobulk_rmse_hi": 0.1838826414446537,
+          "pseudobulk_rmse_de_lo": 0.1943144731043874,
+          "pseudobulk_rmse_de_hi": 0.24842140559837106,
+          "delta_pcc_lo": 0.8314904506998775,
+          "delta_pcc_hi": 0.8972965247837074
+        }
+      }
+    },
+    "ood_neuro": {
+      "n_cells": 5912,
+      "n_pert_groups": 84,
+      "de_gene_idx": [
+        13,
+        58,
+        106,
+        190,
+        180,
+        104,
+        107,
+        68,
+        67,
+        20,
+        109,
+        167,
+        163,
+        141,
+        145,
+        222,
+        114,
+        112,
+        122,
+        126
+      ],
+      "de_variance_share": 0.25728349325976746,
+      "models": {
+        "mean": {
+          "cell_rmse_all": 0.6247231960296631,
+          "cell_rmse_de": 0.880748987197876,
+          "pseudobulk_rmse": 0.2053214126340002,
+          "pseudobulk_rmse_de": 0.3675221623685119,
+          "delta_pcc": 0.0420953640657523,
+          "macro_gene_pcc": -0.0100349665860548,
+          "e_distance": 5.73956298828125,
+          "pseudobulk_rmse_lo": 0.17666851105414455,
+          "pseudobulk_rmse_hi": 0.23917479732564842,
+          "pseudobulk_rmse_de_lo": 0.3270415570613918,
+          "pseudobulk_rmse_de_hi": 0.415273720822343,
+          "delta_pcc_lo": 0.03137613189984383,
+          "delta_pcc_hi": 0.05197374527349193
+        },
+        "linear": {
+          "cell_rmse_all": 0.604182176056193,
+          "cell_rmse_de": 0.8107634889546255,
+          "pseudobulk_rmse": 0.13003920182387435,
+          "pseudobulk_rmse_de": 0.1605400496226046,
+          "delta_pcc": 0.7388618180638385,
+          "macro_gene_pcc": 0.8121347003074032,
+          "e_distance": 2.5100507101819254,
+          "pseudobulk_rmse_lo": 0.1201264505388607,
+          "pseudobulk_rmse_hi": 0.14067706537089542,
+          "pseudobulk_rmse_de_lo": 0.14824535708474182,
+          "pseudobulk_rmse_de_hi": 0.17114378407181946,
+          "delta_pcc_lo": 0.70436853140249,
+          "delta_pcc_hi": 0.7712838500262973
+        }
+      }
+    }
+  },
+  "discriminability_linear_vs_mean": {
+    "id": {
+      "cell_rmse_all_gain_pct": 5.42433937068541,
+      "cell_rmse_de_gain_pct": 9.072931923184736,
+      "pseudobulk_rmse_gain_pct": 63.25936172609713,
+      "pseudobulk_rmse_de_gain_pct": 69.84304793793414,
+      "delta_pcc_abs_gain": 0.8656457913862751,
+      "e_distance_gain_pct": 56.24784103035193
+    },
+    "ood_agent": {
+      "cell_rmse_all_gain_pct": 1.5405722178283674,
+      "cell_rmse_de_gain_pct": 4.704773386490034,
+      "pseudobulk_rmse_gain_pct": 12.797839037700534,
+      "pseudobulk_rmse_de_gain_pct": 24.68328696677883,
+      "delta_pcc_abs_gain": 0.5733975497350295,
+      "e_distance_gain_pct": 40.17452745886769
+    },
+    "ood_action": {
+      "cell_rmse_all_gain_pct": 6.062327812795432,
+      "cell_rmse_de_gain_pct": 11.959449851403964,
+      "pseudobulk_rmse_gain_pct": 50.715102536529585,
+      "pseudobulk_rmse_de_gain_pct": 59.42007921530182,
+      "delta_pcc_abs_gain": 0.8570203163343955,
+      "e_distance_gain_pct": 59.78759205432788
+    },
+    "ood_neuro": {
+      "cell_rmse_all_gain_pct": 3.288019414680867,
+      "cell_rmse_de_gain_pct": 7.946134399303831,
+      "pseudobulk_rmse_gain_pct": 36.665542986654614,
+      "pseudobulk_rmse_de_gain_pct": 56.31826701606304,
+      "delta_pcc_abs_gain": 0.6967664539980862,
+      "e_distance_gain_pct": 56.26756400606073
+    }
+  }
+}

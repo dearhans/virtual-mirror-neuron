@@ -10,6 +10,8 @@ from data.goai_loader import build_dataset
 from goai_metrics import evaluate
 from goai_benchmark import get_baseline_preds
 from sklearn.linear_model import Ridge
+from sklearn.neural_network import MLPRegressor
+from sklearn.preprocessing import StandardScaler
 from goai_compositional_twin import GoaiCompositionalTwin
 
 CACHE = "data/processed/goai_cache.npz"
@@ -51,6 +53,16 @@ def main():
     pd_ct = ct.predict_delta(d["meta"][:, 1], np.argmax(X[:, :Dc], axis=1), X[:, Dc:Dc + Dctx])
     models["compositional_twin"] = (Y_ctrl + pd_ct, pd_ct)
 
+    # ---- MLP (256,128) — 黑箱对照（与 goai_benchmark.py 同构，补齐 P0 CI 缺口）----
+    scaler = StandardScaler()
+    X_scaled = scaler.fit_transform(X)
+    mlp = MLPRegressor(hidden_layer_sizes=(256, 128), max_iter=200,
+                       early_stopping=True, validation_fraction=0.1,
+                       random_state=0, verbose=False)
+    mlp.fit(X_scaled[train], Y_imp[train])
+    pred_delta_mlp = mlp.predict(X_scaled)
+    models["mlp_256_128"] = (Y_ctrl + pred_delta_mlp, pred_delta_mlp)
+
     # ---- Bootstrap ----
     rng = np.random.default_rng(SEED)
     all_ci = {}
@@ -87,7 +99,7 @@ def main():
     LABEL = {"id": "记忆(ID)", "ood_action": "OOD-化合物", "ood_agent": "OOD-菌株",
              "ood_s3": "OOD-双未知", "ood_time": "OOD-时间"}
     print("\n=== 两栏：记忆 vs 机制泛化（FC PCC [95% CI]）===")
-    for name in ["compositional_twin", "linear_ridge", "baseline_protein_mean"]:
+    for name in ["compositional_twin", "mlp_256_128", "linear_ridge", "protein_mean"]:
         ci = all_ci.get(name, {})
         print(f"\n  {name}:")
         for s in SUBSETS:
