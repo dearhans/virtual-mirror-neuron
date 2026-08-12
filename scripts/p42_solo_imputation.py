@@ -180,18 +180,25 @@ def main(argv=None):
                      ("ECE=%.4f%s" % (e["ece"], " SATURATED" if e.get("saturated") else "")) if "ece" in e else ""),
                   flush=True)
 
-    # ---- 臂 A 复现核验：必须与当周基准 compositional_twin 一致（容差 1e-6）----
+    # ---- 臂 A 复现核验：必须与当周基准 compositional_twin 一致（容差 1e-9）----
+    # 口径对齐（重要）：benchmark_ood.evaluate_predictor 报出的 results[*]["rmse"]
+    # 是 bootstrap_ci 返回的 **bootstrap 均值**（rmse_mean），不是点估计。
+    # 因此这里必须用 armA 的 rmse_boot_mean 去比，用点估计比会产生 ~1e-4 的假性失配。
     check = {"performed": False}
     if ref.get("results"):
-        deltas = {}
+        deltas, deltas_point = {}, {}
         ok = True
         for s in SUBSETS:
             r = ref["results"].get(s, {}).get("compositional_twin", {})
             if "rmse" in r and s in out["subsets"]:
-                dd = float(out["subsets"][s]["armA_compositional_twin_P1"]["rmse"]) - float(r["rmse"])
+                arm = out["subsets"][s]["armA_compositional_twin_P1"]
+                dd = float(arm["rmse_boot_mean"]) - float(r["rmse"])
                 deltas[s] = dd
-                ok = ok and abs(dd) < 1e-6
-        check = {"performed": True, "armA_matches_canonical": bool(ok), "deltas": deltas}
+                deltas_point[s] = float(arm["rmse"]) - float(r["rmse"])
+                ok = ok and abs(dd) < 1e-9
+        check = {"performed": True, "armA_matches_canonical": bool(ok),
+                 "compare_key": "rmse_boot_mean_vs_canonical_rmse", "tol": 1e-9,
+                 "deltas": deltas, "deltas_point_estimate_for_reference": deltas_point}
         print(f"[p42] 臂A复现核验: {check}", flush=True)
     out["arm_a_reproduction_check"] = check
 

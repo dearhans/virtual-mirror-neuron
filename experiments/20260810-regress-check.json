@@ -1,0 +1,21 @@
+{
+  "prev": "experiments/20260809-benchmark.json",
+  "curr": "experiments/20260810-benchmark.json",
+  "hashes": {
+    "prev_file_sha256": "f9b54ee464708f7cde5e2fe09ab46189d492825e17cbd0d0a7134fa9370d1879",
+    "curr_file_sha256": "b8c2e3b57923731ca1ef6607467012430648bb8a8677bb1c63848c7a45f6826a",
+    "prev_results_sha256": "47f8fcd920133840eaa5c1595a11989c73ce463ef2fdfdad42f2501c3def663d",
+    "curr_results_sha256": "47f8fcd920133840eaa5c1595a11989c73ce463ef2fdfdad42f2501c3def663d",
+    "prev_calibration_sha256": "938d23a4ebbbf9bc04a46ccd2ec67553c1be1c0eb84af1adb47b0676b53e127e",
+    "curr_calibration_sha256": "938d23a4ebbbf9bc04a46ccd2ec67553c1be1c0eb84af1adb47b0676b53e127e",
+    "prev_flags_sha256": "3d1a747db6b4dd9ecd781f78e39f19166d71fa8a5071fbc1cca81ff5b783a3f1",
+    "curr_flags_sha256": "3d1a747db6b4dd9ecd781f78e39f19166d71fa8a5071fbc1cca81ff5b783a3f1"
+  },
+  "n_results_diff": 0,
+  "n_calibration_diff": 0,
+  "results_frozen": true,
+  "calibration_frozen": true,
+  "flags_frozen": true,
+  "results_diff": [],
+  "calibration_diff": []
+}

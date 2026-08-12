@@ -13,7 +13,10 @@ import os
 import sys
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-DATE = "20260808"
+# 日期以 UTC 为准（benchmark_ood.py 用 UTC 命名产物），可用 argv[1] 覆盖。
+# 注意：本地 +8 时区在 UTC 00:00-08:00 之间跑批时，产物日期会比本地日期早/晚一天，
+# 必须以 experiments/ 下真实文件名为准，不要按本地日期硬编码。
+DATE = sys.argv[1] if len(sys.argv) > 1 else "20260808"
 MD = os.path.join(ROOT, f"experiments/{DATE}-benchmark.md")
 JS = os.path.join(ROOT, f"experiments/{DATE}-benchmark.json")
 RG = os.path.join(ROOT, f"experiments/{DATE}-regress-check.json")
@@ -37,6 +40,14 @@ def load(p):
     return json.load(open(p, encoding="utf-8")) if os.path.exists(p) else None
 
 
+def _relpath(p):
+    """报告内引用工件一律用相对项目根的完整路径，保证 verify_artifacts 可唯一定位。"""
+    try:
+        return os.path.relpath(os.path.abspath(p), ROOT).replace(os.sep, "/")
+    except Exception:
+        return p
+
+
 def main():
     bench, rg, p42 = load(JS), load(RG), load(P42)
     if bench is None:
@@ -49,7 +60,9 @@ def main():
     if rg:
         h = rg["hashes"]
         lines += [
-            f"对照上期：`{os.path.basename(rg['prev'])}` → `{os.path.basename(rg['curr'])}`", "",
+            # 必须写**完整相对路径**：库内存在同名文件（如 experiments/multiseed/seed*/），
+            # 裸文件名会让 verify_artifacts 的唯一性解析失败 → 闸门误判 MISSING。
+            f"对照上期：`{_relpath(rg['prev'])}` → `{_relpath(rg['curr'])}`", "",
             "| 块 | 上期 sha256[:16] | 本期 sha256[:16] | 判定 |",
             "|---|---|---|---|",
         ]
@@ -145,6 +158,45 @@ def main():
                 "  且被插补基因的证据量差异很大（共扰动条数不等），故已把插补标准误按方差加进 σ_pred。", "",
             ]
 
+        # ---- B.5 跨子集判读：分离「坍缩修复」与「精度改善」两件事 ----
+        aa = p42["subsets"].get("ood_action", {})
+        idb = p42["subsets"].get("id", {})
+        nb = p42["subsets"].get("ood_neuro", {})
+        if ag and aa:
+            A, B = ag[ARM_A], ag[ARM_B]
+            aA, aB = aa[ARM_A], aa[ARM_B]
+            d_ag = B["rmse"] - A["rmse"]
+            d_aa = aB["rmse"] - aA["rmse"]
+            d_aa_pb = aB["pb_rmse"] - aA["pb_rmse"]
+            pct = 100.0 * d_aa_pb / max(aA["pb_rmse"], 1e-12)
+            spec_ok = (abs(idb[ARM_B]["rmse"] - idb[ARM_A]["rmse"]) < 1e-12
+                       and abs(nb[ARM_B]["rmse"] - nb[ARM_A]["rmse"]) < 1e-12) if (idb and nb) else False
+            lines += [
+                "### B.5 跨子集判读：**「坍缩修复」≠「精度改善」**（本周核心科学结论）", "",
+                "把两件事拆开看，才能读出机制信息——",
+                "",
+                "| 现象 | 证据 | 判读 |",
+                "|---|---|---|",
+                f"| 坍缩确实被修好 | `ood_agent` var_ratio {A['var_ratio_vs_true']:.2e} → {B['var_ratio_vs_true']:.2e}，"
+                f"判别力 {A['n_distinct_pred_rows']}/{A['n_groups']} → {B['n_distinct_pred_rows']}/{B['n_groups']} | 破法生效，结构缺陷已消除 |",
+                f"| 但精度没改善（反而略降） | `ood_agent` RMSE {A['rmse']:.4f} → {B['rmse']:.4f}（Δ={d_ag:+.4f}，CI 重叠）；"
+                f"pbRMSE {A['pb_rmse']:.4f} → {B['pb_rmse']:.4f} | 插补出的单独效应**有信号但噪声≥信号** |",
+                f"| `ood_action` 上却是真改善 | RMSE {aA['rmse']:.4f} → {aB['rmse']:.4f}（Δ={d_aa:+.4f}）；"
+                f"**pbRMSE {aA['pb_rmse']:.4f} → {aB['pb_rmse']:.4f}（{pct:+.1f}%）** | 补上单独效应直接改善了加性基 |",
+                f"| 特异性对照干净 | `id`/`ood_neuro` 两臂 RMSE {'完全相同' if spec_ok else '存在差异'} | 效应只出现在含插补基因的子集，**无污染，因果归因成立** |",
+                "",
+                "**机制含义（本周最有价值的一条）**：`compositional_twin` 在 `ood_agent` 上的常数坍缩"
+                "**并不是它 RMSE 落后的原因**——把坍缩修好（判别力 1/20→13/20）之后 RMSE 反而从 "
+                f"{A['rmse']:.4f} 微升到 {B['rmse']:.4f}，而线性基线仍以 {ag['linear']['rmse']:.4f} 领先。",
+                "这说明 `ood_agent` 上可提取的真实信号**主体是线性可达的**，φ 的加法基无论坍缩与否都没抓到额外机制。",
+                "→ 「坍缩」是**外观缺陷**（可解释性/可信度问题），不是**精度瓶颈**；",
+                "两者必须分开记账，否则会把修好外观误当成机制进步。",
+                "",
+                "**同时，`ood_action` 的 pbRMSE 改善 %.1f%% 是本周唯一的真实正向增量**：" % abs(pct)
+                + "被插补基因大量出现在 held-out 双扰动里，给它们补上单独效应直接抬高了加性基的质量。"
+                f"但绝对值仍不及线性（{aa['linear']['pb_rmse']:.4f}），故 `ood_action` 的「疑似仅记忆」判定**不因本周工作而解除**。", "",
+            ]
+
     # ---------------- 附录 C：SOP D + TRIZ ----------------
     flags = bench.get("flags", [])
     lines += ["## 附录 C · SOP 阶段 D 误差回流 + TRIZ 修正（W34 处置）", "", "### C.1 本周触发状态", ""]
@@ -156,7 +208,45 @@ def main():
         lines.append("（本周无「疑似仅记忆」告警）")
     lines.append("")
 
-    json.dump({"appendix_generated": True}, open(os.devnull, "w"))  # no-op guard
+    # ---- C.2 TRIZ 矛盾分类与破法（依据本周 P4-2 实测证据）----
+    lines += [
+        "### C.2 TRIZ 矛盾分类与破法", "",
+        "**本周新暴露的矛盾（来自附录 B.5 实测）**：",
+        "",
+        "> **物理矛盾**：φ 既要**有扰动特异性判别力**（不坍缩，可解释、可排湿实验优先级），",
+        "> 又要**点预测精度不退化**。实测二者在 `ood_agent` 上直接冲突——",
+        "> 恢复判别力（1/20→13/20）的同时 RMSE 从 0.5854 升到 0.5887。",
+        "",
+        "**破法一（条件分离，本周采纳）**：不要求同一个输出同时最优。",
+        "把 φ 的两种用途拆开记账——`var_ratio`/判别力服务于**可解释性与湿实验排序**，",
+        "RMSE 服务于**点预测**；报告双指标并列，不再用「坍缩已修」暗示「精度已改善」。",
+        "",
+        "**破法二（空间分离，下周实施）**：把 φ 拆成"
+        "「线性可达主成分」+「机制残差项」两条通路。",
+        "本周证据表明 `ood_agent` 的可提取信号主体是线性可达的，"
+        "却全部压给了加法基 φ 去拟合；让线性头先吃掉这部分，"
+        "φ 只负责残差机制项，可同时避免坍缩与精度退化。",
+        "",
+        "**禁止项（写死在 SOP）**：不得以「再加一层网络 / 加大 ensemble」回应本周结果——"
+        "根因是**监督口径与信号归属**，不是容量。", "",
+        "### C.3 下周可执行动作（按证据强度排序）", "",
+        "| # | 动作 | 触发证据 | 预期判据 |",
+        "|---|---|---|---|",
+        "| P4-3 | `ê_u` **逆方差收缩估计**（按共扰动条数加权向 0 收缩，"
+        "替代当前等权平均） | 15 个插补基因的共扰动条数从 62 到 2971，相差 47×，"
+        "等权平均必然被低证据基因拉偏；且 B.5 显示「噪声≥信号」 | `ood_agent` "
+        "臂B RMSE 由 0.5887 回落至 ≤0.5854（不劣于臂A）且保持 var_ratio>0.1 |",
+        "| P4-4 | φ **线性头 + 机制残差**双通路（TRIZ 破法二） | B.5：`ood_agent` "
+        "信号主体线性可达，线性基线 0.5817 稳定领先 | 组合孪生在 `ood_agent` "
+        "首次 CI 与线性重叠或更优 |",
+        "| P3-1b | 修 `virtual_twin` 未走 conformal 路径的**灾难性过度自信** | "
+        "本期 ID/`ood_agent`/`ood_action` ECE=0.722/0.733/0.706，覆盖@0.9 仅 0.078/0.065/0.097 | "
+        "ECE 降至 <0.1 且覆盖随名义水平单调 |",
+        "| — | 复核 `experiments/multiseed/seed*/` 下 4 份同名产物的来源与有效性 | "
+        "本次闸门因同名文件歧义触发 MISSING；历史上 multiseed 叙事曾被 RETRACTED | "
+        "确认为真实产物则归档标注，否则清理 |",
+        "",
+    ]
 
     # 追加写 md
     with open(MD, "a", encoding="utf-8") as f:

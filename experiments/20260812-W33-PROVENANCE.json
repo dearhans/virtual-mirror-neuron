@@ -1,0 +1,189 @@
+{
+ "generated_at": "2026-08-12T10:17:01+08:00",
+ "root": "C:\\Users\\cc\\WorkBuddy\\2026-07-31-18-03-27",
+ "sources": [
+  "WEEKLY-2026-W33.md",
+  "wetlab/2026-W33.md",
+  "experiments/20260810-p43-shrinkage.json"
+ ],
+ "n_claimed": 25,
+ "n_missing": 0,
+ "verdict": "PASS",
+ "artifacts": [
+  {
+   "path": "experiments/20260810-benchmark.json",
+   "status": "PASS",
+   "resolved_as": null,
+   "bytes": 43814,
+   "sha256_16": "a78f8dfdad0f823f"
+  },
+  {
+   "path": "experiments/20260810-p43-shrinkage.json",
+   "status": "PASS",
+   "resolved_as": null,
+   "bytes": 30760,
+   "sha256_16": "2a5f41b2df043bf0"
+  },
+  {
+   "path": "wetlab/2026-W33.md",
+   "status": "PASS",
+   "resolved_as": null,
+   "bytes": 25826,
+   "sha256_16": "2d9f16248c441ba4"
+  },
+  {
+   "path": "20260810-benchmark.json",
+   "status": "PASS*",
+   "resolved_as": "experiments/20260810-benchmark.json",
+   "bytes": 43814,
+   "sha256_16": "a78f8dfdad0f823f"
+  },
+  {
+   "path": "20260809-benchmark.json",
+   "status": "PASS*",
+   "resolved_as": "experiments/20260809-benchmark.json",
+   "bytes": 64010,
+   "sha256_16": "f9b54ee464708f7c"
+  },
+  {
+   "path": "20260810-regress-check.json",
+   "status": "PASS*",
+   "resolved_as": "experiments/20260810-regress-check.json",
+   "bytes": 1074,
+   "sha256_16": "0772d8331f58c83a"
+  },
+  {
+   "path": "code/model/compositional_p43.py",
+   "status": "PASS",
+   "resolved_as": null,
+   "bytes": 8318,
+   "sha256_16": "4c2e0659a0b459d7"
+  },
+  {
+   "path": "w35_benchmark_run.log",
+   "status": "PASS*",
+   "resolved_as": "experiments/w35_benchmark_run.log",
+   "bytes": 839,
+   "sha256_16": "08136759807ccd92"
+  },
+  {
+   "path": "20260810-p43-shrinkage.json",
+   "status": "PASS*",
+   "resolved_as": "experiments/20260810-p43-shrinkage.json",
+   "bytes": 30760,
+   "sha256_16": "2a5f41b2df043bf0"
+  },
+  {
+   "path": "w35_p43_run.log",
+   "status": "PASS*",
+   "resolved_as": "experiments/w35_p43_run.log",
+   "bytes": 3598,
+   "sha256_16": "13bf9d3a2f486a4c"
+  },
+  {
+   "path": "benchmark_ood.py",
+   "status": "PASS*",
+   "resolved_as": "code/benchmark_ood.py",
+   "bytes": 47138,
+   "sha256_16": "3be4fca15b04b721"
+  },
+  {
+   "path": "experiments/20260807-RETRACTION-w32-multiseed-recalibration.md",
+   "status": "PASS",
+   "resolved_as": null,
+   "bytes": 9386,
+   "sha256_16": "51da638424cddae2"
+  },
+  {
+   "path": "experiments/20260810-benchmark.md",
+   "status": "PASS",
+   "resolved_as": null,
+   "bytes": 14982,
+   "sha256_16": "f55cee9fa2000da6"
+  },
+  {
+   "path": "experiments/w35_p43_run.log",
+   "status": "PASS",
+   "resolved_as": null,
+   "bytes": 3598,
+   "sha256_16": "13bf9d3a2f486a4c"
+  },
+  {
+   "path": "experiments/20260810-regress-check.json",
+   "status": "PASS",
+   "resolved_as": null,
+   "bytes": 1074,
+   "sha256_16": "0772d8331f58c83a"
+  },
+  {
+   "path": "experiments/20260810-PROVENANCE.json",
+   "status": "PASS",
+   "resolved_as": null,
+   "bytes": 2282,
+   "sha256_16": "6e1b739517c27339"
+  },
+  {
+   "path": "experiments/20260809-benchmark.json",
+   "status": "PASS",
+   "resolved_as": null,
+   "bytes": 64010,
+   "sha256_16": "f9b54ee464708f7c"
+  },
+  {
+   "path": "scripts/p43_shrinkage.py",
+   "status": "PASS",
+   "resolved_as": null,
+   "bytes": 11301,
+   "sha256_16": "8b3c745661b6aaf5"
+  },
+  {
+   "path": "scripts/regress_check.py",
+   "status": "PASS",
+   "resolved_as": null,
+   "bytes": 8135,
+   "sha256_16": "0d8fcde2025547d0"
+  },
+  {
+   "path": "configs/benchmark_ood_norman_canonical.yaml",
+   "status": "PASS",
+   "resolved_as": null,
+   "bytes": 2241,
+   "sha256_16": "a85badf6fa43a1d3"
+  },
+  {
+   "path": "data/processed/norman_cache.npz",
+   "status": "PASS",
+   "resolved_as": null,
+   "bytes": 191629995,
+   "sha256_16": "496fc5b9cacef907"
+  },
+  {
+   "path": "experiments/figures/fig1_rmse_by_subset.png",
+   "status": "PASS",
+   "resolved_as": null,
+   "bytes": 67478,
+   "sha256_16": "9fd36de9ad407487"
+  },
+  {
+   "path": "experiments/figures/fig2_calibration.png",
+   "status": "PASS",
+   "resolved_as": null,
+   "bytes": 72015,
+   "sha256_16": "067ee13fe484f6c0"
+  },
+  {
+   "path": "code/wetlab/export_protocol.py",
+   "status": "PASS",
+   "resolved_as": null,
+   "bytes": 28700,
+   "sha256_16": "f0324707ee86b748"
+  },
+  {
+   "path": "export_protocol.py",
+   "status": "PASS*",
+   "resolved_as": "code/wetlab/export_protocol.py",
+   "bytes": 28700,
+   "sha256_16": "f0324707ee86b748"
+  }
+ ]
+}

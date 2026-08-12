@@ -1,0 +1,97 @@
+{
+ "generated_at": "2026-08-11T00:21:47+08:00",
+ "root": "C:\\Users\\cc\\WorkBuddy\\2026-07-31-18-03-27",
+ "sources": [
+  "experiments/20260810-benchmark.md",
+  "experiments/20260810-benchmark.json"
+ ],
+ "n_claimed": 12,
+ "n_missing": 0,
+ "verdict": "PASS",
+ "artifacts": [
+  {
+   "path": "experiments/20260810-benchmark.json",
+   "status": "PASS",
+   "resolved_as": null,
+   "bytes": 43814,
+   "sha256_16": "a78f8dfdad0f823f"
+  },
+  {
+   "path": "scripts/regress_check.py",
+   "status": "PASS",
+   "resolved_as": null,
+   "bytes": 8135,
+   "sha256_16": "0d8fcde2025547d0"
+  },
+  {
+   "path": "experiments/20260810-regress-check.json",
+   "status": "PASS",
+   "resolved_as": null,
+   "bytes": 1074,
+   "sha256_16": "0772d8331f58c83a"
+  },
+  {
+   "path": "code/model/compositional_p43.py",
+   "status": "PASS",
+   "resolved_as": null,
+   "bytes": 8318,
+   "sha256_16": "4c2e0659a0b459d7"
+  },
+  {
+   "path": "experiments/multiseed/seed1/20260807-benchmark.json",
+   "status": "PASS",
+   "resolved_as": null,
+   "bytes": 35685,
+   "sha256_16": "753d130f69df9ba6"
+  },
+  {
+   "path": "experiments/20260810-benchmark.md",
+   "status": "PASS",
+   "resolved_as": null,
+   "bytes": 14982,
+   "sha256_16": "f55cee9fa2000da6"
+  },
+  {
+   "path": "experiments/20260810-p43-shrinkage.json",
+   "status": "PASS",
+   "resolved_as": null,
+   "bytes": 30760,
+   "sha256_16": "2a5f41b2df043bf0"
+  },
+  {
+   "path": "experiments/figures/fig1_rmse_by_subset.png",
+   "status": "PASS",
+   "resolved_as": null,
+   "bytes": 67478,
+   "sha256_16": "9fd36de9ad407487"
+  },
+  {
+   "path": "experiments/figures/fig2_calibration.png",
+   "status": "PASS",
+   "resolved_as": null,
+   "bytes": 72015,
+   "sha256_16": "067ee13fe484f6c0"
+  },
+  {
+   "path": "scripts/p43_shrinkage.py",
+   "status": "PASS",
+   "resolved_as": null,
+   "bytes": 11301,
+   "sha256_16": "8b3c745661b6aaf5"
+  },
+  {
+   "path": "configs/benchmark_ood_norman_canonical.yaml",
+   "status": "PASS",
+   "resolved_as": null,
+   "bytes": 2241,
+   "sha256_16": "a85badf6fa43a1d3"
+  },
+  {
+   "path": "data/processed/norman_cache.npz",
+   "status": "PASS",
+   "resolved_as": null,
+   "bytes": 191629995,
+   "sha256_16": "496fc5b9cacef907"
+  }
+ ]
+}
