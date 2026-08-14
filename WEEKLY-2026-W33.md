@@ -245,6 +245,8 @@ armA 在 ood_agent 上 `var_ratio = 1.07e-26`（完全坍缩为常数预测）�
 
 **P5-B spike 结果（08-14，首档，已跑）**：`P5B_ACCEPTED=false`，`best_lambda=null`，`GATE_REPRO=True`。λ∈{0.01,0.05,0.1} 三档**输出逐字节相同**（λ 零效应）；σ_epi 反方向变小（P5B/P1=0.556）；ood_action ECE 恶化（0.6112→0.6872），覆盖仍饱和。**机制诊断**：sklearn `MLPRegressor` 的 `sample_weight` 重加权**无法注入成员负相关**（负相关性学习需改损失项 `(f_m−f̄)(f̄−y)`，工具链不支持）；稀疏/OOD-like 区仅占训练极少数，密集主体主导 → 成员收敛同函数 → 低方差。概念（密度感知多样性）成立，但本实例化（sample_weight 代理）不足以实现所需 decorrelation。proper 实现需 custom 训练循环（NCL/SGLD），超出当前 numpy/sklearn-only 工具链。详见 `experiments/20260814-P5B-closure.md`。**P5-B 阴性，待用户决策 P5-A(需工具链升级)/P5-C(大概率撞路A同墙)/kill-switch 接受 R4**。
 
+**P5-B spike 结果（08-14，第二档，proper NCL）**：用户选定「投资 proper NCL 实现」→ 用 numpy-only custom 训练循环实现真正负相关性学习（绕过 sklearn 限制）。`P5B_NCL_ACCEPTED=false`，`GATE_REPRO=True`。**过程发现**：首跑批三档 λ byte-identical（λ 零效应）→ 定位为 member-agnostic 梯度 bug（NCL 项缺 member-specific 的 `(f_m−f̄)` 因子），已修复并子集验证（uniform w=1 时 λ 强改变成员多样性 3.4×）。**完整跑批（79k 行 / 120 epoch）证伪「w 权重误指定」假设**：sparse-w 与 uniform-w **同样失败且 λ 近似无效**——σ_epi 反更小（≈0.06×P1）、ECE 恶化（0.775 vs P1 0.61–0.69）、欠缩放加剧（72–109× vs 4–9×）。**根因修正为共识塌缩**：NCL 去相关项 ∝(f_m−f̄) 随成员 MSE 收敛→0，无法从塌缩集成自举多样性；子集 λ 效应是欠收敛瞬态。→ **P5-B 概念穷尽**（sample_weight + NCL 两变体均失败，结构性共识塌缩非调参可解）。详见 `experiments/20260814-P5B-NCL-closure.md`。**待决策**：P5-A(proper-Bayesian/SGLD，内禀 posterior 多样性，剩余唯一有原理希望)/P5-C(GMM 测试时门控，大概率撞路A同墙)/kill-switch 接受 R4。
+
 ---
 
 ## 4. 不确定度与校准审计（两种失效模式 + 新增 R4 闸门）
@@ -360,7 +362,7 @@ R4 筛选结果（已写入 `wetlab/2026-W33.md` §6.1）：
     退化回全局（ID 校准集新颖度不覆盖 OOD），localized 共形**结构性不可行**。
   - 估计器层：路 A 让 σ 随新颖度/σ_epi 撑大。empirical 变体因新颖度在离散特征空间为二值而退化；
     heteroscedastic 变体仅改善 ood_agent（ECE 0.14→0.07），**ood_action 仍饱和（cov 0.997>0.97）**，判据失败。
-- **状态**：**原理性未解（三路证据闭合）+ 已立新项 P5（结构性估计器方向）**。根因 = conformal i.i.d. 约束在本基准被打破的纯形式：
+- **状态**：**原理性未解（三路证据闭合）+ 已立新项 P5（结构性估计器方向）**；P5-B（sample_weight + proper-NCL 双变体）本周已双阴性，根因确认为同架构 MLP 在 MSE 下的集成共识塌缩，P5-B 概念穷尽，P5-A/SGLD 与 P5-C 待跑。根因 = conformal i.i.d. 约束在本基准被打破的纯形式：
   校准（ID）的 `|resid|/σ` 与 OOD 分布系统性不同，且无任何测试时协变量可预测该差异
   （新颖度常量、σ_epi 仅弱负相关且方向反）。校准层（P4-1）与估计器层（路 A）两条最 principled
   路径均阴性 → **唯一能修需 OOD 标注校准数据（与 OOD 定义自相矛盾）或结构性新估计器**。
@@ -392,7 +394,7 @@ R4 筛选结果（已写入 `wetlab/2026-W33.md` §6.1）：
 | ✅ 已闭环 | P4-1 localized 共形 | ood_action 覆盖@0.9 ∈[0.85,0.95] 且 ECE<0.15 | — | **阴性**：PC-3 重定位 epistemic 缺陷 |
 | ✅ 已闭环 | P3-1b virtual_twin 共形 | 覆盖@0.9 ≥ 0.80 | — | **已修**：ECE 0.71→0.14 |
 | ✅ 已闭环 | **路 A** epistemic 估计器改造（novelty/heteroscedastic 门控） | ood_action 覆盖@0.95 ∈ [0.93,0.97] 且 ECE < 0.08 | 无（P4-1 关闭校准层方向） | **阴性**：PC-3 原理性未解，三路证据闭合，R4 兜底 |
-| 🆕 **P0（新立项）** | **P5 · 结构性 epistemic 估计器**（A: proper-Bayesian / B: 密度感知注入 / C: 生成式） | ood_action 覆盖@0.95 ∈ [0.93,0.97] 且 ECE < 0.08（与路 A 同判据）；id/ood_agent/ood_neuro 不退化；GATE_REPRO=True | 路 A 阴性（PC-3 原理性未解） | **P5-B spike 阴性**（sklearn sample_weight 无法注入成员负相关；proper NCL 需 custom 训练循环，超 sklearn-only 工具链）→ P5-A 需同升级、P5-C 大概率撞路A同墙；待用户决策是否 kill-switch 接受 R4 |
+| 🆕 **P0（新立项）** | **P5 · 结构性 epistemic 估计器**（A: proper-Bayesian / B: 密度感知注入 / C: 生成式） | ood_action 覆盖@0.95 ∈ [0.93,0.97] 且 ECE < 0.08（与路 A 同判据）；id/ood_agent/ood_neuro 不退化；GATE_REPRO=True | 路 A 阴性（PC-3 原理性未解） | **P5-B 双阴性**（sample_weight + proper-NCL 均阴性；proper NCL 已用 numpy-only 实现，根因=集成共识塌缩非调参可解，P5-B 概念穷尽）→ P5-A(SGLD 内禀 posterior 多样性，剩余唯一有原理希望)/P5-C(GMM 测试时门控，大概率撞路A同墙) 待跑；待用户决策 P5-A / P5-C / kill-switch 接受 R4 |
 | **P1** | ood_agent 主指标换 pbRMSE 并重设判据 | pbRMSE 分辨率比值 > 3（现 RMSE 为 1.41） | 无 | 未启动 |
 | **P2** | 把 R4 闸门写入 `benchmark_ood.py` 自动执行 | 基准报告自动输出 R4 可用性表 | 无 | 未启动 |
 | **P3** | 湿实验 E7 → E1/E6 → E2 | 见 `wetlab/2026-W33.md` §6.5 | 湿实验资源 | 未启动 |
@@ -474,6 +476,15 @@ R4 筛选结果（已写入 `wetlab/2026-W33.md` §6.1）：
 | `references/2026-08-12-literature.md` | — | 文献监测（9 篇新精选：VCBench/U-Pert/Mechanisms Matter/CauFinder/VADER1 等） |
 | `references/2026-08-11-literature.md` | — | 文献监测（上一轮） |
 | `experiments/20260814-P5-structural-estimator-proposal.md` | — | **本周新证据槽**：P5 结构性估计器新立项提案（Einstein+TRIZ+serotonin 三框架塑形，PC-3 唯一剩余解法） |
+| `experiments/20260814-P5B-NCL-closure.md` | — | **本周新证据槽**：P5-B proper-NCL 结案（梯度 bug 修复 + 共识塌缩根因，双阴性） |
+| `code/model/compositional_p5b_ncl.py` | — | P5-B proper-NCL 模型（numpy-only custom 训练循环，member-specific 梯度） |
+| `scripts/p5b_ncl.py` | — | P5-B NCL 两臂对照 + λ 扫描 + `--w-mode {sparse,uniform}` 机制探针 |
+| `scripts/_smoke_ncl_fix.py` | — | NCL 梯度修复冒烟测试 |
+| `scripts/_diag_ncl.py` | — | NCL 三场景机制诊断（隔离 w 与 λ） |
+| `experiments/20260814-p5b-ncl-sparse.json` | — | P5-B NCL sparse-w 跑批（GATE_REPRO=True, 阴性） |
+| `experiments/20260814-p5b-ncl-uniform.json` | — | P5-B NCL uniform-w 机制探针（阴性） |
+| `experiments/w36_p5b_ncl_sparse.log` | — | sparse-w 运行日志 |
+| `experiments/w36_p5b_ncl_uniform.log` | — | uniform-w 运行日志 |
 
 > 本周报由每周五自动化（`automation-1785494084890`）生成，配套 `code/wetlab/export_protocol.py` 导出湿实验方案。
 > 所有数值可通过上表工件回溯复现。
