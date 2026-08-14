@@ -247,6 +247,8 @@ armA 在 ood_agent 上 `var_ratio = 1.07e-26`（完全坍缩为常数预测）�
 
 **P5-B spike 结果（08-14，第二档，proper NCL）**：用户选定「投资 proper NCL 实现」→ 用 numpy-only custom 训练循环实现真正负相关性学习（绕过 sklearn 限制）。`P5B_NCL_ACCEPTED=false`，`GATE_REPRO=True`。**过程发现**：首跑批三档 λ byte-identical（λ 零效应）→ 定位为 member-agnostic 梯度 bug（NCL 项缺 member-specific 的 `(f_m−f̄)` 因子），已修复并子集验证（uniform w=1 时 λ 强改变成员多样性 3.4×）。**完整跑批（79k 行 / 120 epoch）证伪「w 权重误指定」假设**：sparse-w 与 uniform-w **同样失败且 λ 近似无效**——σ_epi 反更小（≈0.06×P1）、ECE 恶化（0.775 vs P1 0.61–0.69）、欠缩放加剧（72–109× vs 4–9×）。**根因修正为共识塌缩**：NCL 去相关项 ∝(f_m−f̄) 随成员 MSE 收敛→0，无法从塌缩集成自举多样性；子集 λ 效应是欠收敛瞬态。→ **P5-B 概念穷尽**（sample_weight + NCL 两变体均失败，结构性共识塌缩非调参可解）。详见 `experiments/20260814-P5B-NCL-closure.md`。**待决策**：P5-A(proper-Bayesian/SGLD，内禀 posterior 多样性，剩余唯一有原理希望)/P5-C(GMM 测试时门控，大概率撞路A同墙)/kill-switch 接受 R4。
 
+**P5-A spike 结果（08-14，第三档，SGLD）**：用户选定「P5-A · SGLD」→ numpy-only 独立链 SGLD 后验采样（每成员独立噪声轨迹，内禀 posterior 多样性，绕过杀死 NCL 的共识塌缩）。`P5A_SGLD_ACCEPTED=false`，`GATE_REPRO=True`（P1 逐位复现，rmse 四子集 delta 全 0.0）。**结构性近胜（非阴性）**：SGLD 把 ood_action 覆盖@0.95 从 P1 灾难性 **0.245 → 0.968（落入 [0.93,0.97] 有效带）**，underscale_med ~4.6×→~0.39×（≈12× 修正趋近校准），σ_epi 放大 32–171×；**3/4 子集 ECE≤0.084（达标）**，仅最难 ood_action ECE=0.1031@T0.01 / 0.0943@T0.1（目标<0.08，毫厘未过）。**根因**：SGLD posterior 略过离散（区间偏宽）致残留 ECE，属可调和方向（温度/离散度校准），与 NCL 结构性塌缩恰成反比。**关键趋势**：T 升 0.01→0.1 时 ECE 反降（0.103→0.094）且覆盖保持入带 → 细 T 网格（0.05–0.4）+ lr/T 稳定化可能在发散前把 ECE 压到 <0.08。**T=1.0 发散（NaN，matmul overflow）**：有效温度体制窄（T≤0.1 稳定），属 lr/T 耦合失稳非机制失败。→ **PC-3 欠缩放根因被结构性修正，P5-A 是三机制中唯一入带的方案**；严格 ECE 判据未过但缺口可调，待用户决策精炼 spike / 软接受 PoC / 跑 P5-C / kill-switch。详见 `experiments/20260814-P5A-SGLD-closure.md`。
+
 ---
 
 ## 4. 不确定度与校准审计（两种失效模式 + 新增 R4 闸门）
@@ -362,7 +364,7 @@ R4 筛选结果（已写入 `wetlab/2026-W33.md` §6.1）：
     退化回全局（ID 校准集新颖度不覆盖 OOD），localized 共形**结构性不可行**。
   - 估计器层：路 A 让 σ 随新颖度/σ_epi 撑大。empirical 变体因新颖度在离散特征空间为二值而退化；
     heteroscedastic 变体仅改善 ood_agent（ECE 0.14→0.07），**ood_action 仍饱和（cov 0.997>0.97）**，判据失败。
-- **状态**：**原理性未解（三路证据闭合）+ 已立新项 P5（结构性估计器方向）**；P5-B（sample_weight + proper-NCL 双变体）本周已双阴性，根因确认为同架构 MLP 在 MSE 下的集成共识塌缩，P5-B 概念穷尽，P5-A/SGLD 与 P5-C 待跑。根因 = conformal i.i.d. 约束在本基准被打破的纯形式：
+- **状态**：**原理性未解（三路证据闭合）+ 已立新项 P5（结构性估计器方向）**；P5-B（sample_weight + proper-NCL 双变体）本周已双阴性（根因=同架构 MLP 在 MSE 下的集成共识塌缩，概念穷尽）；**P5-A·SGLD 本周跑出「结构性近胜」**——唯一把 ood_action 覆盖@0.95 送入有效带（0.245→0.968）且 underscale 修正 ≈12× 的方案，PC-3 欠缩放根因被结构性修正；严格 ECE<0.08 判据以毫厘未过（ood_action ECE 0.094–0.103，过离散残差，可调），P5-C/GMM 未跑。根因定性修正：calibration i.i.d. 约束被打破的纯形式仍在，但 SGLD 内禀 posterior 多样性证明**该纯形式可被构造期机制绕过**（σ 由后验离散度天然随预测不确定性缩放，∂σ/∂τ>0 由构造满足）：
   校准（ID）的 `|resid|/σ` 与 OOD 分布系统性不同，且无任何测试时协变量可预测该差异
   （新颖度常量、σ_epi 仅弱负相关且方向反）。校准层（P4-1）与估计器层（路 A）两条最 principled
   路径均阴性 → **唯一能修需 OOD 标注校准数据（与 OOD 定义自相矛盾）或结构性新估计器**。
@@ -394,7 +396,7 @@ R4 筛选结果（已写入 `wetlab/2026-W33.md` §6.1）：
 | ✅ 已闭环 | P4-1 localized 共形 | ood_action 覆盖@0.9 ∈[0.85,0.95] 且 ECE<0.15 | — | **阴性**：PC-3 重定位 epistemic 缺陷 |
 | ✅ 已闭环 | P3-1b virtual_twin 共形 | 覆盖@0.9 ≥ 0.80 | — | **已修**：ECE 0.71→0.14 |
 | ✅ 已闭环 | **路 A** epistemic 估计器改造（novelty/heteroscedastic 门控） | ood_action 覆盖@0.95 ∈ [0.93,0.97] 且 ECE < 0.08 | 无（P4-1 关闭校准层方向） | **阴性**：PC-3 原理性未解，三路证据闭合，R4 兜底 |
-| 🆕 **P0（新立项）** | **P5 · 结构性 epistemic 估计器**（A: proper-Bayesian / B: 密度感知注入 / C: 生成式） | ood_action 覆盖@0.95 ∈ [0.93,0.97] 且 ECE < 0.08（与路 A 同判据）；id/ood_agent/ood_neuro 不退化；GATE_REPRO=True | 路 A 阴性（PC-3 原理性未解） | **P5-B 双阴性**（sample_weight + proper-NCL 均阴性；proper NCL 已用 numpy-only 实现，根因=集成共识塌缩非调参可解，P5-B 概念穷尽）→ P5-A(SGLD 内禀 posterior 多样性，剩余唯一有原理希望)/P5-C(GMM 测试时门控，大概率撞路A同墙) 待跑；待用户决策 P5-A / P5-C / kill-switch 接受 R4 |
+| 🆕 **P0（新立项）** | **P5 · 结构性 epistemic 估计器**（A: proper-Bayesian / B: 密度感知注入 / C: 生成式） | ood_action 覆盖@0.95 ∈ [0.93,0.97] 且 ECE < 0.08（与路 A 同判据）；id/ood_agent/ood_neuro 不退化；GATE_REPRO=True | 路 A 阴性（PC-3 原理性未解） | **P5-B 双阴性**（概念穷尽，根因=集成共识塌缩）；**P5-A·SGLD 结构性近胜**（覆盖 0.245→0.968 入带、underscale≈12× 修正、3/4 子集 ECE≤0.084；严格 ECE<0.08 以毫厘未过，过离散残差可调，T=1.0 发散）→ PC-3 欠缩放根因被结构性修正；P5-C/GMM 未跑。待用户决策：①精炼 spike（T 细网格 0.05–0.4 + lr/T 稳定化，尝试压 ECE<0.08）/ ②软接受 PoC（partial win，OOD 区间标「近似可信 ECE≈0.10」）/ ③跑 P5-C / ④kill-switch 接受 R4（仍 premature：P5-A 近胜 + P5-C 未测） |
 | **P1** | ood_agent 主指标换 pbRMSE 并重设判据 | pbRMSE 分辨率比值 > 3（现 RMSE 为 1.41） | 无 | 未启动 |
 | **P2** | 把 R4 闸门写入 `benchmark_ood.py` 自动执行 | 基准报告自动输出 R4 可用性表 | 无 | 未启动 |
 | **P3** | 湿实验 E7 → E1/E6 → E2 | 见 `wetlab/2026-W33.md` §6.5 | 湿实验资源 | 未启动 |
@@ -485,6 +487,12 @@ R4 筛选结果（已写入 `wetlab/2026-W33.md` §6.1）：
 | `experiments/20260814-p5b-ncl-uniform.json` | — | P5-B NCL uniform-w 机制探针（阴性） |
 | `experiments/w36_p5b_ncl_sparse.log` | — | sparse-w 运行日志 |
 | `experiments/w36_p5b_ncl_uniform.log` | — | uniform-w 运行日志 |
+| `experiments/20260814-P5A-SGLD-closure.md` | 9476 | **本周新证据槽**：P5-A·SGLD 结案（内禀 posterior 多样性结构性近胜，覆盖入带、ECE 毫厘未过） |
+| `code/model/compositional_p5a_sgld.py` | 7017 | P5-A·SGLD 模型（numpy-only 独立链后验采样） |
+| `scripts/p5a_sgld.py` | 13549 | P5-A SGLD 两臂对照 + T 扫 + 覆盖/ECE/欠缩放诊断 |
+| `scripts/_smoke_sgld.py` | 2593 | SGLD 持久多样性 + T 控制冒烟测试 |
+| `experiments/20260814-p5a-sgld.json` | 63197 | P5-A SGLD 完整跑批（GATE_REPRO=True, P5A_SGLD_ACCEPTED=false） |
+| `experiments/w36_p5a_sgld_run.log` | 5565 | P5-A SGLD 运行日志 |
 
 > 本周报由每周五自动化（`automation-1785494084890`）生成，配套 `code/wetlab/export_protocol.py` 导出湿实验方案。
 > 所有数值可通过上表工件回溯复现。
