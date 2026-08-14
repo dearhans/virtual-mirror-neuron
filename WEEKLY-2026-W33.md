@@ -1,11 +1,11 @@
 # 虚拟镜像神经元 · 周报 2026-W33
 
-- **报告版本**：2026-08-14 刷新（取代 2026-08-10 首版 / 2026-08-12 二版；同 ISO 周第 3 次导出）
+- **报告版本**：2026-08-14 刷新（取代 2026-08-10 首版 / 2026-08-12 二版 / 2026-08-14 三版；同 ISO 周第 4 次导出）
 - **种子基准**：`experiments/20260810-benchmark.json`（真实 Norman 2019，`data.source=norman`）
 - **样本规模**：train 55464 / ID-test 11953 / total 99289；bootstrap = 100
-- **本周新证据槽**：P4-3 逆方差收缩阴性（关闭「改估计量」方向）＋ P4-4 φ 双通路弱达成（PC-1 结构路径耗尽）＋ P4-1 localized 共形阴性（PC-3 重定位为 epistemic 缺陷）＋ P3-1b 共形修复 virtual_twin 过度自信（W36 自动化 A）
+- **本周新证据槽**：P4-3 逆方差收缩阴性（关闭「改估计量」方向）＋ P4-4 φ 双通路弱达成（PC-1 结构路径耗尽）＋ P4-1 localized 共形阴性（PC-3 重定位为 epistemic 缺陷）＋ P3-1b 共形修复 virtual_twin 过度自信（W36 自动化 A）＋ **路 A novelty/heteroscedastic 门控阴性（PC-3 原理性未解，三路证据闭合）**
 - **配套湿实验方案**：`wetlab/2026-W33.md`（7 协议 E1–E7 + §6 人工附录，25826 字节）
-- **状态**：未外发、未发布、未向 GOAI 提交（已推送到 origin/master，commit 934f921；P4-1/P4-4 结果于 08-12 落盘并在本次刷新并入）
+- **状态**：未外发、未发布、未向 GOAI 提交（已推送到 origin/master，commit 934f921；P4-1/P4-4 于 08-12 落盘并入；路 A 于 08-14 落盘并入）
 
 ---
 
@@ -213,6 +213,18 @@ armA 在 ood_agent 上 `var_ratio = 1.07e-26`（完全坍缩为常数预测）�
 
 **PC-3 瓶颈重定位**：假设「全局 q 不适合 OOD」被证伪；真正瓶颈是组合孪生 epistemic std **全子集一致欠缩放 ~41×**（q@0.95=41.26），与 P3-1b 对 virtual_twin 的 q@0.9=30.22（~30×）同源——深度集成在 OOD 上 confidently-wrong。**PC-3 是 epistemic 估计器缺陷，非校准层重标定可修**；localized conformal 在当前架构下结构性不可行。工件：`experiments/20260812-p41-localized-conformal.json`、`scripts/p41_localized_conformal.py`。
 
+### 3.9 本周新增证据槽 · 路 A novelty/heteroscedastic 门控（阴性，PC-3 原理性未解）
+
+**待检假设**（W33 §7 P0）：让 epistemic std 自身随新颖度撑大，正面攻克 PC-3 的 ~41× 欠缩放根因（改 σ 估计器本体，与 P4-1 改校准层 q 划清）。
+
+**两机制变体（同模型类 `NoveltyGatedCompositionalTwin`，GATE_REPRO=True 臂 A 逐位复现）**：
+- **变体 1 · empirical（novelty 门控）**：ood_action cov@0.95=**1.000**、ECE=**0.2125**（仍饱和）→ 失败。诊断显示新颖度（kNN 距离）在 Norman 离散特征空间（大量精确重复细胞）里是**常量/二值**（ID≈0、OOD=√2–√3），无连续梯度可作门控回归量。
+- **变体 2 · heteroscedastic（σ_epi 异方差重标定）**：利用诊断发现的「欠缩放与模型自身 σ_epi 负 Spearman 相关（-0.4）」，`g=(σ_ref/σ_epi)^β`（β≈-0.98）。ood_agent ECE **0.1357→0.0655**（显著改善，但 ood_agent 非判据目标）；**ood_action cov@0.95=0.999→0.9972、ECE=0.206→0.198，仍超 0.97 上界且 ECE>0.08 → 判据失败**。
+
+**原理性根因（三路证据闭合）**：诊断（`scripts/p4a_diagnose.py`）显示逐样本欠缩放 `|resid|/σ_epi` 与**任何测试时可获得信号都不充分相关**——新颖度常量（NaN）、σ_epi 仅弱负相关（-0.35~-0.41 且方向相反）、线性分歧≈0、增益常量。且四子集欠缩放分布互不匹配（p95：id≈22、ood_action≈12、ood_agent≈26、ood_neuro≈25），无单一 q 能同时服务。→ 校准（ID）的 `|resid|/σ` 与 OOD 分布系统性不同，且**无协变量可预测该差异**——这是 P4-1「ID 校准不覆盖 OOD」的估计器层镜像：**不仅 q 不可转移，σ 也不可转移**。
+
+**判决**：`P4A_ACCEPTED = false`（两变体均阴性）。PC-3 在本基准上**原理性不可解**：唯一能修的路径需 OOD 标注校准数据（与 OOD 定义自相矛盾）或结构性新估计器（距离感知/生成式/proper-Bayesian 深度集成，属新研究方向，超当前 scope）。**当前以 R4 闸门兜底**（OOD 区间标「不可信」，仅点估计参与机制泛化判决）。工件：`experiments/20260814-p4a-novelty-gate.json`、`experiments/20260814-p4a-heteroscedastic.json`、`code/model/compositional_p4a.py`、`scripts/p4a_novelty_gate.py`、`scripts/p4a_diagnose.py`。
+
 ---
 
 ## 4. 不确定度与校准审计（两种失效模式 + 新增 R4 闸门）
@@ -286,7 +298,7 @@ R4 筛选结果（已写入 `wetlab/2026-W33.md` §6.1）：
 | 5 | **ood_agent 主指标换 pbRMSE** | 评测 | 分辨率仅 1.41，RMSE 为钝刀 | 中高：不换则该轴所有判据无效 | pbRMSE 分辨率比值 > 3 |
 | 6 | **E7 闭环光遗传** | 湿实验 | 标尺不依赖失校准孪生 | 中：唯一能检验增益是否状态依赖 | ≥30 次闭环 trial，ΔF/F 均值±SEM |
 | 7 | **E4 新调质外推** | 湿实验 | 三预测器 CI 全重叠 | **低（建议推迟）** | 需先提升该轴分辨率，否则浪费动物 |
-| 8 | **路 A · epistemic 估计器改造**（novelty-gated std） | 建模 | 未启动（P4-1/P4-3 关闭后唯一未被排除的 PC-3 解法） | 高：正面攻克 epistemic 欠缩放 ~41× 根因 | ood_action 覆盖@0.95 ∈ [0.93,0.97] 且 ECE < 0.08 |
+| 8 | **路 A · epistemic 估计器改造**（novelty/heteroscedastic 门控） | 建模 | ✅ **已跑·阴性**（PC-3 原理性未解，三路证据闭合） | 结论：测试时重标定（novelty 二值 / σ_epi 弱负相关）均无法让 σ 在 OOD 转移；坚守 R4 兜底 | ood_action 覆盖@0.95 ∈ [0.93,0.97] 且 ECE < 0.08 |
 
 不确定度最高（= 最值得测）的轴：**动作/镜像轴**。它同时具备「模型预测零效应」+「无 CI 支撑」+
 「项目签名主张」三重属性，是唯一能一次性大幅改变项目可信度的实验。
@@ -320,10 +332,18 @@ R4 筛选结果（已写入 `wetlab/2026-W33.md` §6.1）：
 - **表现**：两个极端同时存在于一份基准里——
   `ood_action` 孪生区间饱和（ECE 0.2125 / 覆盖 1.000，宽到无信息）；
   `virtual_twin` 区间崩坏（ECE 0.73 / 覆盖 0.065，窄到无覆盖）。
-- **本周动作**：新增**记账工具 R4**（把两类失效分开计量），并**跑了 P4-1（localized 共形）作为解法尝试**。
-- **破法方向（已证伪）**：条件分离——按新颖度分层做 localized conformal 取代单标量 `_q`。
-  P4-1 实测四子集 q 退化回全局（ID 校准集新颖度不覆盖 OOD），localized 共形**结构性不可行**。
-- **状态**：**重定位为 epistemic 估计器缺陷**（P4-1 阴性）。calibration-layer 整类方向关闭；唯一解法 = 路 A（novelty-gated std）。
+- **本周动作**：新增**记账工具 R4**（把两类失效分开计量），**跑了 P4-1（localized 共形）** 与
+  **路 A（novelty/heteroscedastic 门控）** 两条解法尝试。
+- **破法方向（均证伪）**：
+  - 校准层：条件分离——按新颖度分层做 localized conformal 取代单标量 `_q`。P4-1 实测四子集 q
+    退化回全局（ID 校准集新颖度不覆盖 OOD），localized 共形**结构性不可行**。
+  - 估计器层：路 A 让 σ 随新颖度/σ_epi 撑大。empirical 变体因新颖度在离散特征空间为二值而退化；
+    heteroscedastic 变体仅改善 ood_agent（ECE 0.14→0.07），**ood_action 仍饱和（cov 0.997>0.97）**，判据失败。
+- **状态**：**原理性未解（三路证据闭合）**。根因 = conformal i.i.d. 约束在本基准被打破的纯形式：
+  校准（ID）的 `|resid|/σ` 与 OOD 分布系统性不同，且无任何测试时协变量可预测该差异
+  （新颖度常量、σ_epi 仅弱负相关且方向反）。校准层（P4-1）与估计器层（路 A）两条最 principled
+  路径均阴性 → **唯一能修需 OOD 标注校准数据（与 OOD 定义自相矛盾）或结构性新估计器（超 scope）**。
+  当前以 **R4 闸门兜底**：OOD 区间标「不可信」，仅点估计参与机制泛化判决。
 
 ### TC-1 · 技术矛盾：`virtual_twin` 的多尺度先验只买到点估计
 
@@ -348,14 +368,16 @@ R4 筛选结果（已写入 `wetlab/2026-W33.md` §6.1）：
 | ✅ 已闭环 | P4-4 φ 双通路 | 组合孪生 ood_action 与 linear CI 重叠（窄带弱达成） | — | **弱达成**：PC-1 结构路径耗尽 |
 | ✅ 已闭环 | P4-1 localized 共形 | ood_action 覆盖@0.9 ∈[0.85,0.95] 且 ECE<0.15 | — | **阴性**：PC-3 重定位 epistemic 缺陷 |
 | ✅ 已闭环 | P3-1b virtual_twin 共形 | 覆盖@0.9 ≥ 0.80 | — | **已修**：ECE 0.71→0.14 |
-| **P0** | **路 A** epistemic 估计器改造（novelty-gated std） | ood_action 覆盖@0.95 ∈ [0.93,0.97] 且 ECE < 0.08 | 无（P4-1 关闭校准层方向） | 未启动 |
+| ✅ 已闭环 | **路 A** epistemic 估计器改造（novelty/heteroscedastic 门控） | ood_action 覆盖@0.95 ∈ [0.93,0.97] 且 ECE < 0.08 | 无（P4-1 关闭校准层方向） | **阴性**：PC-3 原理性未解，三路证据闭合，R4 兜底 |
 | **P1** | ood_agent 主指标换 pbRMSE 并重设判据 | pbRMSE 分辨率比值 > 3（现 RMSE 为 1.41） | 无 | 未启动 |
 | **P2** | 把 R4 闸门写入 `benchmark_ood.py` 自动执行 | 基准报告自动输出 R4 可用性表 | 无 | 未启动 |
 | **P3** | 湿实验 E7 → E1/E6 → E2 | 见 `wetlab/2026-W33.md` §6.5 | 湿实验资源 | 未启动 |
 
 **明确不做**：任何「逆方差 / 加权 / 插补精化」变体（P4-3 已证伪该方向）；
 任何「分 subset / localized 共形重标定」变体（P4-1 已证伪：i.i.d. 校准在 OOD 结构性失效，四子集 q 退化回全局）；
+任何「测试时 novelty / σ_epi 门控撑大 epistemic std」变体（路 A 已证伪：新颖度在离散特征空间为二值、σ_epi 仅弱负相关且方向反，σ 在 OOD 不可转移）；
 任何「再加一层网络」式提容量方案（掩盖机制缺失，违反项目硬约束）。
+**PC-3 处置**：原理性未解，仅以 R4 闸门兜底（OOD 区间标「不可信」）；若 epistemic 校准确为硬需求，须立新项改结构性估计器（距离感知/生成式/proper-Bayesian 深度集成），不在 compositional_twin 上继续手术。
 
 ---
 
@@ -376,6 +398,10 @@ R4 筛选结果（已写入 `wetlab/2026-W33.md` §6.1）：
    - P4-4 `P44_ACCEPTED=true` 必须读作「CI 重叠（弱）」，**不可读作「超越线性」**；线性点估计仍赢 0.009。
    - P4-1 `P41_ACCEPTED=false` 且 localized q 退化回全局——属 conformal i.i.d. 约束在 OOD 失效的阴性证据，非脚本 bug。
 8. **未外发、未发布、未向 GOAI 提交**（已推送到 origin/master，commit 934f921）。
+9. **路 A 阴性（本刷新新增，08-14）**：`P4A_ACCEPTED=false` 两条机制变体均阴性，且 `GATE_REPRO=True`。
+   该 negative 不推翻 P4-4/P4-1/P4-3/P3-1b 结论，但与 P4-1（校准层）、P3-1b（virtual_twin 已修）共同把
+   PC-3 从「路 A 待攻克」降级为「原理性未解、R4 兜底」。诊断（`p4a_diagnose.py`）显示欠缩放与任何测试时
+   信号均不充分相关——此结论可回溯至 `experiments/20260814-p4a-*.json` 两工件，非凭空断言。
 
 ---
 
@@ -412,8 +438,13 @@ R4 筛选结果（已写入 `wetlab/2026-W33.md` §6.1）：
 | `experiments/20260812-p44-dualpath.json` | — | **本周新证据槽**：P4-4 四臂对照（GATE_REPRO=True） |
 | `experiments/20260812-p41-localized-conformal.json` | — | **本周新证据槽**：P4-1 localized 共形（GATE_REPRO=True，退化回全局 q） |
 | `experiments/20260812-p31b-conformal-virtualtwin.json` | — | **本周新证据槽**：P3-1b virtual_twin 共形修复（ECE 0.71→0.14） |
+| `experiments/20260814-p4a-novelty-gate.json` | — | **本周新证据槽**：路 A 变体 1 empirical novelty 门控（GATE_REPRO=True，阴性） |
+| `experiments/20260814-p4a-heteroscedastic.json` | — | **本周新证据槽**：路 A 变体 2 heteroscedastic 门控（GATE_REPRO=True，阴性） |
 | `code/model/compositional_p44.py` | — | P4-4 双通路模型实现 |
+| `code/model/compositional_p4a.py` | — | 路 A 模型实现（empirical + heteroscedastic 双门控，含 kNN 自匹配修复） |
 | `scripts/p41_localized_conformal.py` | — | P4-1 跑批脚本 |
+| `scripts/p4a_novelty_gate.py` | — | 路 A 两臂受控对照跑批脚本（--gate-kind empirical/heteroscedastic） |
+| `scripts/p4a_diagnose.py` | — | 路 A 诊断：欠缩放 vs 测试时信号相关性 |
 | `scripts/p31b_conformal_virtualtwin.py` | — | P3-1b 跑批脚本 |
 | `references/2026-08-12-literature.md` | — | 文献监测（9 篇新精选：VCBench/U-Pert/Mechanisms Matter/CauFinder/VADER1 等） |
 | `references/2026-08-11-literature.md` | — | 文献监测（上一轮） |
