@@ -1,11 +1,11 @@
 # 虚拟镜像神经元 · 周报 2026-W33
 
-- **报告版本**：2026-08-14 刷新（取代 2026-08-10 首版 / 2026-08-12 二版 / 2026-08-14 三版；同 ISO 周第 4 次导出）
+- **报告版本**：2026-08-14 刷新（取代 2026-08-10 首版 / 2026-08-12 二版 / 2026-08-14 三、四版；同 ISO 周第 5 次导出，新增 P5 立项）
 - **种子基准**：`experiments/20260810-benchmark.json`（真实 Norman 2019，`data.source=norman`）
 - **样本规模**：train 55464 / ID-test 11953 / total 99289；bootstrap = 100
-- **本周新证据槽**：P4-3 逆方差收缩阴性（关闭「改估计量」方向）＋ P4-4 φ 双通路弱达成（PC-1 结构路径耗尽）＋ P4-1 localized 共形阴性（PC-3 重定位为 epistemic 缺陷）＋ P3-1b 共形修复 virtual_twin 过度自信（W36 自动化 A）＋ **路 A novelty/heteroscedastic 门控阴性（PC-3 原理性未解，三路证据闭合）**
+- **本周新证据槽**：P4-3 逆方差收缩阴性（关闭「改估计量」方向）＋ P4-4 φ 双通路弱达成（PC-1 结构路径耗尽）＋ P4-1 localized 共形阴性（PC-3 重定位为 epistemic 缺陷）＋ P3-1b 共形修复 virtual_twin 过度自信（W36 自动化 A）＋ **路 A novelty/heteroscedastic 门控阴性（PC-3 原理性未解，三路证据闭合）**＋ **P5 结构性估计器新立项提案（PC-3 唯一剩余解法方向，Einstein+TRIZ+serotonin 三框架塑形）**
 - **配套湿实验方案**：`wetlab/2026-W33.md`（7 协议 E1–E7 + §6 人工附录，25826 字节）
-- **状态**：未外发、未发布、未向 GOAI 提交（已推送到 origin/master，commit 934f921；P4-1/P4-4 于 08-12 落盘并入；路 A 于 08-14 落盘并入）
+- **状态**：未外发、未发布、未向 GOAI 提交（已推送到 origin/master，路 A commit 4b188ec；P5 提案随本次刷新并入，见 `experiments/20260814-P5-structural-estimator-proposal.md`）
 
 ---
 
@@ -227,6 +227,24 @@ armA 在 ood_agent 上 `var_ratio = 1.07e-26`（完全坍缩为常数预测）�
 
 ---
 
+### 3.10 本周新增证据槽 · P5 结构性 epistemic 估计器（新立项，PC-3 唯一剩余解法）
+
+**立项触发**：用户指令「立新项改结构性估计器」（08-14）。路 A 阴性后，PC-3 仅余「结构性新估计器」一条解法方向（P4-1 校准层 / 路 A 估计器层测试时重标定均阴性）。
+
+**三框架塑形（非互相替代）**：
+- **Einstein 视角**：被破坏的对称性 = σ(x) 应关于「到训练流形距离」τ(x) 单调（`∂σ/∂τ>0`），现实 OOD 区 `∂σ/∂τ≈0`（方差不随新颖度变化）。最小修复 = 在**构造期**注入缺失多样性，使 σ(x) 由模型后验/密度天然正确——**修假设，不补输出**（路 A 事后乘 g 已证此路不通）。
+- **TRIZ 视角**：PC-3 = 物理矛盾（σ 同时要求宽保覆盖 / 窄保可证伪）。矛盾矩阵 → 发明原理 #1 分割 / #15 动态化 / #28 机制替代 / #35 参数变化。综合解 = #28（贝叶斯替代）+ #15（密度自适应）+ #1（按密度空间分割）。
+- **serotonin-os 视角**：稳态基线（linear 点估计四子集全胜，P5 只增强 OOD 区间，绝不改点估计）；耐心增益（周级研究子项，每机制先 1–2 天 spike）；满足-停止信号（三机制 spike 全失败即停，接受 R4，写阴性结案）；冲动门控（禁止加网络层 / foundation model / 私采新数据）；时间视野伸缩（OOD 点估计结论本周即可用，不必等 P5）。
+
+**P5 三机制候选**（详见 `experiments/20260814-P5-structural-estimator-proposal.md`）：
+- **P5-A · proper-Bayesian 深度集成**（SGLD / 温度化似然）：后验在低数据区天然多样，`∂σ/∂τ>0` 由构造满足。
+- **P5-B · 密度感知多样性注入**：训练期加正则 `R=Σ_m D(f_m,f̄)·τ(x)`，τ(x)=kNN 连续密度（非路 A 二值 novelty），在训练支撑薄处强制成员分散。
+- **P5-C · 生成式 epistemic**：先拟特征密度 q(x)（flow/GMM/VAE），`σ(x)=σ_id·h(1/q(x))`，h 学习单调——把「数据在哪」与「函数是什么」解耦。
+
+**预锁判据（与路 A 同，公平比较）**：ood_action 覆盖@0.95 ∈ [0.93,0.97] 且 ECE < 0.08；id/ood_agent/ood_neuro 不退化超阈值；GATE_REPRO=True（P1 linear 逐位复现）。kill-switch：三机制 spike 均无法把 ood_action ECE 压到 0.15 以下 → 停 P5 接受 R4。
+
+---
+
 ## 4. 不确定度与校准审计（两种失效模式 + 新增 R4 闸门）
 
 ### 4.1 失效模式 A · `virtual_twin` 全域灾难性过度自信（P3-1b，**已修**）
@@ -299,6 +317,7 @@ R4 筛选结果（已写入 `wetlab/2026-W33.md` §6.1）：
 | 6 | **E7 闭环光遗传** | 湿实验 | 标尺不依赖失校准孪生 | 中：唯一能检验增益是否状态依赖 | ≥30 次闭环 trial，ΔF/F 均值±SEM |
 | 7 | **E4 新调质外推** | 湿实验 | 三预测器 CI 全重叠 | **低（建议推迟）** | 需先提升该轴分辨率，否则浪费动物 |
 | 8 | **路 A · epistemic 估计器改造**（novelty/heteroscedastic 门控） | 建模 | ✅ **已跑·阴性**（PC-3 原理性未解，三路证据闭合） | 结论：测试时重标定（novelty 二值 / σ_epi 弱负相关）均无法让 σ 在 OOD 转移；坚守 R4 兜底 | ood_action 覆盖@0.95 ∈ [0.93,0.97] 且 ECE < 0.08 |
+| 9 | **P5 · 结构性 epistemic 估计器**（proper-Bayesian / 密度感知注入 / 生成式） | 建模 | 🆕 **新立项**（08-14，三框架塑形提案已落盘） | 最高：PC-3 唯一剩余解法；若任一机制 spike 让 σ 在 OOD 正确转移，则闭合并推翻 R4 兜底 | ood_action 覆盖@0.95 ∈ [0.93,0.97] 且 ECE < 0.08 |
 
 不确定度最高（= 最值得测）的轴：**动作/镜像轴**。它同时具备「模型预测零效应」+「无 CI 支撑」+
 「项目签名主张」三重属性，是唯一能一次性大幅改变项目可信度的实验。
@@ -339,11 +358,13 @@ R4 筛选结果（已写入 `wetlab/2026-W33.md` §6.1）：
     退化回全局（ID 校准集新颖度不覆盖 OOD），localized 共形**结构性不可行**。
   - 估计器层：路 A 让 σ 随新颖度/σ_epi 撑大。empirical 变体因新颖度在离散特征空间为二值而退化；
     heteroscedastic 变体仅改善 ood_agent（ECE 0.14→0.07），**ood_action 仍饱和（cov 0.997>0.97）**，判据失败。
-- **状态**：**原理性未解（三路证据闭合）**。根因 = conformal i.i.d. 约束在本基准被打破的纯形式：
+- **状态**：**原理性未解（三路证据闭合）+ 已立新项 P5（结构性估计器方向）**。根因 = conformal i.i.d. 约束在本基准被打破的纯形式：
   校准（ID）的 `|resid|/σ` 与 OOD 分布系统性不同，且无任何测试时协变量可预测该差异
   （新颖度常量、σ_epi 仅弱负相关且方向反）。校准层（P4-1）与估计器层（路 A）两条最 principled
-  路径均阴性 → **唯一能修需 OOD 标注校准数据（与 OOD 定义自相矛盾）或结构性新估计器（超 scope）**。
-  当前以 **R4 闸门兜底**：OOD 区间标「不可信」，仅点估计参与机制泛化判决。
+  路径均阴性 → **唯一能修需 OOD 标注校准数据（与 OOD 定义自相矛盾）或结构性新估计器**。
+  后者已立为 **P5 新研究子项**（proper-Bayesian 深度集成 / 密度感知多样性注入 / 生成式 epistemic，
+  见 `experiments/20260814-P5-structural-estimator-proposal.md`），由 Einstein+TRIZ+serotonin 三框架塑形。
+  在 P5 出结果前，当前以 **R4 闸门兜底**：OOD 区间标「不可信」，仅点估计参与机制泛化判决。
 
 ### TC-1 · 技术矛盾：`virtual_twin` 的多尺度先验只买到点估计
 
@@ -369,6 +390,7 @@ R4 筛选结果（已写入 `wetlab/2026-W33.md` §6.1）：
 | ✅ 已闭环 | P4-1 localized 共形 | ood_action 覆盖@0.9 ∈[0.85,0.95] 且 ECE<0.15 | — | **阴性**：PC-3 重定位 epistemic 缺陷 |
 | ✅ 已闭环 | P3-1b virtual_twin 共形 | 覆盖@0.9 ≥ 0.80 | — | **已修**：ECE 0.71→0.14 |
 | ✅ 已闭环 | **路 A** epistemic 估计器改造（novelty/heteroscedastic 门控） | ood_action 覆盖@0.95 ∈ [0.93,0.97] 且 ECE < 0.08 | 无（P4-1 关闭校准层方向） | **阴性**：PC-3 原理性未解，三路证据闭合，R4 兜底 |
+| 🆕 **P0（新立项）** | **P5 · 结构性 epistemic 估计器**（A: proper-Bayesian / B: 密度感知注入 / C: 生成式） | ood_action 覆盖@0.95 ∈ [0.93,0.97] 且 ECE < 0.08（与路 A 同判据）；id/ood_agent/ood_neuro 不退化；GATE_REPRO=True | 路 A 阴性（PC-3 原理性未解） | **新立项**：三机制各先 1–2 天 spike，kill-switch = 三 spike 全失败则停、接受 R4 |
 | **P1** | ood_agent 主指标换 pbRMSE 并重设判据 | pbRMSE 分辨率比值 > 3（现 RMSE 为 1.41） | 无 | 未启动 |
 | **P2** | 把 R4 闸门写入 `benchmark_ood.py` 自动执行 | 基准报告自动输出 R4 可用性表 | 无 | 未启动 |
 | **P3** | 湿实验 E7 → E1/E6 → E2 | 见 `wetlab/2026-W33.md` §6.5 | 湿实验资源 | 未启动 |
@@ -377,7 +399,7 @@ R4 筛选结果（已写入 `wetlab/2026-W33.md` §6.1）：
 任何「分 subset / localized 共形重标定」变体（P4-1 已证伪：i.i.d. 校准在 OOD 结构性失效，四子集 q 退化回全局）；
 任何「测试时 novelty / σ_epi 门控撑大 epistemic std」变体（路 A 已证伪：新颖度在离散特征空间为二值、σ_epi 仅弱负相关且方向反，σ 在 OOD 不可转移）；
 任何「再加一层网络」式提容量方案（掩盖机制缺失，违反项目硬约束）。
-**PC-3 处置**：原理性未解，仅以 R4 闸门兜底（OOD 区间标「不可信」）；若 epistemic 校准确为硬需求，须立新项改结构性估计器（距离感知/生成式/proper-Bayesian 深度集成），不在 compositional_twin 上继续手术。
+**PC-3 处置**：已立新项 **P5**（结构性估计器：距离感知/生成式/proper-Bayesian 深度集成），由三框架塑形，不在 compositional_twin 上继续手术；P5 出结果前仅以 R4 闸门兜底（OOD 区间标「不可信」）。
 
 ---
 
@@ -402,6 +424,7 @@ R4 筛选结果（已写入 `wetlab/2026-W33.md` §6.1）：
    该 negative 不推翻 P4-4/P4-1/P4-3/P3-1b 结论，但与 P4-1（校准层）、P3-1b（virtual_twin 已修）共同把
    PC-3 从「路 A 待攻克」降级为「原理性未解、R4 兜底」。诊断（`p4a_diagnose.py`）显示欠缩放与任何测试时
    信号均不充分相关——此结论可回溯至 `experiments/20260814-p4a-*.json` 两工件，非凭空断言。
+10. **P5 新立项（本刷新新增，08-14）**：PC-3 唯一剩余解法方向「结构性估计器」已立为新研究子项，由 Einstein Perspective（修对称性非补输出）+ TRIZ（物理矛盾 #28/#15/#1 分离）+ serotonin-os（基线/耐心/停止信号治理）三框架塑形。预锁判据与路 A 一致（ood_action 覆盖@0.95 ∈[0.93,0.97] 且 ECE<0.08），kill-switch = 三机制 spike 全失败则停、接受 R4。提案见 `experiments/20260814-P5-structural-estimator-proposal.md`，可回溯，非凭空立项。
 
 ---
 
@@ -448,6 +471,7 @@ R4 筛选结果（已写入 `wetlab/2026-W33.md` §6.1）：
 | `scripts/p31b_conformal_virtualtwin.py` | — | P3-1b 跑批脚本 |
 | `references/2026-08-12-literature.md` | — | 文献监测（9 篇新精选：VCBench/U-Pert/Mechanisms Matter/CauFinder/VADER1 等） |
 | `references/2026-08-11-literature.md` | — | 文献监测（上一轮） |
+| `experiments/20260814-P5-structural-estimator-proposal.md` | — | **本周新证据槽**：P5 结构性估计器新立项提案（Einstein+TRIZ+serotonin 三框架塑形，PC-3 唯一剩余解法） |
 
 > 本周报由每周五自动化（`automation-1785494084890`）生成，配套 `code/wetlab/export_protocol.py` 导出湿实验方案。
 > 所有数值可通过上表工件回溯复现。
