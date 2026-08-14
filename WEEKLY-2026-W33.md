@@ -243,6 +243,8 @@ armA 在 ood_agent 上 `var_ratio = 1.07e-26`（完全坍缩为常数预测）�
 
 **预锁判据（与路 A 同，公平比较）**：ood_action 覆盖@0.95 ∈ [0.93,0.97] 且 ECE < 0.08；id/ood_agent/ood_neuro 不退化超阈值；GATE_REPRO=True（P1 linear 逐位复现）。kill-switch：三机制 spike 均无法把 ood_action ECE 压到 0.15 以下 → 停 P5 接受 R4。
 
+**P5-B spike 结果（08-14，首档，已跑）**：`P5B_ACCEPTED=false`，`best_lambda=null`，`GATE_REPRO=True`。λ∈{0.01,0.05,0.1} 三档**输出逐字节相同**（λ 零效应）；σ_epi 反方向变小（P5B/P1=0.556）；ood_action ECE 恶化（0.6112→0.6872），覆盖仍饱和。**机制诊断**：sklearn `MLPRegressor` 的 `sample_weight` 重加权**无法注入成员负相关**（负相关性学习需改损失项 `(f_m−f̄)(f̄−y)`，工具链不支持）；稀疏/OOD-like 区仅占训练极少数，密集主体主导 → 成员收敛同函数 → 低方差。概念（密度感知多样性）成立，但本实例化（sample_weight 代理）不足以实现所需 decorrelation。proper 实现需 custom 训练循环（NCL/SGLD），超出当前 numpy/sklearn-only 工具链。详见 `experiments/20260814-P5B-closure.md`。**P5-B 阴性，待用户决策 P5-A(需工具链升级)/P5-C(大概率撞路A同墙)/kill-switch 接受 R4**。
+
 ---
 
 ## 4. 不确定度与校准审计（两种失效模式 + 新增 R4 闸门）
@@ -390,7 +392,7 @@ R4 筛选结果（已写入 `wetlab/2026-W33.md` §6.1）：
 | ✅ 已闭环 | P4-1 localized 共形 | ood_action 覆盖@0.9 ∈[0.85,0.95] 且 ECE<0.15 | — | **阴性**：PC-3 重定位 epistemic 缺陷 |
 | ✅ 已闭环 | P3-1b virtual_twin 共形 | 覆盖@0.9 ≥ 0.80 | — | **已修**：ECE 0.71→0.14 |
 | ✅ 已闭环 | **路 A** epistemic 估计器改造（novelty/heteroscedastic 门控） | ood_action 覆盖@0.95 ∈ [0.93,0.97] 且 ECE < 0.08 | 无（P4-1 关闭校准层方向） | **阴性**：PC-3 原理性未解，三路证据闭合，R4 兜底 |
-| 🆕 **P0（新立项）** | **P5 · 结构性 epistemic 估计器**（A: proper-Bayesian / B: 密度感知注入 / C: 生成式） | ood_action 覆盖@0.95 ∈ [0.93,0.97] 且 ECE < 0.08（与路 A 同判据）；id/ood_agent/ood_neuro 不退化；GATE_REPRO=True | 路 A 阴性（PC-3 原理性未解） | **新立项**：三机制各先 1–2 天 spike，kill-switch = 三 spike 全失败则停、接受 R4 |
+| 🆕 **P0（新立项）** | **P5 · 结构性 epistemic 估计器**（A: proper-Bayesian / B: 密度感知注入 / C: 生成式） | ood_action 覆盖@0.95 ∈ [0.93,0.97] 且 ECE < 0.08（与路 A 同判据）；id/ood_agent/ood_neuro 不退化；GATE_REPRO=True | 路 A 阴性（PC-3 原理性未解） | **P5-B spike 阴性**（sklearn sample_weight 无法注入成员负相关；proper NCL 需 custom 训练循环，超 sklearn-only 工具链）→ P5-A 需同升级、P5-C 大概率撞路A同墙；待用户决策是否 kill-switch 接受 R4 |
 | **P1** | ood_agent 主指标换 pbRMSE 并重设判据 | pbRMSE 分辨率比值 > 3（现 RMSE 为 1.41） | 无 | 未启动 |
 | **P2** | 把 R4 闸门写入 `benchmark_ood.py` 自动执行 | 基准报告自动输出 R4 可用性表 | 无 | 未启动 |
 | **P3** | 湿实验 E7 → E1/E6 → E2 | 见 `wetlab/2026-W33.md` §6.5 | 湿实验资源 | 未启动 |
