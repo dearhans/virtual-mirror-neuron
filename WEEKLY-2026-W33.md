@@ -249,7 +249,11 @@ armA 在 ood_agent 上 `var_ratio = 1.07e-26`（完全坍缩为常数预测）�
 
 **P5-A spike 结果（08-14，第三档，SGLD）**：用户选定「P5-A · SGLD」→ numpy-only 独立链 SGLD 后验采样（每成员独立噪声轨迹，内禀 posterior 多样性，绕过杀死 NCL 的共识塌缩）。`P5A_SGLD_ACCEPTED=false`，`GATE_REPRO=True`（P1 逐位复现，rmse 四子集 delta 全 0.0）。**结构性近胜（非阴性）**：SGLD 把 ood_action 覆盖@0.95 从 P1 灾难性 **0.245 → 0.968（落入 [0.93,0.97] 有效带）**，underscale_med ~4.6×→~0.39×（≈12× 修正趋近校准），σ_epi 放大 32–171×；**3/4 子集 ECE≤0.084（达标）**，仅最难 ood_action ECE=0.1031@T0.01 / 0.0943@T0.1（目标<0.08，毫厘未过）。**根因**：SGLD posterior 略过离散（区间偏宽）致残留 ECE，属可调和方向（温度/离散度校准），与 NCL 结构性塌缩恰成反比。**关键趋势（后被证伪，见下）**：T 升 0.01→0.1 时 ECE 反降（0.103→0.094）→ 猜测细 T 网格可压 ECE<0.08。**T=1.0 发散（NaN，matmul overflow）**：有效温度体制窄。详见 `experiments/20260814-P5A-SGLD-closure.md`。
 
-**P5-A 精炼 spike 结果（08-15，⚠️ 阴性 + 重要修正）**：用户选定「精炼 spike」→ 加权重衰减（`sgld_wdecay=1e-3`）+ 梯度裁剪（`clip_grad=1.0`）+ 细扫 T∈{0.1,0.15,0.2,0.3,0.5}。**结论：精炼失败，且诚实下调初判「近胜」。** ① **ECE 不越 0.08**：ood_action ECE 极小=0.0943@T0.1，随 T 单调**上升**（0.100→0.104→0.106），「随 T 单调下降」系 2 点假象被证伪，稳定 T 体制内 ECE 下限 ~0.094。② **点估计代价（此前遗漏的核查）**：复核首扫 RMSE 发现 SGLD 集成均值本身劣化 **2.4–6×**（T=0.01: id 1.48/ood_agent 3.48/ood_action 1.56/ood_neuro 1.45，vs P1 0.57–0.64；`var_ratio≈1e-27` 表均值近塌缩为常数）——ECE 改善部分来自「围绕劣质均值的宽区间恰好覆盖」，**非可用校准预测器**；wdecay 后点估计更差（RMSE 2.3–4.7），ood_agent 反复发散（RMSE 42→67，即便裁剪）。③ **机制价值仍真实但受限**：内禀 posterior 多样性确实破共识塌缩、把覆盖送入有效带（PC-3 首处结构性进展），但 numpy-only 粗糙 SGLD（3 链、无 burn-in/thinning/预条件）采样质量差 → 成员弱回归器 → 均值劣化 + σ 过离散。**真正收口须换 proper-Bayesian 重实现（torch/PyMC）**——工具链升级，超 numpy-only 约束，触发冲动门控须用户授权。→ **P5 现状：P5-B 双阴性、P5-A 覆盖修复但点估计受限+精炼阴性、P5-C（GMM）仍未测**。详见 `experiments/20260814-P5A-SGLD-closure.md` §7。
+**P5-A 精炼 spike 结果（08-15，⚠️ 阴性 + 重要修正）**：用户选定「精炼 spike」→ 加权重衰减（`sgld_wdecay=1e-3`）+ 梯度裁剪（`clip_grad=1.0`）+ 细扫 T∈{0.1,0.15,0.2,0.3,0.5}。**结论：精炼失败，且诚实下调初判「近胜」。** ① **ECE 不越 0.08**：ood_action ECE 极小=0.0943@T0.1，随 T 单调**上升**（0.100→0.104→0.106），「随 T 单调下降」系 2 点假象被证伪，稳定 T 体制内 ECE 下限 ~0.094。② **点估计代价（此前遗漏的核查）**：复核首扫 RMSE 发现 SGLD 集成均值本身劣化 **2.4–6×**（T=0.01: id 1.48/ood_agent 3.48/ood_action 1.56/ood_neuro 1.45，vs P1 0.57–0.64；`var_ratio≈1e-27` 表均值近塌缩为常数）——ECE 改善部分来自「围绕劣质均值的宽区间恰好覆盖」，**非可用校准预测器**；wdecay 后点估计更差（RMSE 2.3–4.7），ood_agent 反复发散（RMSE 42→67，即便裁剪）。③ **机制价值仍真实但受限**：内禀 posterior 多样性确实破共识塌缩、把覆盖送入有效带（PC-3 首处结构性进展），但 numpy-only 粗糙 SGLD（3 链、无 burn-in/thinning/预条件）采样质量差 → 成员弱回归器 → 均值劣化 + σ 过离散。**真正收口须换 proper-Bayesian 重实现（torch/PyMC）**——工具链升级，超 numpy-only 约束，触发冲动门控须用户授权。→ **P5 现状（精炼时）**：P5-B 双阴性、P5-A 覆盖修复但点估计受限+精炼阴性、**P5-C（GMM）仍未测**。详见 `experiments/20260814-P5A-SGLD-closure.md` §7。
+
+**P5-C spike 结果（08-15，阴性，撞路 A 同墙）**：用户选定「P5-C · GMM 门控」→ sklearn GaussianMixture 拟训练特征密度 q(x)，测试时 σ=σ_epi·h(1/q(x))（密度新颖度门控）。`P5C_GMM_ACCEPTED=false`，`GATE_REPRO=True`。**门控退化为二值开关**：`gate_ratio` 在 ID 校准箱内全 1.0（欠缩放与密度无关、无分级信号），density_novelty u 对 id/ood_neuro=0、对 ood_action/ood_agent 饱和到 1.4×10⁹ → 统一封顶 50×。ood_action 覆盖@0.95=0.9989（越带上界 0.97、过覆盖）、ECE=0.2021（≫0.08，仅较 P1 0.2060 改善 0.004）；conformal 重标定 q（41.26→43.68，+6%）把 50× 膨胀压平成全域过宽区间（nominal 0.5 实测 0.968）。**根因**：GMM 密度在 217 维稀疏协变量塌缩到 ~0（训练壳外）→ 仅 in/out 二值新颖度、无分级；epistemic 欠缩放是 posterior 性质、非协变量密度函数，故「按测试时密度门控 σ」整条路在 217 维不可行——把路 A 阴性从「门控回归量」升级为「回归量类」判定。事前诚实预测「撞路 A 同墙」**获确认**。详见 `experiments/20260814-P5C-GMM-closure.md`。
+
+**⚖️ P5 三机制总裁决（kill-switch 触发）**：P5-A·SGLD（精炼阴性，ECE 下限 0.094 + 点估计 2.4–6× 代价）、P5-B·NCL（双阴性，共识塌缩）、P5-C·GMM（阴性，密度门控退化）**三机制全阴性** → 协议要求满足 → **触发 kill-switch，接受 R4**（OOD 区间标不可信，仅点估计参与机制泛化判决，见 §4.3）。科学收益：P5-A 证「覆盖可由 proper-Bayesian 后验多样性结构性修复」为真实方向（非死路）；P5-C 把路 A 阴性升级为「回归量类」判定。未来唯一收口方向 = **proper-Bayesian 重实现**（torch/PyMC：预条件 SGLD/HMC、burn-in+thinning、更多链），属工具链升级，超 numpy-only 约束、触发冲动门控，须用户明确授权，不在本周内推进。
 
 ---
 
@@ -366,7 +370,7 @@ R4 筛选结果（已写入 `wetlab/2026-W33.md` §6.1）：
     退化回全局（ID 校准集新颖度不覆盖 OOD），localized 共形**结构性不可行**。
   - 估计器层：路 A 让 σ 随新颖度/σ_epi 撑大。empirical 变体因新颖度在离散特征空间为二值而退化；
     heteroscedastic 变体仅改善 ood_agent（ECE 0.14→0.07），**ood_action 仍饱和（cov 0.997>0.97）**，判据失败。
-- **状态**：**原理性未解（三路证据闭合）+ 已立新项 P5（结构性估计器方向）**；P5-B（sample_weight + proper-NCL 双变体）本周已双阴性（根因=同架构 MLP 在 MSE 下的集成共识塌缩，概念穷尽）；**P5-A·SGLD 覆盖结构性可修但点估计受限（精炼后阴性）**——SGLD 内禀 posterior 多样性把 ood_action 覆盖@0.95 送入有效带（0.245→0.968）、underscale 修正 ≈12×（PC-3 首处结构性进展），**但**：(a) 严格 ECE<0.08 不可达（精炼细 T 网格证实 ECE 下限 ~0.094，随 T 上升而非下降）；(b) **点估计集成均值本身劣化 2.4–6× RMSE**（`var_ratio≈1e-27`，均值近塌缩为常数）→ ECE 改善部分是「宽区间围绕劣质均值恰好覆盖」，非可用校准预测器；(c) ood_agent 反复发散。真正收口须换 proper-Bayesian 重实现（torch/PyMC，工具链升级）。P5-C/GMM 仍未跑。根因定性修正：calibration i.i.d. 约束被打破的纯形式仍在，SGLD 证明**覆盖那一半可被构造期机制绕过**（σ 由后验离散度随预测不确定性缩放，∂σ/∂τ>0 由构造满足），**但在 numpy-only 约束下以牺牲点估计为代价**：
+- **状态**：**原理性未解（三路证据闭合）+ 已立新项 P5（结构性估计器方向）**；P5-B（sample_weight + proper-NCL 双变体）本周已双阴性（根因=同架构 MLP 在 MSE 下的集成共识塌缩，概念穷尽）；**P5-A·SGLD 覆盖结构性可修但点估计受限（精炼后阴性）**——SGLD 内禀 posterior 多样性把 ood_action 覆盖@0.95 送入有效带（0.245→0.968）、underscale 修正 ≈12×（PC-3 首处结构性进展），**但**：(a) 严格 ECE<0.08 不可达（精炼细 T 网格证实 ECE 下限 ~0.094，随 T 上升而非下降）；(b) **点估计集成均值本身劣化 2.4–6× RMSE**（`var_ratio≈1e-27`，均值近塌缩为常数）→ ECE 改善部分是「宽区间围绕劣质均值恰好覆盖」，非可用校准预测器；(c) ood_agent 反复发散。真正收口须换 proper-Bayesian 重实现（torch/PyMC，工具链升级）。P5-C/GMM 已跑·阴性（密度门控 217 维退化二值开关，撞路 A 同墙）。**P5 三机制全阴性 → kill-switch 触发、R4 接受**：OOD 区间标不可信，仅点估计参与机制泛化判决。根因定性修正：calibration i.i.d. 约束被打破的纯形式仍在，SGLD 证明**覆盖那一半可被构造期机制绕过**（σ 由后验离散度随预测不确定性缩放，∂σ/∂τ>0 由构造满足），**但在 numpy-only 约束下以牺牲点估计为代价**：
   校准（ID）的 `|resid|/σ` 与 OOD 分布系统性不同，且无任何测试时协变量可预测该差异
   （新颖度常量、σ_epi 仅弱负相关且方向反）。校准层（P4-1）与估计器层（路 A）两条最 principled
   路径均阴性 → **唯一能修需 OOD 标注校准数据（与 OOD 定义自相矛盾）或结构性新估计器**。
@@ -398,14 +402,14 @@ R4 筛选结果（已写入 `wetlab/2026-W33.md` §6.1）：
 | ✅ 已闭环 | P4-1 localized 共形 | ood_action 覆盖@0.9 ∈[0.85,0.95] 且 ECE<0.15 | — | **阴性**：PC-3 重定位 epistemic 缺陷 |
 | ✅ 已闭环 | P3-1b virtual_twin 共形 | 覆盖@0.9 ≥ 0.80 | — | **已修**：ECE 0.71→0.14 |
 | ✅ 已闭环 | **路 A** epistemic 估计器改造（novelty/heteroscedastic 门控） | ood_action 覆盖@0.95 ∈ [0.93,0.97] 且 ECE < 0.08 | 无（P4-1 关闭校准层方向） | **阴性**：PC-3 原理性未解，三路证据闭合，R4 兜底 |
-| 🆕 **P0（新立项）** | **P5 · 结构性 epistemic 估计器**（A: proper-Bayesian / B: 密度感知注入 / C: 生成式） | ood_action 覆盖@0.95 ∈ [0.93,0.97] 且 ECE < 0.08（与路 A 同判据）；id/ood_agent/ood_neuro 不退化；GATE_REPRO=True | 路 A 阴性（PC-3 原理性未解） | **P5-B 双阴性**（概念穷尽，根因=集成共识塌缩）；**P5-A·SGLD 覆盖修复但点估计受限（精炼后阴性）**：覆盖 0.245→0.968 入带、underscale≈12× 修正（PC-3 首处结构性进展），**但** ECE 下限 ~0.094 不越 0.08（精炼细 T 网格证实随 T 升而非降）、点估计 RMSE 劣化 2.4–6×（均值近塌缩，var_ratio≈1e-27，非可用预测器）、ood_agent 发散。收口须换 proper-Bayesian 重实现（torch/PyMC，工具链升级）。P5-C/GMM 未跑。待用户决策：①跑 P5-C（GMM 门控，末机制快速排除）/ ②软接受 PoC（覆盖结构性可修记为 partial，OOD 区间标「近似可信 ECE≈0.10」，注明点估计代价）/ ③工具链升级投 proper-Bayesian（torch/PyMC，重）/ ④kill-switch 接受 R4（仍 premature：P5-C 未测） |
+| 🆕 **P0（新立项）** | **P5 · 结构性 epistemic 估计器**（A: proper-Bayesian / B: 密度感知注入 / C: 生成式） | ood_action 覆盖@0.95 ∈ [0.93,0.97] 且 ECE < 0.08（与路 A 同判据）；id/ood_agent/ood_neuro 不退化；GATE_REPRO=True | 路 A 阴性（PC-3 原理性未解） | **P5-B 双阴性**（概念穷尽，根因=集成共识塌缩）；**P5-A·SGLD 覆盖修复但点估计受限（精炼后阴性）**：覆盖 0.245→0.968 入带、underscale≈12× 修正（PC-3 首处结构性进展），**但** ECE 下限 ~0.094 不越 0.08（精炼细 T 网格证实随 T 升而非降）、点估计 RMSE 劣化 2.4–6×（均值近塌缩，var_ratio≈1e-27，非可用预测器）、ood_agent 发散。收口须换 proper-Bayesian 重实现（torch/PyMC，工具链升级）。P5-C/GMM 已跑·阴性（密度门控 217 维退化二值开关，撞路 A 同墙，详见 P5C closure）。**三机制全阴性 → kill-switch 触发、R4 接受**（OOD 区间标不可信，仅点估计参与机制泛化判决）。收口唯一方向 = proper-Bayesian 重实现（torch/PyMC，工具链升级，须用户授权，不在本周内推进） |
 | **P1** | ood_agent 主指标换 pbRMSE 并重设判据 | pbRMSE 分辨率比值 > 3（现 RMSE 为 1.41） | 无 | 未启动 |
 | **P2** | 把 R4 闸门写入 `benchmark_ood.py` 自动执行 | 基准报告自动输出 R4 可用性表 | 无 | 未启动 |
 | **P3** | 湿实验 E7 → E1/E6 → E2 | 见 `wetlab/2026-W33.md` §6.5 | 湿实验资源 | 未启动 |
 
 **明确不做**：任何「逆方差 / 加权 / 插补精化」变体（P4-3 已证伪该方向）；
 任何「分 subset / localized 共形重标定」变体（P4-1 已证伪：i.i.d. 校准在 OOD 结构性失效，四子集 q 退化回全局）；
-任何「测试时 novelty / σ_epi 门控撑大 epistemic std」变体（路 A 已证伪：新颖度在离散特征空间为二值、σ_epi 仅弱负相关且方向反，σ 在 OOD 不可转移）；
+任何「测试时协变量密度门控撑大 epistemic std」变体（路 A novelty/σ_epi 门控已证伪：新颖度离散特征空间二值、σ_epi 仅弱负相关方向反；P5-C GMM 密度门控已证伪：217 维稀疏密度塌缩为二值 in/out 新颖度、无分级信号、conformal 压平）；
 任何「再加一层网络」式提容量方案（掩盖机制缺失，违反项目硬约束）。
 **PC-3 处置**：已立新项 **P5**（结构性估计器：距离感知/生成式/proper-Bayesian 深度集成），由三框架塑形，不在 compositional_twin 上继续手术；P5 出结果前仅以 R4 闸门兜底（OOD 区间标「不可信」）。
 
@@ -497,6 +501,12 @@ R4 筛选结果（已写入 `wetlab/2026-W33.md` §6.1）：
 | `experiments/w36_p5a_sgld_run.log` | 5565 | P5-A SGLD 首扫运行日志（T∈{0.01,0.1,1.0}） |
 | `scripts/_smoke_sgld_refine.py` | — | 精炼稳定化冒烟（wdecay+clip，T=0.5 不发散） |
 | `experiments/w36_p5a_sgld_refine.log` | 6989 | **本轮**：P5-A 精炼扫日志（T∈{0.1,0.15,0.2,0.3,0.5}；⚠️ 阴性：ECE 不越 0.08 + 点估计代价，JSON 因会话重启未落盘） |
+| `experiments/20260814-P5C-GMM-closure.md` | — | **本轮**：P5-C·GMM 结案（密度门控退化为二值开关，撞路 A 同墙，三机制全阴性 → kill-switch 触发） |
+| `code/model/compositional_p5c_gmm.py` | — | P5-C·GMM 密度门控模型（标准集成 + GaussianMixture 密度门控） |
+| `scripts/p5c_gmm.py` | — | P5-C 两臂受控对照 + GMM 门控 + 覆盖/ECE/欠缩放/密度新颖度诊断 |
+| `scripts/_smoke_p5c.py` | — | P5-C 冒烟测试（合成数据验证 GMM 密度门控机制不退化） |
+| `experiments/20260814-p5c-gmm.json` | — | P5-C 完整跑批（GATE_REPRO=True, P5C_GMM_ACCEPTED=false） |
+| `experiments/w36_p5c_gmm.log` | — | P5-C 运行日志（~2min） |
 
 > 本周报由每周五自动化（`automation-1785494084890`）生成，配套 `code/wetlab/export_protocol.py` 导出湿实验方案。
 > 所有数值可通过上表工件回溯复现。
