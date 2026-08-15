@@ -24,15 +24,18 @@ from model.compositional import CompositionalTwin
 class _SGLD_MLP(_NumpyMLP):
     """在 `_NumpyMLP` 反向传播基础上，把 SGD 更新替换为 SGLD 步（梯度 + 高斯噪声）。"""
 
-    def sgld_step(self, dz, lr, temperature, rng):
-        # 同 backward 算 MSE 梯度（∂L/∂W），但不立即更新
-        dW3 = self.h2.T @ dz / len(self.X)
+    def sgld_step(self, dz, lr, temperature, rng, wdecay=0.0, clip_grad=None):
+        # 梯度裁剪（防高 T 下瞬态大梯度触发 overflow）
+        if clip_grad is not None:
+            dz = np.clip(dz, -clip_grad, clip_grad)
+        # 同 backward 算 MSE 梯度（∂L/∂W），但不立即更新；wdecay 提供恢复力（约束随机游走）
+        dW3 = self.h2.T @ dz / len(self.X) + wdecay * self.W3
         db3 = dz.mean(0)
         dh2 = (dz @ self.W3.T) * _relu_d(self.h2)
-        dW2 = self.h1.T @ dh2 / len(self.X)
+        dW2 = self.h1.T @ dh2 / len(self.X) + wdecay * self.W2
         db2 = dh2.mean(0)
         dh1 = (dh2 @ self.W2.T) * _relu_d(self.h1)
-        dW1 = self.X.T @ dh1 / len(self.X)
+        dW1 = self.X.T @ dh1 / len(self.X) + wdecay * self.W1
         db1 = dh1.mean(0)
         # SGLD 噪声：N(0, 2·lr·T) 每参数（minibatch 归一下噪声相对梯度放大 → 更易产生多样性）
         noise_scale = np.sqrt(2.0 * lr * max(temperature, 1e-12))
@@ -49,6 +52,7 @@ class CompositionalTwinP5A_SGLD(CompositionalTwin):
 
     def __init__(self, sgld_temperature: float = 0.1, sgld_lr: float = 0.01,
                  sgld_epochs: int = 120, sgld_batch: int = 256, sgld_decay: int = 50,
+                 sgld_wdecay: float = 0.0, clip_grad: float = None,
                  random_state: int = 0, **kw):
         super().__init__(random_state=random_state, **kw)
         self.sgld_temperature = sgld_temperature
@@ -56,6 +60,8 @@ class CompositionalTwinP5A_SGLD(CompositionalTwin):
         self.sgld_epochs = sgld_epochs
         self.sgld_batch = sgld_batch
         self.sgld_decay = sgld_decay
+        self.sgld_wdecay = sgld_wdecay
+        self.clip_grad = clip_grad
 
     # --------------------------------------------------------------- 训练（SGLD 联合）
     def fit(self, X: np.ndarray, y: np.ndarray, z_comp: np.ndarray = None):
@@ -110,7 +116,8 @@ class CompositionalTwinP5A_SGLD(CompositionalTwin):
                 Xb, Yb = Xtr[bi], Ytr[bi]
                 for m in members:
                     Fm = m.forward(Xb)
-                    m.sgld_step(2.0 * (Fm - Yb) / len(Xb), lr_t, self.sgld_temperature, rng)
+                    m.sgld_step(2.0 * (Fm - Yb) / len(Xb), lr_t, self.sgld_temperature, rng,
+                                wdecay=self.sgld_wdecay, clip_grad=self.clip_grad)
 
         self.members_ = members
         self.sigma_id_95_ = float(self._sigma_epi_quantile(X[: min(len(X), 2000)]))

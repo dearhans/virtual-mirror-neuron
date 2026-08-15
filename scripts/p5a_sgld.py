@@ -48,11 +48,15 @@ from model.compositional_p5a_sgld import CompositionalTwinP5A_SGLD  # noqa: E402
 
 SUBSETS = ["id", "ood_agent", "ood_action", "ood_neuro"]
 SATURATION_ECE = 0.2125
-SGLD_TEMPS = [0.01, 0.1, 1.0]
+# 精炼网格：T=0.1 已入带(ECE 0.094)，更高 T 通常 ECE 更低，但 T=1.0 发散(overflow)。
+# 加 wdecay+梯度裁剪扩展稳定体制，密集探针找 ECE<0.08 甜点。
+SGLD_TEMPS = [0.1, 0.15, 0.2, 0.3, 0.5]
 SGLD_LR = 0.01
 SGLD_EPOCHS = 120
 SGLD_BATCH = 256
 SGLD_DECAY = 50
+SGLD_WDECAY = 1e-3
+CLIP_GRAD = 1.0
 
 CRITERION = {
     "subset": "ood_action",
@@ -125,6 +129,10 @@ def main(argv=None):
     ap.add_argument("--config", default=os.path.join(ROOT, "configs/benchmark_ood_norman_canonical.yaml"))
     ap.add_argument("--out", required=True)
     ap.add_argument("--ref", required=True)
+    ap.add_argument("--wdecay", type=float, default=SGLD_WDECAY,
+                    help="SGLD 权重衰减（恢复力，约束高 T 随机游走，扩展稳定体制）")
+    ap.add_argument("--clip-grad", type=float, default=CLIP_GRAD,
+                    help="梯度裁剪阈值（防高 T 瞬态 overflow）；0/None 关闭")
     a = ap.parse_args(argv)
 
     cfg = yaml.safe_load(open(a.config, encoding="utf-8"))
@@ -173,7 +181,8 @@ def main(argv=None):
         "ref": os.path.relpath(a.ref, ROOT).replace("\\", "/"),
         "criterion_prelocked": CRITERION,
         "sgld_params": {"sgld_temps": SGLD_TEMPS, "sgld_lr": SGLD_LR,
-                        "sgld_epochs": SGLD_EPOCHS, "sgld_batch": SGLD_BATCH, "sgld_decay": SGLD_DECAY},
+                        "sgld_epochs": SGLD_EPOCHS, "sgld_batch": SGLD_BATCH, "sgld_decay": SGLD_DECAY,
+                        "sgld_wdecay": a.wdecay, "clip_grad": (a.clip_grad if a.clip_grad else None)},
         "conformal_q": {"armA_P1": qA},
         "temp_sweeps": {},
         "reproduction_check": {"armA_vs_canonical": {"performed": False}},
@@ -189,6 +198,7 @@ def main(argv=None):
             random_state=m["random_state"], curriculum=bool(m.get("curriculum", True)),
             sgld_temperature=T, sgld_lr=SGLD_LR, sgld_epochs=SGLD_EPOCHS,
             sgld_batch=SGLD_BATCH, sgld_decay=SGLD_DECAY,
+            sgld_wdecay=a.wdecay, clip_grad=(a.clip_grad if a.clip_grad else None),
         )
         t2 = time.time()
         p5a.fit(Xtr[fidx], ytr[fidx], z_comp=None)

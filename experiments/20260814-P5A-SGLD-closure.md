@@ -1,11 +1,12 @@
 # P5-A·SGLD 结案 · proper-Bayesian 深度集成（PC-3 结构性估计器方向，spike 3/3 之 A）
 
-- **状态**：`P5A_SGLD_ACCEPTED = false`（严格判据未满足：ood_action ECE 0.094–0.103 > 0.08；但属**结构性近胜**，非阴性）
-- **核心发现**：SGLD 的**内禀 posterior 多样性**绕过了杀死 NCL 的「共识塌缩」——σ_epi 被放大 32–171×（P1 基准），`ood_action` 覆盖@0.95 从 P1 灾难性的 **0.245 → 0.968（落入 [0.93,0.97] 有效带）**，`underscale_med` 从 ~4.6× → ~0.39×（≈12× 修正趋近校准）。**这是 P5 三机制中首个把覆盖送入有效带的方案**，且 PC-3 欠缩放根因（σ 不随到流形距离缩放）被**结构性修正**。
-- **唯一缺口**：严格 ECE 判据以毫厘未过（ood_action ECE = 0.1031@T0.01 / 0.0943@T0.1，目标 <0.08）。失败模式是**过离散（over-dispersion）**——区间略偏宽——属可调方向，与 NCL 的「结构性塌缩（不可调）」本质相反。3/4 子集（id/ood_agent/ood_neuro）已 ECE≤0.084，仅最难 `ood_action` 卡在 0.103。
-- **T=1.0 数值发散（NaN）**：SGLD 噪声 ∝ T，T=1.0+lr0.01 过热 → matmul overflow。有效温度体制窄（T≈0.01–0.1）。发散是 lr/T 耦合调参问题，非机制失败。
+- **状态**：`P5A_SGLD_ACCEPTED = false`（严格判据未满足：ood_action ECE 0.094–0.103 > 0.08）。**⚠️ 精炼 spike 后修正**：初判「结构性近胜」需下调为「**覆盖结构性可修，但点估计有代价、ECE 不可越 0.08**」——详见 §7。
+- **核心发现（成立）**：SGLD 的**内禀 posterior 多样性**绕过了杀死 NCL 的「共识塌缩」——σ_epi 被放大 32–171×（P1 基准），`ood_action` 覆盖@0.95 从 P1 灾难性的 **0.245 → 0.968（落入 [0.93,0.97] 有效带）**，`underscale_med` 从 ~4.6× → ~0.39×。**PC-3 欠覆盖被结构性修复**这一点站得住。
+- **⚠️ 精炼后暴露的代价（§7 修正，此前低估）**：SGLD 的**点估计（集成均值）本身劣化 2.4–6×**——T=0.01 时 RMSE = id 1.48 / ood_agent 3.48 / ood_action 1.56 / ood_neuro 1.45（vs P1 0.57/0.59/0.64/0.60）。即 ECE 改善部分来自「围绕一个劣质均值的宽区间恰好覆盖」，而非「准确均值 + 紧区间」。`var_ratio≈1e-27` 佐证集成均值近乎塌缩为常数。**这不是可用的校准预测器。**
+- **精炼 spike 结论（负）**：细网格 T∈{0.1,0.15,0.2,0.3,0.5} + 权重衰减 + 梯度裁剪 → **ECE 反而变差**（ood_action 0.094→0.106 随 T 升），**T=0.1 是局部极小 ~0.094，ECE 全程不越 0.08**。初判「ECE 随 T 单调下降」是 2 点假象。权重衰减进一步压坏点估计（RMSE 涨到 2.3–4.7）；ood_agent 仍发散（RMSE 27–67，即便有裁剪）。
+- **T=1.0 数值发散（NaN）**：SGLD 噪声 ∝ T，T=1.0+lr0.01 过热 → matmul overflow。有效温度体制窄（T≈0.01–0.1）。
 - **`GATE_REPRO=True`**：臂 A(P1) 逐位复现当周基准（rmse 四子集 delta 全 0.0）。
-- **工件**：`code/model/compositional_p5a_sgld.py`、`scripts/p5a_sgld.py`、`scripts/_smoke_sgld.py`、`experiments/20260814-p5a-sgld.json`、`experiments/w36_p5a_sgld_run.log`
+- **工件**：`code/model/compositional_p5a_sgld.py`、`scripts/p5a_sgld.py`、`scripts/_smoke_sgld.py`、`scripts/_smoke_sgld_refine.py`、`experiments/20260814-p5a-sgld.json`、`experiments/w36_p5a_sgld_run.log`、`experiments/w36_p5a_sgld_refine.log`（精炼日志；JSON 因会话重启未落盘，结论由日志充分支撑）
 
 ---
 
@@ -105,4 +106,57 @@ GATE_REPRO=True  P5A_SGLD_ACCEPTED=false  best_temperature=null
 | `scripts/p5a_sgld.py` | 两臂受控对照 + T 扫描 + 覆盖/ECE/欠缩放诊断 |
 | `scripts/_smoke_sgld.py` | 冒烟测试（确认 SGLD 持久多样性 + T 控制） |
 | `experiments/20260814-p5a-sgld.json` | 完整跑批工件（GATE_REPRO=True, P5A_SGLD_ACCEPTED=false） |
-| `experiments/w36_p5a_sgld_run.log` | 运行日志 |
+| `experiments/w36_p5a_sgld_run.log` | 运行日志（首扫 T∈{0.01,0.1,1.0}） |
+| `scripts/_smoke_sgld_refine.py` | 稳定化冒烟（wdecay+clip，T=0.5 不再发散） |
+| `experiments/w36_p5a_sgld_refine.log` | 精炼扫 T∈{0.1,0.15,0.2,0.3,0.5} 日志（JSON 因会话重启未落盘） |
+
+---
+
+## 7. 精炼 spike 结果 + 重要修正（addendum，本轮）
+
+用户选定「精炼 spike」——加 lr/T 稳定化（权重衰减 `sgld_wdecay=1e-3` + 梯度裁剪 `clip_grad=1.0`）并细扫 T∈{0.1,0.15,0.2,0.3,0.5}，目标把 ood_action ECE 压到 <0.08。**结论：精炼失败，且暴露了此前低估的点估计代价。诚实下调初判。**
+
+### 7.1 ECE 不越 0.08——「随 T 单调下降」是 2 点假象
+
+精炼日志（ood_action ECE）：
+
+| T | 0.01† | 0.1 | 0.15 | 0.2 | 0.3 |
+|---|---|---|---|---|---|
+| ECE | 0.1031 | **0.0943** | 0.1001 | 0.1035 | 0.1060 |
+
+†T=0.01 为首扫（无 wdecay）。**T=0.1 是局部极小（~0.094），再升 T 反而变差**。初判基于 0.01→0.1 两点误推「单调下降 → 高 T 有甜点」；细网格证伪。ECE 下限 ~0.094，稳定 T 体制内**结构性达不到 0.08**。
+
+### 7.2 关键修正：点估计（集成均值）本身劣化 2.4–6×（此前遗漏的诚实核查）
+
+复核首扫 JSON 的 **RMSE + var_ratio**（此前只看了 coverage/ECE/underscale，漏了点估计质量）：
+
+| T | 子集 | SGLD RMSE | P1 RMSE | 倍数 | var_ratio | SGLD ECE |
+|---|---|---|---|---|---|---|
+| 0.01 | id | 1.48 | 0.57 | 2.6× | ~0 | 0.084 |
+| 0.01 | ood_agent | 3.48 | 0.59 | 5.9× | ~0 | 0.078 |
+| 0.01 | ood_action | 1.56 | 0.64 | 2.4× | ~0 | 0.103 |
+| 0.01 | ood_neuro | 1.45 | 0.60 | 2.4× | ~0 | 0.090 |
+| 0.1 | ood_agent | **42.0** | 0.59 | 71× | 1.5e4 | 0.081 |
+
+**含义**：SGLD 集成均值是**劣质点预测器**（RMSE 2.4–6× P1；`var_ratio≈1e-27` 表示均值近乎塌缩为常数）。ECE 的「改善」很大程度是**「围绕劣质均值的宽区间恰好覆盖」**，而非「准确均值 + 紧区间」。按项目硬约束（预测须区分记忆 vs 机制泛化、须给可信不确定度），一个点预测 RMSE 差 2.4–6× 的估计器**不是可用的胜利**。精炼加权重衰减后点估计更差（RMSE 2.3–4.7），因 wdecay 把权重拉向 0 → 均值塌缩加剧。
+
+### 7.3 ood_agent 不稳定
+
+首扫 T=0.1 ood_agent RMSE=42、精炼 T=0.15/0.2 达 65–67（即便有梯度裁剪）——SGLD 在该子集反复发散。有效工作点仅 **T=0.01**（最低 RMSE + 3/4 子集 ECE<0.08），高 T 在两条轴（RMSE & ECE）上都更差。
+
+### 7.4 修正后的机制判读
+
+- **成立部分**：内禀 posterior 多样性**确实**破了共识塌缩、**确实**把 σ 随不确定性放大、**确实**把覆盖送入有效带——这是 PC-3 上第一处真实结构性进展。
+- **代价部分（新认识）**：numpy-only 的粗糙 SGLD（3 条链、无 burn-in/thinning/预条件、固定步长）采样的 posterior 质量差 → 成员各自是**弱回归器** → 均值劣化 + σ 过离散。σ 的尺度绑定在 SGLD 自身的大误差（RMSE 2.3）上，而非 P1 的小误差（0.56），故「解耦嫁接 P1 均值 + SGLD σ」也难干净成立（σ 尺度错配，重标定后退化为路 A 的 conformal-on-P1）。
+- **收口需要的不是调 T，而是换更重的 proper-Bayesian 实现**（torch/PyMC：预条件 SGLD/HMC、burn-in+thinning、更多链）——属真正的工具链升级，超「无 torch、numpy-only」当前约束，触发冲动门控，须用户明确授权。
+
+### 7.5 精炼 spike 判决
+
+```
+精炼扫 T∈{0.1,0.15,0.2,0.3,0.5}(+wdecay+clip):
+  ood_action ECE 极小=0.0943@T0.1, 随 T 单调上升 → 不越 0.08
+  点估计 RMSE(SGLD/P1)=2.4–6×(T0.01最优), wdecay 后更差, ood_agent 发散
+判决: P5A_SGLD_REFINE = NEGATIVE（严格 ECE 不可达；且点估计代价使"近胜"下调为"覆盖-only 部分修复"）
+```
+
+→ **P5-A 精炼 spike 阴性**。P5-A 的机制价值真实（覆盖结构性可修，PC-3 首处进展），但在 numpy-only 约束下**不是可用的校准预测器**（点估计代价 + ECE 下限 0.094）。要真正收口须换 proper-Bayesian 重实现（工具链升级）。P5 现状：P5-B 双阴性、P5-A 覆盖修复但点估计受限+精炼阴性、**P5-C（GMM 门控）仍未测**。
