@@ -1,0 +1,47 @@
+{
+ "config": {
+  "method": "torch",
+  "out": "experiments/20260815-p5a2-torch.json",
+  "n_id": 2000,
+  "n_ood": 500,
+  "hidden": "32,16",
+  "subset": 600,
+  "draws": 200,
+  "tune": 200
+ },
+ "hidden": [
+  32,
+  16
+ ],
+ "noise_var": 0.25,
+ "strata": {
+  "torch:id": {
+   "coverage@0.95": 0.9474,
+   "ece": 0.0321,
+   "mono_corr_sigma_tau": 0.6574,
+   "sigma_epi_mean": 1.0035,
+   "sigma_epi_ood/id_ratio": null
+  },
+  "torch:ood_action": {
+   "coverage@0.95": 1.0,
+   "ece": 0.05,
+   "mono_corr_sigma_tau": 0.8027,
+   "sigma_epi_mean": 3.7065,
+   "sigma_epi_ood/id_ratio": null
+  },
+  "torch:ood_agent": {
+   "coverage@0.95": 1.0,
+   "ece": 0.05,
+   "mono_corr_sigma_tau": 0.5794,
+   "sigma_epi_mean": 4.3295,
+   "sigma_epi_ood/id_ratio": null
+  },
+  "torch:ood_neuro": {
+   "coverage@0.95": 0.988,
+   "ece": 0.038,
+   "mono_corr_sigma_tau": 0.7653,
+   "sigma_epi_mean": 1.3088,
+   "sigma_epi_ood/id_ratio": null
+  }
+ }
+}

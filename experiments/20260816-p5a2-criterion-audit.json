@@ -1,0 +1,281 @@
+{
+ "audit": "P5-A2 acceptance-criterion audit (metric calibration before comparison)",
+ "date_utc": "2026-08-16",
+ "config": {
+  "method": "both",
+  "out": "experiments/20260816-p5a2-criterion-audit.json",
+  "n_id": 2000,
+  "n_ood": 500,
+  "hidden": "32,16",
+  "subset": 600,
+  "draws": 200,
+  "tune": 200,
+  "prior_json": "experiments/20260815-p5a2-spike.json"
+ },
+ "canonical_levels": [
+  0.5,
+  0.8,
+  0.9,
+  0.95
+ ],
+ "prelocked_band_095": [
+  0.93,
+  0.97
+ ],
+ "ece_bar": 0.08,
+ "metric_floor_under_saturation": {
+  "single_level_0.95": 0.050000000000000044,
+  "canonical_4_level": 0.2125
+ },
+ "strata": {
+  "torch:id": {
+   "coverage_by_level": {
+    "0.5": 0.511,
+    "0.8": 0.8117,
+    "0.9": 0.905,
+    "0.95": 0.9474
+   },
+   "coverage@0.95": 0.9474,
+   "ece_single_095_repro": 0.0321,
+   "ece_multilevel_canon": 0.0076,
+   "saturation_signature": 0.2125,
+   "saturated": false,
+   "in_band_095": true,
+   "passes_ece_bar_single": true,
+   "passes_ece_bar_canon": true,
+   "mono_corr_sigma_tau": 0.6574,
+   "sigma_epi_mean": 1.0035
+  },
+  "torch:ood_action": {
+   "coverage_by_level": {
+    "0.5": 0.806,
+    "0.8": 0.987,
+    "0.9": 0.9985,
+    "0.95": 1.0
+   },
+   "coverage@0.95": 1.0,
+   "ece_single_095_repro": 0.05,
+   "ece_multilevel_canon": 0.1604,
+   "saturation_signature": 0.2125,
+   "saturated": false,
+   "in_band_095": false,
+   "passes_ece_bar_single": true,
+   "passes_ece_bar_canon": false,
+   "mono_corr_sigma_tau": 0.8027,
+   "sigma_epi_mean": 3.7065
+  },
+  "torch:ood_agent": {
+   "coverage_by_level": {
+    "0.5": 0.816,
+    "0.8": 0.995,
+    "0.9": 1.0,
+    "0.95": 1.0
+   },
+   "coverage@0.95": 1.0,
+   "ece_single_095_repro": 0.05,
+   "ece_multilevel_canon": 0.1652,
+   "saturation_signature": 0.2125,
+   "saturated": false,
+   "in_band_095": false,
+   "passes_ece_bar_single": true,
+   "passes_ece_bar_canon": false,
+   "mono_corr_sigma_tau": 0.5794,
+   "sigma_epi_mean": 4.3295
+  },
+  "torch:ood_neuro": {
+   "coverage_by_level": {
+    "0.5": 0.6165,
+    "0.8": 0.906,
+    "0.9": 0.968,
+    "0.95": 0.988
+   },
+   "coverage@0.95": 0.988,
+   "ece_single_095_repro": 0.038,
+   "ece_multilevel_canon": 0.0821,
+   "saturation_signature": 0.2125,
+   "saturated": false,
+   "in_band_095": false,
+   "passes_ece_bar_single": true,
+   "passes_ece_bar_canon": false,
+   "mono_corr_sigma_tau": 0.7653,
+   "sigma_epi_mean": 1.3088
+  },
+  "pymc:id": {
+   "coverage_by_level": {
+    "0.5": 0.5451,
+    "0.8": 0.8448,
+    "0.9": 0.9256,
+    "0.95": 0.9673
+   },
+   "coverage@0.95": 0.9673,
+   "ece_single_095_repro": 0.0173,
+   "ece_multilevel_canon": 0.0332,
+   "saturation_signature": 0.2125,
+   "saturated": false,
+   "in_band_095": true,
+   "passes_ece_bar_single": true,
+   "passes_ece_bar_canon": true,
+   "mono_corr_sigma_tau": 0.6511,
+   "sigma_epi_mean": 0.269
+  },
+  "pymc:ood_action": {
+   "coverage_by_level": {
+    "0.5": 0.75,
+    "0.8": 0.7635,
+    "0.9": 0.906,
+    "0.95": 0.9975
+   },
+   "coverage@0.95": 0.9975,
+   "ece_single_095_repro": 0.0475,
+   "ece_multilevel_canon": 0.085,
+   "saturation_signature": 0.2125,
+   "saturated": false,
+   "in_band_095": false,
+   "passes_ece_bar_single": true,
+   "passes_ece_bar_canon": false,
+   "mono_corr_sigma_tau": 0.8686,
+   "sigma_epi_mean": 8.1393
+  },
+  "pymc:ood_agent": {
+   "coverage_by_level": {
+    "0.5": 0.746,
+    "0.8": 0.916,
+    "0.9": 1.0,
+    "0.95": 1.0
+   },
+   "coverage@0.95": 1.0,
+   "ece_single_095_repro": 0.05,
+   "ece_multilevel_canon": 0.128,
+   "saturation_signature": 0.2125,
+   "saturated": false,
+   "in_band_095": false,
+   "passes_ece_bar_single": true,
+   "passes_ece_bar_canon": false,
+   "mono_corr_sigma_tau": 0.8829,
+   "sigma_epi_mean": 11.3742
+  },
+  "pymc:ood_neuro": {
+   "coverage_by_level": {
+    "0.5": 0.576,
+    "0.8": 0.789,
+    "0.9": 0.848,
+    "0.95": 0.883
+   },
+   "coverage@0.95": 0.883,
+   "ece_single_095_repro": 0.086,
+   "ece_multilevel_canon": 0.0515,
+   "saturation_signature": 0.2125,
+   "saturated": false,
+   "in_band_095": false,
+   "passes_ece_bar_single": false,
+   "passes_ece_bar_canon": true,
+   "mono_corr_sigma_tau": 0.8655,
+   "sigma_epi_mean": 1.1021
+  }
+ },
+ "gate_repro": {
+  "torch:id": {
+   "prior_cov095": 0.9474,
+   "audit_cov095": 0.9474,
+   "d_cov095": 0.0,
+   "prior_ece": 0.0321,
+   "audit_ece_single": 0.0321,
+   "d_ece_single": 0.0
+  },
+  "torch:ood_action": {
+   "prior_cov095": 1.0,
+   "audit_cov095": 1.0,
+   "d_cov095": 0.0,
+   "prior_ece": 0.05,
+   "audit_ece_single": 0.05,
+   "d_ece_single": 0.0
+  },
+  "torch:ood_agent": {
+   "prior_cov095": 1.0,
+   "audit_cov095": 1.0,
+   "d_cov095": 0.0,
+   "prior_ece": 0.05,
+   "audit_ece_single": 0.05,
+   "d_ece_single": 0.0
+  },
+  "torch:ood_neuro": {
+   "prior_cov095": 0.988,
+   "audit_cov095": 0.988,
+   "d_cov095": 0.0,
+   "prior_ece": 0.038,
+   "audit_ece_single": 0.038,
+   "d_ece_single": 0.0
+  },
+  "pymc:id": {
+   "prior_cov095": 0.9673,
+   "audit_cov095": 0.9673,
+   "d_cov095": 0.0,
+   "prior_ece": 0.0173,
+   "audit_ece_single": 0.0173,
+   "d_ece_single": 0.0
+  },
+  "pymc:ood_action": {
+   "prior_cov095": 0.9975,
+   "audit_cov095": 0.9975,
+   "d_cov095": 0.0,
+   "prior_ece": 0.0475,
+   "audit_ece_single": 0.0475,
+   "d_ece_single": 0.0
+  },
+  "pymc:ood_agent": {
+   "prior_cov095": 1.0,
+   "audit_cov095": 1.0,
+   "d_cov095": 0.0,
+   "prior_ece": 0.05,
+   "audit_ece_single": 0.05,
+   "d_ece_single": 0.0
+  },
+  "pymc:ood_neuro": {
+   "prior_cov095": 0.883,
+   "audit_cov095": 0.883,
+   "d_cov095": 0.0,
+   "prior_ece": 0.086,
+   "audit_ece_single": 0.086,
+   "d_ece_single": 0.0
+  }
+ },
+ "criterion_defect": {
+  "claim": "single-level(0.95) ECE floor under saturation is BELOW the 0.08 acceptance bar",
+  "floor_single": 0.050000000000000044,
+  "bar": 0.08,
+  "floor_below_bar": true,
+  "floor_canon": 0.2125,
+  "canon_floor_below_bar": false
+ },
+ "verdict": {
+  "torch": {
+   "ood_action_in_band": false,
+   "ood_action_ece_canon": 0.1604,
+   "ood_action_ece_canon_pass": false,
+   "ACCEPTED_prelocked": false,
+   "ACCEPTED_as_logged_0815": true
+  },
+  "pymc": {
+   "ood_action_in_band": false,
+   "ood_action_ece_canon": 0.085,
+   "ood_action_ece_canon_pass": false,
+   "ACCEPTED_prelocked": false,
+   "ACCEPTED_as_logged_0815": true
+  }
+ },
+ "h1_monotonicity_unconfounded": {
+  "torch:id": 0.6574,
+  "torch:ood_action": 0.8027,
+  "torch:ood_agent": 0.5794,
+  "torch:ood_neuro": 0.7653,
+  "pymc:id": 0.6511,
+  "pymc:ood_action": 0.8686,
+  "pymc:ood_agent": 0.8829,
+  "pymc:ood_neuro": 0.8655
+ },
+ "summary": {
+  "n_strata": 8,
+  "n_saturated": 0,
+  "P5A2_SYNTH_ACCEPTED_prelocked": false
+ }
+}
