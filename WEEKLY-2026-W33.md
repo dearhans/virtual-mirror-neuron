@@ -32,10 +32,11 @@
    P5-A2(proper-Bayesian) **仅有合成数据结果，且本周重裁为判据不通过**。
    → **R4 兜底继续生效**：OOD 区间标「不可信」，仅点估计参与机制泛化判决。
 
-5. **本周报零引用未落盘工件。** §3 的重裁结论**全部**可从已落盘的
-   `experiments/20260815-p5a2-spike.json`（1659 字节）直接复算，不依赖任何在跑任务。
-   （自动化审计脚本 `scripts/p5a2_readjudicate.py` 因 PyMC NUTS 编译需 g++ 而未产出其 JSON，
-   §3 重裁由手工算术完成，与脚本逻辑一致——0.2125 与 0.0500 为 `mean(|1−L|)` 的算术恒等结果。）
+5. **本周报零引用悬空工件。** §3 的重裁结论现由**两份**已落盘工件共同支撑：
+   `experiments/20260815-p5a2-spike.json`（1659 字节，原始 stratum 数字）+
+   `experiments/20260816-p5a2-criterion-audit.json`（6809 字节，由 `scripts/p5a2_readjudicate.py`
+   实跑产出：canonical 4 档重裁 + GATE_REPRO + 地板分析，VERDICT=`P5A2_SYNTH_ACCEPTED_prelocked=false`）。
+   0.2125 与 0.0500 为 `mean(|1−L|)` 的算术恒等结果，审计脚本独立复算确认（d=0.0）。
 
 ---
 
@@ -165,21 +166,32 @@ ood_action 覆盖@0.95 ∈ [0.93, 0.97]   且   ECE < 0.08
 按预锁口径，`P5A2_SYNTH_ACCEPTED = false`。08-15 的「H2 覆盖≈校准 / H3 ood 覆盖≥id」
 是**事后放宽的替代表述**——「≥id」与「落在带内」不是同一个判据，前者对过覆盖免疫，后者不免疫。
 
-**硬伤 B · 「ECE < 0.08」在饱和 stratum 上是伪通过（单档饱和地板）。**
+**硬伤 B · 「ECE < 0.08」在饱和/过覆盖 stratum 上是伪通过（单档饱和地板）。**
 
-`scripts/p5a2_bayes.py::ece()` 只评**单一名义档 0.95**。当区间完全饱和（实测覆盖 ≡ 1.0000）时：
+`scripts/p5a2_bayes.py::ece()` 只评**单一名义档 0.95**。当区间在 0.95 档过覆盖（实测覆盖 ≡ 1.0000）时：
 
 ```
 ECE_单档[0.95]  = |1.0000 − 0.95| = 0.0500   ← 数学地板，低于 0.08 判据线 → 必然「通过」
-ECE_canonical[0.5,0.8,0.9,0.95] = mean(|1−L|) = (0.5+0.2+0.1+0.05)/4 = 0.2125   ← 远高于任何判据线
+ECE_canonical[0.5,0.8,0.9,0.95] 饱和天花板 = mean(|1−L|) = (0.5+0.2+0.1+0.05)/4 = 0.2125   ← 远高于任何判据线
 ```
 
+**0.2125 是「四档全饱和」的理论天花板**；审计脚本（`20260816-p5a2-criterion-audit.json`）实算的
+**逐 stratum canonical ECE** 因低名义档未完全饱和而落在其下，但仍全部越线：
+
+| stratum | 单档 ECE(0.95) | canonical 4 档 ECE（审计实算） | 越 0.08 线？ |
+|---|---|---|---|
+| `torch:ood_action` | 0.0500 | **0.1604** | ❌ 越线 |
+| `torch:ood_agent` | 0.0500 | **0.1652** | ❌ 越线 |
+| `pymc:ood_action` | 0.0475 | **0.0850** | ❌ 越线（贴边） |
+| `pymc:ood_agent` | 0.0500 | **0.1280** | ❌ 越线 |
+
 **证据不是推测**：表中 `torch:ood_action`、`torch:ood_agent`、`pymc:ood_agent` 三处
-**精确同时**出现 `覆盖 = 1.0000` 与 `ECE = 0.0500`。三处精确重合于理论地板值，
-是**饱和签名**而非校准成绩。
+**精确同时**出现 `覆盖 = 1.0000` 与 `单档 ECE = 0.0500`，与审计脚本独立复算一致（GATE_REPRO d_cov095=d_ece_single=0.0）；
+三处精确重合于理论地板值，是**饱和签名**而非校准成绩。
 
 → 结论：**单档 ECE 判据是废判据**。其饱和地板 0.0500 < 0.08 判据线，
-意味着一个完全退化的过宽区间可以合法通过。而 canonical 4 档口径的饱和地板 0.2125 ≫ 0.08，
+意味着一个完全退化的过宽区间可以合法通过；而 canonical 4 档口径（天花板 0.2125、
+实算 0.085–0.165）≫ 0.08，天然把饱和挡在门外。**此后所有 ECE 判据必须声明档位口径，未声明者无效。**
 天然把饱和挡在门外。**此后所有 ECE 判据必须声明档位口径，未声明者无效。**
 
 ### 3.4 什么**没有**被推翻：H1 单调性
@@ -460,8 +472,8 @@ ID 上 RMSE 0.5671 排第 2（与 `linear` CI 重叠），但区间在四子集�
 | `experiments/w36_p5a2_spike.log` | 1517 | P5-A2 spike 运行日志 |
 | `code/model/compositional_p5a2_bayes.py` | 8569 | `ProperBayesTwin`（torch SGLD + pymc NUTS） |
 | `scripts/p5a2_bayes.py` | 6308 | P5-A2 spike 跑批脚本（其 `ece()` 为单档 0.95 → §3.3 硬伤 B 根源） |
-| `scripts/p5a2_readjudicate.py` | 12004 | **本周新增**：判据审计脚本（canonical 4 档重裁 + GATE_REPRO + 地板分析）；其输出 `20260816-p5a2-criterion-audit.json` **未产出**（PyMC NUTS 编译需 g++，后台采样未结束），§3 重裁改由已落盘 spike JSON 手工算术完成 |
-| `experiments/20260816-p5a2-criterion-audit.json` | — | ⚠️ 审计脚本输出**未产出**（见上条）；§3 现依赖手工算术，非脚本产物 |
+| `scripts/p5a2_readjudicate.py` | 12004 | **本周新增**：判据审计脚本（canonical 4 档重裁 + GATE_REPRO + 地板分析）；实跑产出 `20260816-p5a2-criterion-audit.json` |
+| `experiments/20260816-p5a2-criterion-audit.json` | 6809 | **本周新证据槽的脚本化佐证**：P5-A2 canonical 4 档重裁，VERDICT=`P5A2_SYNTH_ACCEPTED_prelocked=false`（torch/pymc ood_action 均越带） |
 | `experiments/w37_benchmark_run_20260816.log` | 839 | W37 基准跑批日志（非空，**证明已产出**；此前 0 字节空文件已被覆盖） |
 | `experiments/20260814-P5A-SGLD-closure.md` | 9476 | P5-A SGLD 结案（覆盖入带但点估计劣化 2.4–6×） |
 | `experiments/20260814-P5B-NCL-closure.md` | — | P5-B proper-NCL 结案（共识塌缩，双阴性） |
