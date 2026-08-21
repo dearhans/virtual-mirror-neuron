@@ -1,0 +1,202 @@
+{
+ "stage": "B-pilot-real-goai-pergene",
+ "config": {
+  "cache": "data/processed/goai_cache.npz",
+  "out": "experiments/20260816-p5a2-real-pilot.json",
+  "n_genes": 80,
+  "n_train": 4000,
+  "n_cal": 1000,
+  "n_ood": 1500,
+  "seed": 0
+ },
+ "data": {
+  "N": 8002,
+  "D": 196,
+  "Kp": 5243,
+  "n_genes": 80,
+  "n_train": 4000,
+  "n_cal": 1000,
+  "id_eval": 169
+ },
+ "noise_var_ols": 0.0953,
+ "s_global_id": 1.0214,
+ "canonical_levels": [
+  0.5,
+  0.8,
+  0.9,
+  0.95
+ ],
+ "prelocked_band_095": [
+  0.93,
+  0.97
+ ],
+ "ece_bar": 0.08,
+ "subsets_before": {
+  "id_eval": {
+   "n": 169,
+   "coverage_by_level": {
+    "0.5": 0.6645,
+    "0.8": 0.8929,
+    "0.9": 0.9429,
+    "0.95": 0.9635
+   },
+   "coverage@0.95": 0.9635,
+   "ece_multilevel_canon": 0.0784,
+   "in_band_095": true,
+   "passes_ece_bar": true,
+   "mono_corr_sigma_tau": 0.0121,
+   "sigma_epi_mean": 0.3707
+  },
+  "ood_action": {
+   "n": 1065,
+   "coverage_by_level": {
+    "0.5": 0.6884,
+    "0.8": 0.9177,
+    "0.9": 0.9607,
+    "0.95": 0.9777
+   },
+   "coverage@0.95": 0.9777,
+   "ece_multilevel_canon": 0.0986,
+   "in_band_095": false,
+   "passes_ece_bar": false,
+   "mono_corr_sigma_tau": -0.079,
+   "sigma_epi_mean": 0.365
+  },
+  "ood_agent": {
+   "n": 1357,
+   "coverage_by_level": {
+    "0.5": 0.6733,
+    "0.8": 0.8993,
+    "0.9": 0.9484,
+    "0.95": 0.9686
+   },
+   "coverage@0.95": 0.9686,
+   "ece_multilevel_canon": 0.0849,
+   "in_band_095": true,
+   "passes_ece_bar": false,
+   "mono_corr_sigma_tau": -0.1164,
+   "sigma_epi_mean": 0.3732
+  },
+  "ood_s3": {
+   "n": 269,
+   "coverage_by_level": {
+    "0.5": 0.6971,
+    "0.8": 0.9129,
+    "0.9": 0.9558,
+    "0.95": 0.9742
+   },
+   "coverage@0.95": 0.9742,
+   "ece_multilevel_canon": 0.0975,
+   "in_band_095": false,
+   "passes_ece_bar": false,
+   "mono_corr_sigma_tau": NaN,
+   "sigma_epi_mean": 0.3678
+  },
+  "ood_time": {
+   "n": 142,
+   "coverage_by_level": {
+    "0.5": 0.6524,
+    "0.8": 0.8827,
+    "0.9": 0.9355,
+    "0.95": 0.9603
+   },
+   "coverage@0.95": 0.9603,
+   "ece_multilevel_canon": 0.0702,
+   "in_band_095": true,
+   "passes_ece_bar": true,
+   "mono_corr_sigma_tau": 0.0,
+   "sigma_epi_mean": 0.37
+  }
+ },
+ "subsets_after": {
+  "id_eval": {
+   "n": 169,
+   "coverage_by_level": {
+    "0.5": 0.6749,
+    "0.8": 0.8979,
+    "0.9": 0.9459,
+    "0.95": 0.965
+   },
+   "coverage@0.95": 0.965,
+   "ece_multilevel_canon": 0.0834,
+   "in_band_095": true,
+   "passes_ece_bar": false,
+   "mono_corr_sigma_tau": 0.0121,
+   "sigma_epi_mean": 0.3707
+  },
+  "ood_action": {
+   "n": 1065,
+   "coverage_by_level": {
+    "0.5": 0.6982,
+    "0.8": 0.9222,
+    "0.9": 0.9634,
+    "0.95": 0.9791
+   },
+   "coverage@0.95": 0.9791,
+   "ece_multilevel_canon": 0.1032,
+   "in_band_095": false,
+   "passes_ece_bar": false,
+   "mono_corr_sigma_tau": -0.079,
+   "sigma_epi_mean": 0.365
+  },
+  "ood_agent": {
+   "n": 1357,
+   "coverage_by_level": {
+    "0.5": 0.6818,
+    "0.8": 0.9045,
+    "0.9": 0.9512,
+    "0.95": 0.9704
+   },
+   "coverage@0.95": 0.9704,
+   "ece_multilevel_canon": 0.0895,
+   "in_band_095": false,
+   "passes_ece_bar": false,
+   "mono_corr_sigma_tau": -0.1164,
+   "sigma_epi_mean": 0.3732
+  },
+  "ood_s3": {
+   "n": 269,
+   "coverage_by_level": {
+    "0.5": 0.7059,
+    "0.8": 0.9175,
+    "0.9": 0.9589,
+    "0.95": 0.9757
+   },
+   "coverage@0.95": 0.9757,
+   "ece_multilevel_canon": 0.102,
+   "in_band_095": false,
+   "passes_ece_bar": false,
+   "mono_corr_sigma_tau": NaN,
+   "sigma_epi_mean": 0.3678
+  },
+  "ood_time": {
+   "n": 142,
+   "coverage_by_level": {
+    "0.5": 0.6604,
+    "0.8": 0.8875,
+    "0.9": 0.9398,
+    "0.95": 0.9621
+   },
+   "coverage@0.95": 0.9621,
+   "ece_multilevel_canon": 0.0749,
+   "in_band_095": true,
+   "passes_ece_bar": true,
+   "mono_corr_sigma_tau": 0.0,
+   "sigma_epi_mean": 0.37
+  }
+ },
+ "verdict": {
+  "ood_action_cov095_after": 0.9791,
+  "ood_action_ece_after": 0.1032,
+  "in_band": false,
+  "ece_ok": false,
+  "h1_monotonicity_preserved": false,
+  "P5A2_REAL_PILOT_ACCEPTED": false,
+  "per_ood_band": {
+   "ood_action": false,
+   "ood_agent": false,
+   "ood_s3": false,
+   "ood_time": true
+  }
+ }
+}

@@ -1,0 +1,89 @@
+{
+  "config": {
+    "n_genes": 4978,
+    "train_rows": 5169,
+    "D_fglex": 14,
+    "n_iter": 600,
+    "noise_var": 0.08619480014371823,
+    "T": 0.1,
+    "seed": 0,
+    "note": "fglex per-gene Bayesian twin, full id train, evaluate on cache ood_* (val)"
+  },
+  "comparison": {
+    "fglex_pergene_fullid": {
+      "weighted_score": 0.14546525457714002,
+      "modules": {
+        "abs_fidelity_r2": 0.6533915971358728,
+        "fc_delta_pcc": 0.0005558114117348714,
+        "ctx_residual_pcc": 0.019250431573088523,
+        "drug_residual_pcc": 0.06339350998432287,
+        "double_unk_fc_pcc": 0.0017977951381793937,
+        "dep_top_pcc": -0.04121171056536978
+      }
+    },
+    "compositional_twin": {
+      "weighted_score": 0.4270720272158863,
+      "modules": {
+        "abs_fidelity_r2": 0.881215871094795,
+        "fc_delta_pcc": 0.44621548599332583,
+        "ctx_residual_pcc": 0.29856443034736246,
+        "drug_residual_pcc": 0.14859945745577302,
+        "double_unk_fc_pcc": 0.2410692377405872,
+        "dep_top_pcc": 0.5147056032781994
+      }
+    },
+    "linear_ridge": {
+      "weighted_score": 0.4236544555198017,
+      "modules": {
+        "abs_fidelity_r2": 0.8670922633252298,
+        "fc_delta_pcc": 0.41602106408796014,
+        "ctx_residual_pcc": 0.31537188491989443,
+        "drug_residual_pcc": 0.1875616788731207,
+        "double_unk_fc_pcc": 0.2324104519311992,
+        "dep_top_pcc": 0.44805957762085513
+      }
+    },
+    "mlp_256_128": {
+      "weighted_score": 0.4222861885350116,
+      "modules": {
+        "abs_fidelity_r2": 0.875002131889631,
+        "fc_delta_pcc": 0.42621617222776237,
+        "ctx_residual_pcc": 0.2126210574133855,
+        "drug_residual_pcc": 0.26235827758071495,
+        "double_unk_fc_pcc": 0.1968554737051445,
+        "dep_top_pcc": 0.5210060946162047
+      }
+    },
+    "baseline_protein_mean": {
+      "weighted_score": 0.264177788388703,
+      "modules": {
+        "abs_fidelity_r2": 0.8382991392947775,
+        "fc_delta_pcc": 0.12749030114244314,
+        "ctx_residual_pcc": 0.08449020714179302,
+        "drug_residual_pcc": 0.1615510640279787,
+        "double_unk_fc_pcc": 0.10632500203201785,
+        "dep_top_pcc": 0.09609261613961148
+      }
+    },
+    "baseline_matched_control": {
+      "weighted_score": 0.223832913716565,
+      "modules": {
+        "abs_fidelity_r2": 0.8328249752521515,
+        "fc_delta_pcc": 0.0,
+        "ctx_residual_pcc": 0.12424581388327499,
+        "drug_residual_pcc": 0.16209377944739833,
+        "double_unk_fc_pcc": 0.0,
+        "dep_top_pcc": 0.0
+      }
+    }
+  },
+  "weights": {
+    "abs_fidelity_r2": 0.2,
+    "fc_delta_pcc": 0.25,
+    "ctx_residual_pcc": 0.2,
+    "drug_residual_pcc": 0.2,
+    "double_unk_fc_pcc": 0.1,
+    "dep_top_pcc": 0.05
+  },
+  "elapsed_s": 228.6
+}

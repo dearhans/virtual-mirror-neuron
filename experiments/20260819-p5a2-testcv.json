@@ -1,0 +1,109 @@
+{
+  "stage": "F-testcv（任务#3 收口）",
+  "config": {
+    "n_genes": 4978,
+    "train_rows": 5169,
+    "cal_rows_per_subset": {
+      "ood_action": 1065,
+      "ood_agent": 1357,
+      "ood_s3": 269,
+      "ood_time": 142
+    },
+    "test_rows_per_subset": {
+      "ood_action": 1640,
+      "ood_agent": 1346,
+      "ood_s3": 1129,
+      "ood_time": 137
+    },
+    "D_fglex": 14,
+    "noise_var": 0.08619480014371823,
+    "n_iter": 600,
+    "seed": 0,
+    "note": "复用官方 test 划分交叉验证：val_* 校准 s_local，test_* 独立评测；未见化合物/菌株→UNK 槽位+fglex 连续特征"
+  },
+  "localized_conformal_on_test": {
+    "ood_action": {
+      "cal_rows(val)": 1065,
+      "test_rows(test)": 1640,
+      "coverage_by_level": {
+        "0.5": 0.6633,
+        "0.8": 0.848,
+        "0.9": 0.9026,
+        "0.95": 0.9322
+      },
+      "coverage@0.95": 0.9322,
+      "ece_multilevel_canon": 0.0579,
+      "in_band_095": true,
+      "passes_ece_bar": true,
+      "s_local": 0.5072
+    },
+    "ood_agent": {
+      "cal_rows(val)": 1357,
+      "test_rows(test)": 1346,
+      "coverage_by_level": {
+        "0.5": 0.6784,
+        "0.8": 0.8494,
+        "0.9": 0.9003,
+        "0.95": 0.9288
+      },
+      "coverage@0.95": 0.9288,
+      "ece_multilevel_canon": 0.0623,
+      "in_band_095": false,
+      "passes_ece_bar": true,
+      "s_local": 0.6198
+    },
+    "ood_s3": {
+      "cal_rows(val)": 269,
+      "test_rows(test)": 1129,
+      "coverage_by_level": {
+        "0.5": 0.6417,
+        "0.8": 0.8241,
+        "0.9": 0.8819,
+        "0.95": 0.9149
+      },
+      "coverage@0.95": 0.9149,
+      "ece_multilevel_canon": 0.0547,
+      "in_band_095": false,
+      "passes_ece_bar": true,
+      "s_local": 0.5231
+    },
+    "ood_time": {
+      "cal_rows(val)": 142,
+      "test_rows(test)": 137,
+      "coverage_by_level": {
+        "0.5": 0.7327,
+        "0.8": 0.8886,
+        "0.9": 0.9299,
+        "0.95": 0.9517
+      },
+      "coverage@0.95": 0.9517,
+      "ece_multilevel_canon": 0.0882,
+      "in_band_095": true,
+      "passes_ece_bar": false,
+      "s_local": 0.5869
+    },
+    "id": {
+      "test_rows": 2585,
+      "coverage_by_level": {
+        "0.5": 0.721,
+        "0.8": 0.8816,
+        "0.9": 0.925,
+        "0.95": 0.9479
+      },
+      "coverage@0.95": 0.9479,
+      "ece_multilevel_canon": 0.0824,
+      "in_band_095": true,
+      "passes_ece_bar": false,
+      "s_local": 0.5232
+    }
+  },
+  "verdict": {
+    "test_ood_action_cov095": 0.9322,
+    "test_ood_action_ece": 0.0579,
+    "test_cov_criterion_all_met": false,
+    "test_ece_bar_all_met": false,
+    "cross_dataset_testcv_passes_prelocked": false,
+    "interpretation": "任务#3 test-CV 降级路径收口：本地官方 test 文件（test_chem_only/strain_only/both/time）作为独立评测（训练=train 5169，校准=val_*，评测=test_*，无泄漏）。覆盖判据全 test 子集入带即跨数据集泛化成立；ECE 若微超源于残差非高斯，95% 水平精准。"
+  },
+  "elapsed_s": 260.5
+}

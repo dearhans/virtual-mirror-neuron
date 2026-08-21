@@ -1,0 +1,156 @@
+{
+ "stage": "A-synthetic-sigma-calib",
+ "config": {
+  "out": "experiments/20260816-p5a2-sigma-calib.json",
+  "n_id": 2000,
+  "n_ood": 500,
+  "hidden": "32,16",
+  "seed": 1
+ },
+ "canonical_levels": [
+  0.5,
+  0.8,
+  0.9,
+  0.95
+ ],
+ "prelocked_band_095": [
+  0.93,
+  0.97
+ ],
+ "ece_bar": 0.08,
+ "s_global_id": 1.0402,
+ "subsets_before": {
+  "id_eval": {
+   "coverage_by_level": {
+    "0.5": 0.5192,
+    "0.8": 0.8233,
+    "0.9": 0.9058,
+    "0.95": 0.9483
+   },
+   "coverage@0.95": 0.9483,
+   "ece_multilevel_canon": 0.0125,
+   "in_band_095": true,
+   "passes_ece_bar": true,
+   "mono_corr_sigma_tau": 0.7217,
+   "sigma_epi_mean": 1.0321,
+   "s_star_diagnostic": 0.979
+  },
+  "ood_action": {
+   "coverage_by_level": {
+    "0.5": 0.8055,
+    "0.8": 0.987,
+    "0.9": 0.9985,
+    "0.95": 1.0
+   },
+   "coverage@0.95": 1.0,
+   "ece_multilevel_canon": 0.1603,
+   "in_band_095": false,
+   "passes_ece_bar": false,
+   "mono_corr_sigma_tau": 0.7831,
+   "sigma_epi_mean": 3.7033,
+   "s_star_diagnostic": 0.5256
+  },
+  "ood_agent": {
+   "coverage_by_level": {
+    "0.5": 0.817,
+    "0.8": 0.9955,
+    "0.9": 1.0,
+    "0.95": 1.0
+   },
+   "coverage@0.95": 1.0,
+   "ece_multilevel_canon": 0.1656,
+   "in_band_095": false,
+   "passes_ece_bar": false,
+   "mono_corr_sigma_tau": 0.5754,
+   "sigma_epi_mean": 4.3337,
+   "s_star_diagnostic": 0.5188
+  },
+  "ood_neuro": {
+   "coverage_by_level": {
+    "0.5": 0.6165,
+    "0.8": 0.907,
+    "0.9": 0.968,
+    "0.95": 0.988
+   },
+   "coverage@0.95": 0.988,
+   "ece_multilevel_canon": 0.0824,
+   "in_band_095": false,
+   "passes_ece_bar": false,
+   "mono_corr_sigma_tau": 0.7602,
+   "sigma_epi_mean": 1.3084,
+   "s_star_diagnostic": 0.7749
+  }
+ },
+ "subsets_after": {
+  "id_eval": {
+   "coverage_by_level": {
+    "0.5": 0.5333,
+    "0.8": 0.8358,
+    "0.9": 0.9167,
+    "0.95": 0.9575
+   },
+   "coverage@0.95": 0.9575,
+   "ece_multilevel_canon": 0.0233,
+   "in_band_095": true,
+   "passes_ece_bar": true,
+   "mono_corr_sigma_tau": 0.7217,
+   "sigma_epi_mean": 1.0321,
+   "s_star_diagnostic": 0.979
+  },
+  "ood_action": {
+   "coverage_by_level": {
+    "0.5": 0.8235,
+    "0.8": 0.9915,
+    "0.9": 0.9995,
+    "0.95": 1.0
+   },
+   "coverage@0.95": 1.0,
+   "ece_multilevel_canon": 0.1661,
+   "in_band_095": false,
+   "passes_ece_bar": false,
+   "mono_corr_sigma_tau": 0.7831,
+   "sigma_epi_mean": 3.7033,
+   "s_star_diagnostic": 0.5256
+  },
+  "ood_agent": {
+   "coverage_by_level": {
+    "0.5": 0.8345,
+    "0.8": 0.9975,
+    "0.9": 1.0,
+    "0.95": 1.0
+   },
+   "coverage@0.95": 1.0,
+   "ece_multilevel_canon": 0.1705,
+   "in_band_095": false,
+   "passes_ece_bar": false,
+   "mono_corr_sigma_tau": 0.5754,
+   "sigma_epi_mean": 4.3337,
+   "s_star_diagnostic": 0.5188
+  },
+  "ood_neuro": {
+   "coverage_by_level": {
+    "0.5": 0.6375,
+    "0.8": 0.917,
+    "0.9": 0.9765,
+    "0.95": 0.99
+   },
+   "coverage@0.95": 0.99,
+   "ece_multilevel_canon": 0.0927,
+   "in_band_095": false,
+   "passes_ece_bar": false,
+   "mono_corr_sigma_tau": 0.7602,
+   "sigma_epi_mean": 1.3084,
+   "s_star_diagnostic": 0.7749
+  }
+ },
+ "verdict": {
+  "ood_action_cov095_after": 1.0,
+  "ood_action_ece_after": 0.1661,
+  "in_band": false,
+  "ece_ok": false,
+  "h1_monotonicity_preserved": true,
+  "P5A2_CALIBRATED_ACCEPTED": false,
+  "ood_over_scaling_factor": 0.537,
+  "interpretation": "ood_action \u4ecd\u8d8a\u5e26 \u2192 \u8fc7\u5c3a\u5ea6\u5f02\u65b9\u5dee(ood \u6bd4 id \u66f4\u8fc7\u5c3a\u5ea6)\uff0c\u9700 \u03c4-\u6761\u4ef6\u91cd\u6807\u5b9a\uff08Stage B\uff09"
+ }
+}

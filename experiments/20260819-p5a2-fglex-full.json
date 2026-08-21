@@ -1,0 +1,280 @@
+{
+ "stage": "B-contcomp-real-goai-compare",
+ "config": {
+  "cache": "data/processed/goai_cache.npz",
+  "out": "experiments/20260819-p5a2-fglex-full.json",
+  "comp_mode": "fglex",
+  "n_genes": 5243,
+  "n_train": 4000,
+  "n_cal": 1000,
+  "n_ood": 1500,
+  "seed": 0,
+  "desc_dim": 64
+ },
+ "modes": [
+  "fglex"
+ ],
+ "canonical_levels": [
+  0.5,
+  0.8,
+  0.9,
+  0.95
+ ],
+ "prelocked_band_095": [
+  0.93,
+  0.97
+ ],
+ "ece_bar": 0.08,
+ "results": {
+  "fglex": {
+   "encoding": "fglex",
+   "desc_dim": 14,
+   "noise_var_ols": 0.0853,
+   "s_global_id": 0.8742,
+   "raw": {
+    "id_eval": {
+     "n": 169,
+     "coverage_by_level": {
+      "0.5": 0.6551,
+      "0.8": 0.8923,
+      "0.9": 0.9445,
+      "0.95": 0.967
+     },
+     "coverage@0.95": 0.967,
+     "ece_multilevel_canon": 0.0772,
+     "in_band_095": true,
+     "passes_ece_bar": true,
+     "mono_corr_sigma_tau": 0.8129,
+     "sigma_epi_mean": 0.5499
+    },
+    "ood_action": {
+     "n": 1065,
+     "coverage_by_level": {
+      "0.5": 0.6729,
+      "0.8": 0.9068,
+      "0.9": 0.9554,
+      "0.95": 0.9753
+     },
+     "coverage@0.95": 0.9753,
+     "ece_multilevel_canon": 0.0901,
+     "in_band_095": false,
+     "passes_ece_bar": false,
+     "mono_corr_sigma_tau": 0.9899,
+     "sigma_epi_mean": 0.7033
+    },
+    "ood_agent": {
+     "n": 1357,
+     "coverage_by_level": {
+      "0.5": 0.6549,
+      "0.8": 0.8943,
+      "0.9": 0.9462,
+      "0.95": 0.9687
+     },
+     "coverage@0.95": 0.9687,
+     "ece_multilevel_canon": 0.0785,
+     "in_band_095": true,
+     "passes_ece_bar": true,
+     "mono_corr_sigma_tau": 0.8693,
+     "sigma_epi_mean": 0.5356
+    },
+    "ood_s3": {
+     "n": 269,
+     "coverage_by_level": {
+      "0.5": 0.6739,
+      "0.8": 0.9078,
+      "0.9": 0.9564,
+      "0.95": 0.9762
+     },
+     "coverage@0.95": 0.9762,
+     "ece_multilevel_canon": 0.0911,
+     "in_band_095": false,
+     "passes_ece_bar": false,
+     "mono_corr_sigma_tau": 0.9903,
+     "sigma_epi_mean": 0.7032
+    },
+    "ood_time": {
+     "n": 142,
+     "coverage_by_level": {
+      "0.5": 0.6476,
+      "0.8": 0.8864,
+      "0.9": 0.9402,
+      "0.95": 0.9639
+     },
+     "coverage@0.95": 0.9639,
+     "ece_multilevel_canon": 0.072,
+     "in_band_095": true,
+     "passes_ece_bar": true,
+     "mono_corr_sigma_tau": 0.7997,
+     "sigma_epi_mean": 0.4981
+    }
+   },
+   "global": {
+    "id_eval": {
+     "n": 169,
+     "coverage_by_level": {
+      "0.5": 0.5964,
+      "0.8": 0.8538,
+      "0.9": 0.9196,
+      "0.95": 0.9506
+     },
+     "coverage@0.95": 0.9506,
+     "ece_multilevel_canon": 0.0426,
+     "in_band_095": true,
+     "passes_ece_bar": true,
+     "mono_corr_sigma_tau": 0.8129,
+     "sigma_epi_mean": 0.5499
+    },
+    "ood_action": {
+     "n": 1065,
+     "coverage_by_level": {
+      "0.5": 0.6141,
+      "0.8": 0.8694,
+      "0.9": 0.9324,
+      "0.95": 0.9609
+     },
+     "coverage@0.95": 0.9609,
+     "ece_multilevel_canon": 0.0567,
+     "in_band_095": true,
+     "passes_ece_bar": true,
+     "mono_corr_sigma_tau": 0.9899,
+     "sigma_epi_mean": 0.7033
+    },
+    "ood_agent": {
+     "n": 1357,
+     "coverage_by_level": {
+      "0.5": 0.5959,
+      "0.8": 0.8553,
+      "0.9": 0.9214,
+      "0.95": 0.9524
+     },
+     "coverage@0.95": 0.9524,
+     "ece_multilevel_canon": 0.0438,
+     "in_band_095": true,
+     "passes_ece_bar": true,
+     "mono_corr_sigma_tau": 0.8693,
+     "sigma_epi_mean": 0.5356
+    },
+    "ood_s3": {
+     "n": 269,
+     "coverage_by_level": {
+      "0.5": 0.615,
+      "0.8": 0.8703,
+      "0.9": 0.9336,
+      "0.95": 0.9619
+     },
+     "coverage@0.95": 0.9619,
+     "ece_multilevel_canon": 0.0577,
+     "in_band_095": true,
+     "passes_ece_bar": true,
+     "mono_corr_sigma_tau": 0.9903,
+     "sigma_epi_mean": 0.7032
+    },
+    "ood_time": {
+     "n": 142,
+     "coverage_by_level": {
+      "0.5": 0.589,
+      "0.8": 0.8468,
+      "0.9": 0.9144,
+      "0.95": 0.9467
+     },
+     "coverage@0.95": 0.9467,
+     "ece_multilevel_canon": 0.0384,
+     "in_band_095": true,
+     "passes_ece_bar": true,
+     "mono_corr_sigma_tau": 0.7997,
+     "sigma_epi_mean": 0.4981
+    }
+   },
+   "localized": {
+    "id_eval": {
+     "n": 85,
+     "coverage_by_level": {
+      "0.5": 0.5941,
+      "0.8": 0.8519,
+      "0.9": 0.918,
+      "0.95": 0.9494
+     },
+     "coverage@0.95": 0.9494,
+     "ece_multilevel_canon": 0.0411,
+     "in_band_095": true,
+     "passes_ece_bar": true,
+     "mono_corr_sigma_tau": 0.8051,
+     "sigma_epi_mean": 0.5726,
+     "s_local": 0.8711
+    },
+    "ood_action": {
+     "n": 533,
+     "coverage_by_level": {
+      "0.5": 0.5835,
+      "0.8": 0.8469,
+      "0.9": 0.9175,
+      "0.95": 0.9511
+     },
+     "coverage@0.95": 0.9511,
+     "ece_multilevel_canon": 0.0372,
+     "in_band_095": true,
+     "passes_ece_bar": true,
+     "mono_corr_sigma_tau": 0.991,
+     "sigma_epi_mean": 0.7025,
+     "s_local": 0.8125
+    },
+    "ood_agent": {
+     "n": 679,
+     "coverage_by_level": {
+      "0.5": 0.5853,
+      "0.8": 0.8467,
+      "0.9": 0.9156,
+      "0.95": 0.9483
+     },
+     "coverage@0.95": 0.9483,
+     "ece_multilevel_canon": 0.0373,
+     "in_band_095": true,
+     "passes_ece_bar": true,
+     "mono_corr_sigma_tau": 0.8688,
+     "sigma_epi_mean": 0.5418,
+     "s_local": 0.8554
+    },
+    "ood_s3": {
+     "n": 135,
+     "coverage_by_level": {
+      "0.5": 0.5818,
+      "0.8": 0.8463,
+      "0.9": 0.9176,
+      "0.95": 0.9517
+     },
+     "coverage@0.95": 0.9517,
+     "ece_multilevel_canon": 0.0369,
+     "in_band_095": true,
+     "passes_ece_bar": true,
+     "mono_corr_sigma_tau": 0.9962,
+     "sigma_epi_mean": 0.7088,
+     "s_local": 0.8066
+    },
+    "ood_time": {
+     "n": 71,
+     "coverage_by_level": {
+      "0.5": 0.6137,
+      "0.8": 0.8647,
+      "0.9": 0.9267,
+      "0.95": 0.9558
+     },
+     "coverage@0.95": 0.9558,
+     "ece_multilevel_canon": 0.0527,
+     "in_band_095": true,
+     "passes_ece_bar": true,
+     "mono_corr_sigma_tau": 0.7445,
+     "sigma_epi_mean": 0.5018,
+     "s_local": 0.9197
+    }
+   },
+   "verdict": {
+    "ood_action_mono_raw": 0.9899,
+    "ood_action_mono_localized": 0.991,
+    "h1_rescued_ood_action": true,
+    "localized_passes_prelocked": true,
+    "ood_action_cov095_localized": 0.9511,
+    "ood_action_ece_localized": 0.0372
+   }
+  }
+ }
+}

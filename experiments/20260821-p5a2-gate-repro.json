@@ -1,0 +1,212 @@
+{
+  "stage": "GATE_REPRO（任务#4 固化）",
+  "config": {
+    "n_genes": 4978,
+    "train_rows": 5169,
+    "D_fglex": 14,
+    "noise_var": 0.08619480014371823,
+    "n_iter": 600,
+    "seed": 0,
+    "T": 0.1,
+    "note": "四栏：覆盖/ECE（localized 校准栏, 中心P1） + 单调性（σvsτ） + RMSE（P1 weighted）"
+  },
+  "current_four_columns": {
+    "L1_coverage_localized": {
+      "id": 0.9519,
+      "ood_action": 0.9506,
+      "ood_agent": 0.9474,
+      "ood_s3": 0.9551,
+      "ood_time": 0.9351
+    },
+    "L2_ece_localized": {
+      "id": 0.0813,
+      "ood_action": 0.0869,
+      "ood_agent": 0.074,
+      "ood_s3": 0.0977,
+      "ood_time": 0.059
+    },
+    "L3_mono_sigma_tau": {
+      "id": 0.815,
+      "ood_action": 0.9902,
+      "ood_agent": 0.8813,
+      "ood_s3": 0.9893,
+      "ood_time": 0.8285
+    },
+    "L4_P1_weighted_score": 0.4270720272158863,
+    "P1_per_subset_fc_pcc": {
+      "id": 0.548918373443784,
+      "ood_action": 0.2828569959694798,
+      "ood_agent": 0.2453464179578444,
+      "ood_s3": 0.12044306808971103,
+      "ood_time": 0.46957937602288
+    }
+  },
+  "localized_detail": {
+    "id": {
+      "coverage_by_level": {
+        "0.5": 0.7073,
+        "0.8": 0.8861,
+        "0.9": 0.9299,
+        "0.95": 0.9519
+      },
+      "coverage@0.95": 0.9519,
+      "ece_multilevel_canon": 0.0813,
+      "s_local": 0.6276,
+      "in_band_095": true,
+      "passes_ece_bar": false
+    },
+    "ood_action": {
+      "coverage_by_level": {
+        "0.5": 0.7297,
+        "0.8": 0.8881,
+        "0.9": 0.9292,
+        "0.95": 0.9506
+      },
+      "coverage@0.95": 0.9506,
+      "ece_multilevel_canon": 0.0869,
+      "s_local": 0.5441,
+      "in_band_095": true,
+      "passes_ece_bar": false
+    },
+    "ood_agent": {
+      "coverage_by_level": {
+        "0.5": 0.6934,
+        "0.8": 0.8766,
+        "0.9": 0.9234,
+        "0.95": 0.9474
+      },
+      "coverage@0.95": 0.9474,
+      "ece_multilevel_canon": 0.074,
+      "s_local": 0.6832,
+      "in_band_095": true,
+      "passes_ece_bar": true
+    },
+    "ood_s3": {
+      "coverage_by_level": {
+        "0.5": 0.7521,
+        "0.8": 0.8981,
+        "0.9": 0.9355,
+        "0.95": 0.9551
+      },
+      "coverage@0.95": 0.9551,
+      "ece_multilevel_canon": 0.0977,
+      "s_local": 0.5501,
+      "in_band_095": true,
+      "passes_ece_bar": false
+    },
+    "ood_time": {
+      "coverage_by_level": {
+        "0.5": 0.6598,
+        "0.8": 0.8543,
+        "0.9": 0.9068,
+        "0.95": 0.9351
+      },
+      "coverage@0.95": 0.9351,
+      "ece_multilevel_canon": 0.059,
+      "s_local": 0.6454,
+      "in_band_095": true,
+      "passes_ece_bar": true
+    }
+  },
+  "mono_detail": {
+    "id": 0.815,
+    "ood_action": 0.9902,
+    "ood_agent": 0.8813,
+    "ood_s3": 0.9893,
+    "ood_time": 0.8285
+  },
+  "guard": {
+    "tolerances": {
+      "cov095": 0.01,
+      "ece": 0.01,
+      "mono": 0.05,
+      "weighted": 0.02
+    },
+    "vs_layered": {
+      "id": {
+        "freeze_cov095": 0.9519,
+        "current_cov095": 0.9519,
+        "d_cov095": 0.0,
+        "freeze_ece": 0.0813,
+        "current_ece": 0.0813,
+        "d_ece": 0.0,
+        "pass": true
+      },
+      "ood_action": {
+        "freeze_cov095": 0.9506,
+        "current_cov095": 0.9506,
+        "d_cov095": 0.0,
+        "freeze_ece": 0.0869,
+        "current_ece": 0.0869,
+        "d_ece": 0.0,
+        "pass": true
+      },
+      "ood_agent": {
+        "freeze_cov095": 0.9474,
+        "current_cov095": 0.9474,
+        "d_cov095": 0.0,
+        "freeze_ece": 0.074,
+        "current_ece": 0.074,
+        "d_ece": 0.0,
+        "pass": true
+      },
+      "ood_s3": {
+        "freeze_cov095": 0.9551,
+        "current_cov095": 0.9551,
+        "d_cov095": 0.0,
+        "freeze_ece": 0.0977,
+        "current_ece": 0.0977,
+        "d_ece": 0.0,
+        "pass": true
+      },
+      "ood_time": {
+        "freeze_cov095": 0.9351,
+        "current_cov095": 0.9351,
+        "d_cov095": 0.0,
+        "freeze_ece": 0.059,
+        "current_ece": 0.059,
+        "d_ece": 0.0,
+        "pass": true
+      }
+    },
+    "vs_fglexfull_mono": {
+      "ood_action": {
+        "freeze_mono(subsample4000)": 0.991,
+        "current_mono(fullid)": 0.9902,
+        "d_mono": 0.0008,
+        "pass(参考)": true,
+        "note": "口径差异：冻结=fglex-full subsample(4000训练/抽样评测)，当前=全量 id(5169)；Δ 仅参考不判 REGRESSION"
+      },
+      "ood_agent": {
+        "freeze_mono(subsample4000)": 0.8688,
+        "current_mono(fullid)": 0.8813,
+        "d_mono": 0.0125,
+        "pass(参考)": true,
+        "note": "口径差异：冻结=fglex-full subsample(4000训练/抽样评测)，当前=全量 id(5169)；Δ 仅参考不判 REGRESSION"
+      },
+      "ood_s3": {
+        "freeze_mono(subsample4000)": 0.9962,
+        "current_mono(fullid)": 0.9893,
+        "d_mono": 0.0069,
+        "pass(参考)": true,
+        "note": "口径差异：冻结=fglex-full subsample(4000训练/抽样评测)，当前=全量 id(5169)；Δ 仅参考不判 REGRESSION"
+      },
+      "ood_time": {
+        "freeze_mono(subsample4000)": 0.7445,
+        "current_mono(fullid)": 0.8285,
+        "d_mono": 0.084,
+        "pass(参考)": false,
+        "note": "口径差异：冻结=fglex-full subsample(4000训练/抽样评测)，当前=全量 id(5169)；Δ 仅参考不判 REGRESSION"
+      }
+    },
+    "vs_precision": {
+      "freeze_P1_weighted": 0.4270720272158863,
+      "current_P1_weighted": 0.4270720272158863,
+      "d_weighted": 0.0,
+      "pass": true
+    },
+    "verdict": "ZERO-DELTA_PASS",
+    "note": "同口径栏（覆盖/ECE/加权分）全部 Δ≤容差 → 守卫 PASS，可复现；mono 因冻结基线为 subsample 口径，仅作参考并已存全量口径冻结值。"
+  },
+  "elapsed_s": 275.5
+}

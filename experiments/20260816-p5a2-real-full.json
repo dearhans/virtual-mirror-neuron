@@ -1,0 +1,255 @@
+{
+ "stage": "B-full-real-goai-pergene-5243",
+ "config": {
+  "cache": "data/processed/goai_cache.npz",
+  "out": "experiments/20260816-p5a2-real-full.json",
+  "n_train": 4000,
+  "seed": 0
+ },
+ "Kp": 5243,
+ "n_train": 4000,
+ "noise_var_ols": 0.0751,
+ "s_global_id": 0.943,
+ "s_local": {
+  "id": 0.943,
+  "ood_action": 0.872,
+  "ood_agent": 0.9161,
+  "ood_s3": 0.8662,
+  "ood_time": 0.9557
+ },
+ "canonical_levels": [
+  0.5,
+  0.8,
+  0.9,
+  0.95
+ ],
+ "prelocked_band_095": [
+  0.93,
+  0.97
+ ],
+ "ece_bar": 0.08,
+ "arms": {
+  "raw": {
+   "id": {
+    "coverage_by_level": {
+     "0.5": 0.6471,
+     "0.8": 0.8816,
+     "0.9": 0.9344,
+     "0.95": 0.9584
+    },
+    "coverage@0.95": 0.9584,
+    "ece_multilevel_canon": 0.0679,
+    "in_band_095": true,
+    "passes_ece_bar": true,
+    "mono_corr_sigma_tau": -0.0211
+   },
+   "ood_action": {
+    "coverage_by_level": {
+     "0.5": 0.663,
+     "0.8": 0.8967,
+     "0.9": 0.9466,
+     "0.95": 0.9681
+    },
+    "coverage@0.95": 0.9681,
+    "ece_multilevel_canon": 0.0811,
+    "in_band_095": true,
+    "passes_ece_bar": false,
+    "mono_corr_sigma_tau": -0.0199
+   },
+   "ood_agent": {
+    "coverage_by_level": {
+     "0.5": 0.6508,
+     "0.8": 0.8851,
+     "0.9": 0.9382,
+     "0.95": 0.9619
+    },
+    "coverage@0.95": 0.9619,
+    "ece_multilevel_canon": 0.0715,
+    "in_band_095": true,
+    "passes_ece_bar": true,
+    "mono_corr_sigma_tau": -0.0103
+   },
+   "ood_s3": {
+    "coverage_by_level": {
+     "0.5": 0.6641,
+     "0.8": 0.8967,
+     "0.9": 0.9464,
+     "0.95": 0.9682
+    },
+    "coverage@0.95": 0.9682,
+    "ece_multilevel_canon": 0.0813,
+    "in_band_095": true,
+    "passes_ece_bar": false,
+    "mono_corr_sigma_tau": NaN
+   },
+   "ood_time": {
+    "coverage_by_level": {
+     "0.5": 0.6434,
+     "0.8": 0.8774,
+     "0.9": 0.9307,
+     "0.95": 0.9557
+    },
+    "coverage@0.95": 0.9557,
+    "ece_multilevel_canon": 0.0643,
+    "in_band_095": true,
+    "passes_ece_bar": true,
+    "mono_corr_sigma_tau": NaN
+   }
+  },
+  "global": {
+   "id": {
+    "coverage_by_level": {
+     "0.5": 0.6219,
+     "0.8": 0.8656,
+     "0.9": 0.9241,
+     "0.95": 0.9514
+    },
+    "coverage@0.95": 0.9514,
+    "ece_multilevel_canon": 0.0533,
+    "in_band_095": true,
+    "passes_ece_bar": true,
+    "mono_corr_sigma_tau": -0.0211
+   },
+   "ood_action": {
+    "coverage_by_level": {
+     "0.5": 0.6375,
+     "0.8": 0.8811,
+     "0.9": 0.937,
+     "0.95": 0.9619
+    },
+    "coverage@0.95": 0.9619,
+    "ece_multilevel_canon": 0.0669,
+    "in_band_095": true,
+    "passes_ece_bar": true,
+    "mono_corr_sigma_tau": -0.0199
+   },
+   "ood_agent": {
+    "coverage_by_level": {
+     "0.5": 0.6258,
+     "0.8": 0.8692,
+     "0.9": 0.928,
+     "0.95": 0.9551
+    },
+    "coverage@0.95": 0.9551,
+    "ece_multilevel_canon": 0.057,
+    "in_band_095": true,
+    "passes_ece_bar": true,
+    "mono_corr_sigma_tau": -0.0103
+   },
+   "ood_s3": {
+    "coverage_by_level": {
+     "0.5": 0.6385,
+     "0.8": 0.8812,
+     "0.9": 0.9369,
+     "0.95": 0.9619
+    },
+    "coverage@0.95": 0.9619,
+    "ece_multilevel_canon": 0.0671,
+    "in_band_095": true,
+    "passes_ece_bar": true,
+    "mono_corr_sigma_tau": NaN
+   },
+   "ood_time": {
+    "coverage_by_level": {
+     "0.5": 0.6184,
+     "0.8": 0.8612,
+     "0.9": 0.9204,
+     "0.95": 0.9483
+    },
+    "coverage@0.95": 0.9483,
+    "ece_multilevel_canon": 0.0504,
+    "in_band_095": true,
+    "passes_ece_bar": true,
+    "mono_corr_sigma_tau": NaN
+   }
+  },
+  "localized": {
+   "id": {
+    "coverage_by_level": {
+     "0.5": 0.6219,
+     "0.8": 0.8656,
+     "0.9": 0.9241,
+     "0.95": 0.9514
+    },
+    "coverage@0.95": 0.9514,
+    "ece_multilevel_canon": 0.0533,
+    "in_band_095": true,
+    "passes_ece_bar": true,
+    "mono_corr_sigma_tau": -0.0211
+   },
+   "ood_action": {
+    "coverage_by_level": {
+     "0.5": 0.6033,
+     "0.8": 0.8583,
+     "0.9": 0.9222,
+     "0.95": 0.9521
+    },
+    "coverage@0.95": 0.9521,
+    "ece_multilevel_canon": 0.0465,
+    "in_band_095": true,
+    "passes_ece_bar": true,
+    "mono_corr_sigma_tau": -0.0199
+   },
+   "ood_agent": {
+    "coverage_by_level": {
+     "0.5": 0.6134,
+     "0.8": 0.8607,
+     "0.9": 0.9225,
+     "0.95": 0.9513
+    },
+    "coverage@0.95": 0.9513,
+    "ece_multilevel_canon": 0.0495,
+    "in_band_095": true,
+    "passes_ece_bar": true,
+    "mono_corr_sigma_tau": -0.0103
+   },
+   "ood_s3": {
+    "coverage_by_level": {
+     "0.5": 0.6021,
+     "0.8": 0.8564,
+     "0.9": 0.9208,
+     "0.95": 0.951
+    },
+    "coverage@0.95": 0.951,
+    "ece_multilevel_canon": 0.0451,
+    "in_band_095": true,
+    "passes_ece_bar": true,
+    "mono_corr_sigma_tau": NaN
+   },
+   "ood_time": {
+    "coverage_by_level": {
+     "0.5": 0.624,
+     "0.8": 0.865,
+     "0.9": 0.9229,
+     "0.95": 0.95
+    },
+    "coverage@0.95": 0.95,
+    "ece_multilevel_canon": 0.053,
+    "in_band_095": true,
+    "passes_ece_bar": true,
+    "mono_corr_sigma_tau": NaN
+   }
+  }
+ },
+ "verdict_ood_action": {
+  "raw": {
+   "cov095": 0.9681,
+   "ece": 0.0811,
+   "in_band": true,
+   "ece_ok": false
+  },
+  "global": {
+   "cov095": 0.9619,
+   "ece": 0.0669,
+   "in_band": true,
+   "ece_ok": true
+  },
+  "localized": {
+   "cov095": 0.9521,
+   "ece": 0.0465,
+   "in_band": true,
+   "ece_ok": true
+  }
+ },
+ "localized_passes_prelocked": true
+}
